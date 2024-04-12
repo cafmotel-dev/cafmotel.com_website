@@ -97,6 +97,12 @@
                                              <a href="/toll-free-number" class="nav-link">Toll Free Number</a>
                                          </li>
 
+                                           <li class="nav-item">
+                                             <a href="/auto-dialer" class="nav-link">Auto Dialer</a>
+                                         </li>
+
+                                        
+
 
 
                                          <!--  <li class="nav-item">
@@ -107,9 +113,7 @@
                                           <li class="nav-item">
                                              <a href="" class="nav-link">Truecaller</a>
                                          </li> -->
-                                         <li class="nav-item">
-                                             <a href="auto-dialer.php" class="nav-link">Auto Dialer</a>
-                                         </li>
+                                        
                                      </ul>
                                  </li>
 
@@ -118,7 +122,7 @@
                                              class="bx bx-chevron-right"></i></a>
                                      <ul class="dropdown-menu">
                                          <li class="nav-item">
-                                             <a href="sms-campaign.php" class="nav-link"> SMS Campaigns</a>
+                                             <a href="/sms-campaign" class="nav-link"> SMS Campaigns</a>
                                          </li>
 
                                          <!-- <li class="nav-item">
@@ -136,11 +140,11 @@
 
 
                                          <li class="nav-item">
-                                             <a href="" class="nav-link">SMS AI</a>
+                                             <a href="#" class="nav-link">SMS AI</a>
                                          </li>
 
                                          <li class="nav-item">
-                                             <a href="chatBot.php" class="nav-link">ChatBot</a>
+                                             <a href="/chatbot" class="nav-link">ChatBot</a>
                                          </li>
                                      </ul>
                                  </li>
@@ -149,10 +153,11 @@
                          </li>
 
                          <li class="nav-item">
-                             <a href="reseller.php" class="nav-link">Reseller Program</a>
+                             <a href="/reseller-program" class="nav-link">Reseller Program</a>
                          </li>
-                         <li class="nav-item">
-                             <a href="contact.php" class="nav-link">Contact</a>
+                        
+                        <li class="nav-item">
+                             <a href="/contact-us" class="nav-link">Contact Us</a>
                          </li>
                      </ul>
 

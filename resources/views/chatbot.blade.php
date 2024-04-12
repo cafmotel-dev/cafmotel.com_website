@@ -7,16 +7,19 @@ Solutions, Outbound Calling Services.')
 
 @section('content')
 
+  
     <!-- Start Page Title Area -->
     <section class="page-title-area">
         <div class="container">
             <div class="page-title-content">
-                <h1> Toll Free Number</h1>
-                <p>Effortlessly connect with customers and expand your reach with premium 1800 toll-free numbers.</p>
+                <h1>Chat Bots</h1>
+                <p>Elevate engagement and generate business value with AI-powered <br />conversational bots that provide
+                    24x7
+                    assistance, empowering seamless interaction.</p>
             </div>
         </div>
 
-        <div class="shape2">
+         <div class="shape2">
             <img src="{{ asset('/web/image/shape2.png')}}" alt="image" />
         </div>
         <div class="shape3">
@@ -56,19 +59,15 @@ Solutions, Outbound Calling Services.')
                 <div class="overview-content">
                     <div class="content right-content">
                         <h4>
-                            What is a Toll Free Number Solution?</h4>
+                            What is a ChatBot solution?</h4>
                         <p>
-                            Empower your customers with the convenience of reaching out to you at no cost through your
-                            dedicated 1800
-                            business toll-free number. Foster seamless interactions between your skilled agents and
-                            customers,
-                            facilitating swift resolution of queries, delivering updates on upcoming promotions, and
-                            providing
-                            information about events. <br>The toll-free number not only promotes accessibility but also
-                            enhances
-                            customer engagement, reinforcing a positive and responsive connection between your business
-                            and its valued
-                            clientele.
+                            Leverage Conversational AI-powered Bots for more than just conversations. Automate
+                            interactions for
+                            support, lead generation, and more using ChatBots and VoiceBots. These technologies offer an
+                            omnichannel
+                            experience across platforms such as websites, WhatsApp, and virtual assistant AI
+                            technologies like Google
+                            Assistant and Alexa.
                         </p>
 
                     </div>
@@ -83,110 +82,11 @@ Solutions, Outbound Calling Services.')
         <div class="container">
             <div class="section-title">
                 <span class="sub-title">Benefits of </span>
-                <h2> Toll Free Number Solution</h2>
-                <p>Elevate the efficiency of promoting your services and products through targeted Toll-Free number
-                    campaigns.
-                </p>
+                <h2>ChatBot Solution</h2>
+                <p>Automate engagement to ensure no query goes unanswered, providing prompt and efficient responses.</p>
             </div>
 
             <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/leads.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Increase Lead Conversion</h3>
-                        <p>Leveraging toll-free numbers leads to increased call rates, translating into substantial
-                            conversion rates
-                            for businesses.<br>
-                            <br>
-                        </p>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/brand.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Build Brand Recall Value</h3>
-                        <p>Enhance customer engagement seamlessly across multi-touchpoint campaigns by utilizing 1800
-                            toll-free
-                            numbers, which are easier to recall.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/satisfy.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Boost Customer Satisfaction</h3>
-                        <p>Customers incur zero costs when reaching out to you, providing them with more options for
-                            query
-                            resolution and addressing grievances without financial concerns.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/business.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Generate Business </h3>
-                        <p>Extend your customer service reach nationwide without the need for on-site infrastructure
-                            investment by
-                            leveraging premium toll-free numbers.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/tracking.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Track Marketing Campaigns</h3>
-                        <p> Gather
-                            instant customer feedback and conduct surveys seamlessly through this accessible
-                            communication
-                            channel.<br>
-                            <br>
-                        </p>
-                    </div>
-                </div>
-
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-services-box">
                         <div class="icon">
@@ -198,62 +98,113 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3>Establish 24 x7 Availability</h3>
-                        <p>Stay accessible to your customers beyond regular business hours by utilizing toll-free
-                            business numbers.
-                            <br><br>
+                        <h3>Be Available 24x7</h3>
+                        <p>Enhance customer experience by providing 24x7 support to answer every query promptly and
+                            efficiently.<br></br>
                         </p>
+
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/multi-lang.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Provide Multilingual Support</h3>
+                        <p>Address customer queries proficiently in multiple languages, ensuring effective communication
+                            and
+                            understanding across diverse linguistic preferences.<br></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/omnipresent.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Be Omnipresent</h3>
+                        <p>Connect with customers across various channels, including websites, WhatsApp, and virtual
+                            assistant AI
+                            technologies like Google Assistant and Alexa.<br></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/leads.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Improve Lead Conversion Rate</h3>
+                        <p>Provide assistance to customers through call or chat to facilitate form filling and reduce
+                            drop-offs in
+                            the process.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/sms.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Schedule Follow-Ups</h3>
+                        <p>Take a proactive approach to customer retention by sending follow-up messages and reminders
+                            on WhatsApp,
+                            preventing customer churn.<br><br></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="flaticon-reputation"></i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Cost-Effective</h3>
+                        <p>Budget-friendly pay-as-you-go model with no need for capital expenditures or complex
+                            licensing
+                            structures.<br><br />
+                        </p>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="overview-area ">
-        <div class="container">
-            <div class="section-title">
-            </div>
-            <div class="overview-box">
 
-
-                <div class="overview-content">
-                    <div class="content right-content">
-                        <h4>
-                            How Toll Free Numbers Help Your Business Grow?</h4>
-                        <p>
-                            Integrating toll-free numbers into cloud telephony products can prove highly advantageous
-                            for businesses,
-                            irrespective of their size, spanning from small startups to large enterprises. The inclusion
-                            of toll-free
-                            services brings a host of benefits for organizations, ranging from enhancing the overall
-                            calling
-                            experience for customers to elevating satisfaction levels and improving customer retention
-                            rates.<br> <br>
-                            Furthermore, it contributes to the enhancement of brand recognition. Harnessing the
-                            distinctive features
-                            of cloud-based toll-free telephone numbers enables businesses to amplify their marketing
-                            initiatives and
-                            expand their reach to potential customers, thereby driving business growth.
-
-                        </p>
-
-                    </div>
-                </div>
-                <div class="overview-image">
-                    <div class="image">
-                        <img src="{{ asset('/web/image/vn2.png')}}" alt="image" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </section>
     <!-- Start Services Area -->
     <section class="featured-services-area  pt-100 pb-70" id="products">
         <div class="container">
             <div class="section-title">
-                <h2>Characteristics of Toll Free Number Solution</h2>
+                <h2>Characteristics of Chatbots</h2>
 
             </div>
 
@@ -263,18 +214,17 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/ivr.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/easy.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="">IVR</a></h3>
-                        <p>Address every customer query efficiently using the IVR's multi-level menu, establishing
-                            immediate
-                            interaction and providing a seamless experience for your customers.
-                            <br>
+                        <h3><a href="">Easy to Set-up & Scale</a></h3>
+                        <p>Establish a superior customer experience and scale your operations seamlessly as your
+                            business
+                            grows.<br><br>
                         </p>
 
                     </div>
@@ -283,17 +233,18 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/call-rec.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/setup.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="">Call Recording</a></h3>
-                        <p>Automatic call recording empowers you to listen to and analyze calls, providing valuable
-                            insights to
-                            better understand your customers.<br> <br></p>
+                        <h3><a href="">Manage Intents</a></h3>
+                        <p>Effortlessly manage Chatbot interactions by creating new intents, editing existing ones, and
+                            modifying
+                            user journeys.<br><br>
+                        </p>
 
                     </div>
                 </div>
@@ -302,29 +253,80 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/call-route.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/automation.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a>Call Routing</a></h3>
-                        <p>Utilize call routing to direct incoming calls to available agents, ensuring prompt customer
-                            assistance by
-                            connecting calls to free agents and minimizing customer wait time.
-
+                        <h3><a>Auto Bot Pop-up</a></h3>
+                        <p>Activate an Auto Bot pop-up to assist customers during form-filling and documentation,
+                            providing
+                            real-time support and guidance. <br><br>
                         </p>
 
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-featured-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/safeguard.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3><a>Protect Sensitive Data​</a></h3>
+                        <p>Enhance customer security by implementing information masking, ensuring the confidentiality
+                            of sensitive
+                            customer data.<br><br><br></p>
 
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-featured-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/customized.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3><a>Customizable UI</a></h3>
+                        <p>Customize your Chatbot experience by changing themes, adding image/video messages as welcome
+                            messages,altering the Bot icon, enabling sticky buttons for common queries, and more.</p>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-featured-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/tracking.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3><a>E-Mail Reports</a></h3>
+                        <p>Set up regular mailing schedules for daily, weekly, or monthly reports on Chatbot usage to
+                            stay informed
+                            about performance metrics and user interactions. <br><br></p>
+
+                    </div>
+                </div>
 
             </div>
         </div>
     </section>
     <!-- End Services Area -->
-
 
 
 @endsection

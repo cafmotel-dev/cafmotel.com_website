@@ -11,8 +11,8 @@ Solutions, Outbound Calling Services.')
     <section class="page-title-area">
         <div class="container">
             <div class="page-title-content">
-                <h1> Toll Free Number</h1>
-                <p>Effortlessly connect with customers and expand your reach with premium 1800 toll-free numbers.</p>
+                <h1> Auto Dialer</h1>
+                <p>Enhance customer experience (CX) by implementing powerful dialers for your business.</p>
             </div>
         </div>
 
@@ -49,26 +49,29 @@ Solutions, Outbound Calling Services.')
             <div class="overview-box">
                 <div class="overview-image">
                     <div class="image">
-                        <img src="{{ asset('/web/image/vn1.webp')}}" alt="image" class="img-fluid">
+                        <img src="{{ asset('/web/image/auto-dialer.jpg')}}" alt="image" class="img-fluid">
                     </div>
                 </div>
 
                 <div class="overview-content">
                     <div class="content right-content">
                         <h4>
-                            What is a Toll Free Number Solution?</h4>
+                            What is an Auto Dialer?</h4>
                         <p>
-                            Empower your customers with the convenience of reaching out to you at no cost through your
-                            dedicated 1800
-                            business toll-free number. Foster seamless interactions between your skilled agents and
-                            customers,
-                            facilitating swift resolution of queries, delivering updates on upcoming promotions, and
-                            providing
-                            information about events. <br>The toll-free number not only promotes accessibility but also
-                            enhances
-                            customer engagement, reinforcing a positive and responsive connection between your business
-                            and its valued
-                            clientele.
+                            An Auto Dialer is software designed to enhance agents' productivity by automating the
+                            dialing process.
+                            Once a call is connected, it either plays a pre-recorded message or transfers the call
+                            directly to a live
+                            agent. Knowlarity provides both Progressive and Predictive Dialers as part of their Outbound
+                            Call Center,
+                            offering users the tools to enhance agent productivity for more efficient operations.<br>
+                            In Progressive Dialers, the system automatically dials the next number on the list,
+                            eliminating wait time
+                            between calls and significantly improving productivity. Predictive Dialers, on the other
+                            hand, dial a new
+                            set of customers based on the availability of agents in the queue, optimizing the calling
+                            process further.
+
                         </p>
 
                     </div>
@@ -83,13 +86,65 @@ Solutions, Outbound Calling Services.')
         <div class="container">
             <div class="section-title">
                 <span class="sub-title">Benefits of </span>
-                <h2> Toll Free Number Solution</h2>
-                <p>Elevate the efficiency of promoting your services and products through targeted Toll-Free number
-                    campaigns.
-                </p>
+                <h2> Auto Dialer</h2>
+                <p>Optimize calling operations and enhance productivity through the use of Progressive and Advanced
+                    Dialers.</p>
             </div>
 
             <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/productivity.png')}}" alt="" class="img-fluid"
+                                    style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Boost Agent Productivity</h3>
+                        <p>Enhance operational efficiency to increase agent talk time effectively.<br><br></p>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/mobile-access.png')}}" alt="" class="img-fluid"
+                                    style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Eliminate Manual Dialing</h3>
+                        <p>Revamp calling operations to save agents' time through modernization.<br><br></p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/boost-sales.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3>Enhance ROI & Sales</h3>
+                        <p>Implement automated calling operations to facilitate more conversations, enhance customer
+                            experience, and
+                            boost sales.</p>
+                    </div>
+                </div>
+
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-services-box">
                         <div class="icon">
@@ -101,32 +156,26 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3>Increase Lead Conversion</h3>
-                        <p>Leveraging toll-free numbers leads to increased call rates, translating into substantial
-                            conversion rates
-                            for businesses.<br>
-                            <br>
-                        </p>
+                        <h3>Efficient Lead Generation</h3>
+                        <p>Maximize outreach to potential prospects in less time, elevating the efficiency of your lead
+                            generation
+                            process.</p><br>
                     </div>
                 </div>
-
 
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="single-services-box">
                         <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/brand.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
+                            <i class="flaticon-content"></i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3>Build Brand Recall Value</h3>
-                        <p>Enhance customer engagement seamlessly across multi-touchpoint campaigns by utilizing 1800
-                            toll-free
-                            numbers, which are easier to recall.
-                        </p>
+                        <h3>Dive deeper into operations</h3>
+                        <p>Gain valuable insights by analyzing pick-up ratios and user behavior to reduce repeat calls
+                            and drive
+                            increased revenue.</p><br>
                     </div>
                 </div>
 
@@ -134,126 +183,30 @@ Solutions, Outbound Calling Services.')
                     <div class="single-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/satisfy.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/survey.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3>Boost Customer Satisfaction</h3>
-                        <p>Customers incur zero costs when reaching out to you, providing them with more options for
-                            query
-                            resolution and addressing grievances without financial concerns.</p>
-                    </div>
-                </div>
+                        <h3>Campaign Management</h3>
+                        <p>An Auto Dialer not only automates the dialing process but also provides reporting
+                            capabilities and the
+                            ability to manage campaigns in real-time while they are running.
 
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/business.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Generate Business </h3>
-                        <p>Extend your customer service reach nationwide without the need for on-site infrastructure
-                            investment by
-                            leveraging premium toll-free numbers.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/tracking.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Track Marketing Campaigns</h3>
-                        <p> Gather
-                            instant customer feedback and conduct surveys seamlessly through this accessible
-                            communication
-                            channel.<br>
-                            <br>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-services-box">
-                        <div class="icon">
-                            <i class="">
-                                <img src="{{ asset('/web/image/24x7.png')}}" alt="" class="img-fluid" style="width:60%;">
-                            </i>
-                            <div class="circles-box">
-                                <div class="circle-one"></div>
-                                <div class="circle-two"></div>
-                            </div>
-                        </div>
-                        <h3>Establish 24 x7 Availability</h3>
-                        <p>Stay accessible to your customers beyond regular business hours by utilizing toll-free
-                            business numbers.
-                            <br><br>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="overview-area ">
-        <div class="container">
-            <div class="section-title">
-            </div>
-            <div class="overview-box">
 
-
-                <div class="overview-content">
-                    <div class="content right-content">
-                        <h4>
-                            How Toll Free Numbers Help Your Business Grow?</h4>
-                        <p>
-                            Integrating toll-free numbers into cloud telephony products can prove highly advantageous
-                            for businesses,
-                            irrespective of their size, spanning from small startups to large enterprises. The inclusion
-                            of toll-free
-                            services brings a host of benefits for organizations, ranging from enhancing the overall
-                            calling
-                            experience for customers to elevating satisfaction levels and improving customer retention
-                            rates.<br> <br>
-                            Furthermore, it contributes to the enhancement of brand recognition. Harnessing the
-                            distinctive features
-                            of cloud-based toll-free telephone numbers enables businesses to amplify their marketing
-                            initiatives and
-                            expand their reach to potential customers, thereby driving business growth.
-
-                        </p>
-
-                    </div>
-                </div>
-                <div class="overview-image">
-                    <div class="image">
-                        <img src="{{ asset('/web/image/vn2.png')}}" alt="image" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </section>
     <!-- Start Services Area -->
     <section class="featured-services-area  pt-100 pb-70" id="products">
         <div class="container">
             <div class="section-title">
-                <h2>Characteristics of Toll Free Number Solution</h2>
+                <h2>Characteristics of Auto Dialers</h2>
 
             </div>
 
@@ -263,19 +216,17 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/ivr.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/queue.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="">IVR</a></h3>
-                        <p>Address every customer query efficiently using the IVR's multi-level menu, establishing
-                            immediate
-                            interaction and providing a seamless experience for your customers.
-                            <br>
-                        </p>
+                        <h3><a href="">Dynamic Queue</a></h3>
+                        <p>Users can assign a distinct queue for any campaign without the need to update the queue
+                            within the
+                            Interactive Voice Response (IVR), ultimately saving valuable time.</p>
 
                     </div>
                 </div>
@@ -283,17 +234,18 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/call-rec.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/sticky-agent.png')}}" alt="" class="img-fluid"
+                                    style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="">Call Recording</a></h3>
-                        <p>Automatic call recording empowers you to listen to and analyze calls, providing valuable
-                            insights to
-                            better understand your customers.<br> <br></p>
+                        <h3><a href="">Agent Specific Calling in Progressive Dialers</a></h3>
+                        <p>Leads are allocated to specific agents according to their interaction history, expertise, and
+                            other
+                            relevant factors.</p>
 
                     </div>
                 </div>
@@ -302,19 +254,62 @@ Solutions, Outbound Calling Services.')
                     <div class="single-featured-services-box">
                         <div class="icon">
                             <i class="">
-                                <img src="{{ asset('/web/image/call-route.png')}}" alt="" class="img-fluid" style="width:60%;">
+                                <img src="{{ asset('/web/image/disposition.png')}}" alt="" class="img-fluid" style="width:60%;">
                             </i>
                             <div class="circles-box">
                                 <div class="circle-one"></div>
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a>Call Routing</a></h3>
-                        <p>Utilize call routing to direct incoming calls to available agents, ensuring prompt customer
-                            assistance by
-                            connecting calls to free agents and minimizing customer wait time.
+                        <h3><a>Call Dispositions</a></h3>
+                        <p>Assigning a code to tag a call provides enhanced visibility into call outcomes, aiding
+                            supervisors in
+                            identifying areas for improvement and optimizing performance.
 
                         </p>
+
+                    </div>
+                </div>
+
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+
+
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-featured-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/insight.png')}}" alt="" class="img-fluid" style="width:50%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3><a>Basic Insights</a></h3>
+                        <p>Collect agent information, call details, and other relevant data to assess and optimize
+                            operational
+                            efficiency.<br><br></p>
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-featured-services-box">
+                        <div class="icon">
+                            <i class="">
+                                <img src="{{ asset('/web/image/leads.png')}}" alt="" class="img-fluid" style="width:60%;">
+                            </i>
+                            <div class="circles-box">
+                                <div class="circle-one"></div>
+                                <div class="circle-two"></div>
+                            </div>
+                        </div>
+                        <h3><a>Lead Dialing Ratio in Predictive Dialer*</a></h3>
+                        <p>Enhance calling operations by configuring a lead dialing ratio per agent, optimizing
+                            efficiency and
+                            productivity.</p>
 
                     </div>
                 </div>
@@ -326,8 +321,4 @@ Solutions, Outbound Calling Services.')
     <!-- End Services Area -->
 
 
-
 @endsection
-
-
-    

@@ -43,5 +43,31 @@ class HomeController extends Controller
         
     }
 
+    public function resellerProgram(){
+        return view('reseller-program');
+        
+    }
+
+    public function contactUs(){
+        return view('contact-us');
+        
+    }
+
+    public function chatBot(){
+        return view('chatbot');
+        
+    }
+
+
+    public function smsCampaign(){
+        return view('sms-campaign');
+        
+    }
+
+    public function autoDialer(){
+        return view('auto-dialer');
+        
+    }
+
     
 }
