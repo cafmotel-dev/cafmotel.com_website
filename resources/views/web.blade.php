@@ -159,6 +159,13 @@
                         <li class="nav-item">
                              <a href="/contact-us" class="nav-link">Contact Us</a>
                          </li>
+                         <li class="nav-item">
+                             <a href="/sign-up" class="nav-link">Register </a>
+
+                         </li>
+                         <li class="nav-item">
+                             <a href="/login" class="nav-link ">Login </a>
+    </li>
                      </ul>
 
              </nav>
