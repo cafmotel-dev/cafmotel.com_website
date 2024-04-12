@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\SignupController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +33,13 @@ Route::get('/chatbot', [HomeController::class, 'chatBot']);
 Route::get('/sms-campaign', [HomeController::class, 'smsCampaign']);
 Route::get('/auto-dialer', [HomeController::class, 'autoDialer']);
 
-
+Route::get('/sign-up', [SignupController::class, 'index']);
+Route::post('/store', [SignupController::class, 'store']);
+Route::get('/verify-code', [SignupController::class, 'verifyCode'])->name('verifyCode');
+Route::post('/store-verify-code', [SignupController::class, 'StoreVerifyCode']);
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/storeLogin', [LoginController::class, 'authenticate']);
+Route::get('/resend-code/{userId}', [SignupController::class, 'resendCode'])->name('resend-code');
 
 
 
