@@ -18,34 +18,29 @@
           <h2 class="title phone_div">Sign Up</h2>
           <h2 class="title otp_div" style="display:none;" >Verify OTP</h2>
 
-            <span style="line-height: 3;"  class="" id="message"></span>
+            <span class="" id="message"></span>
+            <br>
+            <input type="hidden" class="form-control" id="uuid"  />
 
 
-            <input type="hidden" id="uuid"  />
+            <div class="row justify-content-center otp_div" style="display: none;">
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                  <div class="card-body p-5 text-center">
+                    <div class="otp-field mb-4">
+                      <input type="number" />
+                      <input type="number" disabled />
+                      <input type="number" disabled />
+                      <input type="number" disabled />
+                      <input type="number" disabled />
+                      <input type="number" disabled />
+                    </div>
 
-
-  <div class="row justify-content-center otp_div" style="display: none;">
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
-          <div class="card-body p-5 text-center">
-
-
-            <div class="otp-field mb-4">
-              <input type="number" />
-              <input type="number" disabled />
-              <input type="number" disabled />
-              <input type="number" disabled />
-              <input type="number" disabled />
-              <input type="number" disabled />
+                    <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
+                  </div>
+                </div>
+              </div>
             </div>
-
-                      <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
-
-
-          </div>
-        </div>
-      </div>
-    </div>
 
  
 
@@ -73,7 +68,7 @@
 
 
             <p class="resend text-muted mb-0 otp_div" style="display:none;">
-              Didn't receive code? <a href="">Resend</a>
+              Didn't receive code? <a id="resend_otp" href="javascript:0">Resend</a>
             </p>
           <div class="social-media">
           </div>
@@ -144,9 +139,13 @@
               $("#uuid").val(data.id);
               $('option:not(:selected)').attr('disabled', true);
               $("#phone").prop("readonly", true);
+              $("#uuid").prop("readonly", true);
+
 
               $(".otp_div").show();
               $(".phone_div").hide();
+        $("#message").show();
+
               $("#message").html('Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
               //$('#message').delay(5000).fadeOut('slow');
 
@@ -158,6 +157,54 @@
         }
         else
         {
+        $("#message").show();
+
+          $("#message").html('Please enter 10 digits Phone Number.');
+          $('#message').delay(5000).fadeOut('slow');
+          return false;
+        }
+      });
+
+       $("#resend_otp").click(function()
+      {
+        $("#message").show();
+        var country_code = $("#country_code").val();
+        var phone = $("#phone").val();
+        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+        //alert(phone_number.length);
+        if(phone_number.length > 9)
+        {
+          $.ajax({
+            url: '/otp/phone',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
+            dataType: 'JSON',
+            success: function (data) { 
+
+              number = data.phone_number;
+              var masking_number = number.replace(/.(?=.{4})/g, 'X');
+              $("#uuid").val(data.id);
+              $('option:not(:selected)').attr('disabled', true);
+              $("#phone").prop("readonly", true);
+              $("#uuid").prop("readonly", true);
+
+              $(".otp_div").show();
+              $(".phone_div").hide();
+        $("#message").show();
+
+              $("#message").html('OTP is resend, Please Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
+              //$('#message').delay(5000).fadeOut('slow');
+
+
+
+
+            }
+          }); 
+        }
+        else
+        {
+        $("#message").show();
+
           $("#message").html('Please enter 10 digits Phone Number.');
           $('#message').delay(5000).fadeOut('slow');
           return false;
