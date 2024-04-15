@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SmsAiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +42,16 @@ Route::post('/store-verify-code', [SignupController::class, 'StoreVerifyCode']);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/storeLogin', [LoginController::class, 'authenticate']);
 Route::get('/resend-code/{userId}', [SignupController::class, 'resendCode'])->name('resend-code');
+
+//sms ai work
+
+Route::get('/sms/chat/demo', [SmsAiController::class, 'index']);
+
+Route::post('otp/phone', [SmsAiController::class, 'otpPhone'])->name('otp-phone');
+
+
+
+
 
 
 
