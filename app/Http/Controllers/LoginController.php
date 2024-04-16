@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Log;
 
 
 class LoginController extends Controller
@@ -45,18 +46,21 @@ class LoginController extends Controller
     
     public function authenticate(Request $request)
     {
+        // return $request->all();
         // Validate form data
         $request->validate([
             'username' => 'required|email',
-            'password' => ['required', Password::min(8)],
+            'password' => ['required', Password::min(6)],
         ]);
     
         $name = $request->input('username');
         $password = $request->input('password');
-    
+        
         // Query to check if the user exists in the database
         $user = DB::table('users')->where('email', $name)->first();
-    
+        //return $user;
+        // $password=Hash::check($password, $user->password);
+        Log::info('reched',['password'=>$password]);
         if ($user) {
             // User exists, verify the password
             if (Hash::check($password, $user->password)) {

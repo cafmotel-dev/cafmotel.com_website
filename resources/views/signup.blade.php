@@ -16,6 +16,7 @@
     <!-- CSS -->
     <link href="{{asset('signup/css/bootstrap2.min.css')}}" rel="stylesheet">
     <link href="{{asset('signup/css/style2.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
     .error-message {
     color: red;
@@ -71,6 +72,41 @@
                                 
                                 </div>
                             </div>
+                            <div class="step">
+    <h4>Hey, could you share your Number with us?</h4>
+    <div class="form-check ps-0 q-box">
+        <div class="mt-2">
+        <form method="post" action="{{ url('send-mobile-otp') }}">
+    @csrf
+    <div class="row">
+        <div class="col-md-4">                                  
+            <select class="form-select" name="country_code" id="country_code">
+                <option value="1">USA (+1)</option>
+                <option value="1">Canada (+1)</option>
+                <option value="91">India (+91)</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <input class="form-control" id="phone" name="phone" type="text" required>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Verify</button>
+        </div>
+    </div>
+</form>
+
+            <div id="otpInput" style="display: none;">
+                <h4>Enter OTP:</h4>
+                <input  id="otp" name="otp" type="text" class="form-control">
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <!-- Add any additional OTP verification logic here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
                             <div class="step">
                                 <h4>Hey, could you share your email with us?</h4>
                                 <div class="form-check ps-0 q-box">
@@ -239,5 +275,7 @@ passwordInput.addEventListener('input', function() {
 });
 
     </script>
+
+
 </body>
 </html>
