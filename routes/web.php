@@ -52,6 +52,15 @@ Route::get('/sms/chat/demo', [SmsAiController::class, 'index']);
 
 Route::post('otp/phone', [SmsAiController::class, 'otpPhone'])->name('otp-phone');
 
+Route::post('otp/phone/verify', [SmsAiController::class, 'otpPhoneVerify'])->name('otp-phone-verify');
+Route::post('phone/personal-details', [SmsAiController::class, 'phonePersonalDetails'])->name('phone-personal-details');
+
+
+
+
+
+
+
 
 
 

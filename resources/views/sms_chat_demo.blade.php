@@ -7,6 +7,7 @@
   <title>Sign in & Sign up Form</title>
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link rel="stylesheet" href="{{ asset('/web/css/sms_chat_demo.css')}}" />
+ 
 </head>
 
 
@@ -15,25 +16,30 @@
     <div class="forms-container">
       <div class="signin-signup">
         <form action="#" class="sign-in-form">
-          <h2 class="title phone_div">Sign Up</h2>
+          <h2 class="title phone_div">Personal Details</h2>
           <h2 class="title otp_div" style="display:none;" >Verify OTP</h2>
+          <!-- <h2 class="title email_div" style="display:none;">Personal Details</h2> -->
+
 
             <span class="" id="message"></span>
+            <span class="" id="message_otp"></span>
+
             <br>
             <input type="hidden" class="form-control" id="uuid"  />
 
 
             <div class="row justify-content-center otp_div" style="display: none;">
+
               <div class="col-12 col-md-6 col-lg-4">
                 <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
                   <div class="card-body p-5 text-center">
                     <div class="otp-field mb-4">
-                      <input type="number" />
-                      <input type="number" disabled />
-                      <input type="number" disabled />
-                      <input type="number" disabled />
-                      <input type="number" disabled />
-                      <input type="number" disabled />
+                      <input type="number" id="otp_1" name="otp_1" />
+                      <input type="number" id="otp_2" name="otp_2" disabled />
+                      <input type="number" id="otp_3" name="otp_3" disabled />
+                      <input type="number" id="otp_4" name="otp_4" disabled />
+                      <input type="number" id="otp_5" name="otp_5" disabled />
+                      <input type="number" id="otp_6" name="otp_6" disabled />
                     </div>
 
                     <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
@@ -42,33 +48,118 @@
               </div>
             </div>
 
+<div class="thankyoucontent email_div" style="background: #F86F03;display:none" >
+ <div class="wrapper-1">
+    <div class="wrapper-2">
+       <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
+     <h1>Thank you!</h1>
+      <p>for contacting us, we will reply promptly</p> 
+      <p>once your message is received. </p>
+    
+    </div>
+   
+   
+</div>
+</div>
+
+           <!--  <span class="email_div" style="display: none;" id="">Please enter your email for activation link</span>
+
+             <div class="input-field email_div" style="display: none;">
+            <i class="fas fa-envelope"></i>
+            <input type="text" id="email" autocomplete="nope" autocomplete="off" placeholder="Email" />
+
+          </div>
+           -->
+
+
+
  
 
-    
+  
 
-          <div class="input-field phone_div">
+          <div class="input-field phone_div" style="display: none;">
             <i class="fas fa-globe"></i>
             <select type="text" class="form-control select" id="country_code"   placeholder="Username" >
-              <option value="91">India</option>
-              <option value="1">USA</option>
-              <option value="1">Canada</option>
+              <option value="1">USA & Canada</option>
             </select>
           </div>
 
           <div class="input-field phone_div">
             <i class="fas fa-phone"></i>
             <input type="text" id="phone" autocomplete="nope" autocomplete="off" placeholder="Phone Number" />
+
           </div>
 
-        
+           <div class="input-field phone_div">
+            <i class="fas fa-user"></i>
+            <input type="text" id="name"  placeholder="Name" />
+
+          </div>
+
+          <a id="captchaTable"
+      class="flex justify-center social-icon phone_div" style="
+    font-size: 20px;
+    height: 25px;
+    font-style: oblique;
+    border: none;
+    ">
+    </a>
+
+      <button id="refreshButton"
+          class="bg-blue-500 text-white px-6 py-2 
+            rounded-md focus:outline-none phone_div" style="background: #F86F03;
+    border: none;
+    border-radius: 37px;
+    padding: 6px;
+    color: white;
+    cursor: pointer;
+">
+        Refresh Captcha <i class="fa fa-refresh" aria-hidden="true"></i>
+      </button>
+
+           <div class="input-field phone_div" >
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+
+             <input type="text" id="captchaInput"
+        class=""
+        placeholder="Enter Captcha">
+      <!-- Button to refresh the Captcha -->
+            
+          </div>
+<!-- 
+          <div class="social-media">
+             <a id="captchaTable"
+      class="flex justify-center social-icon" style="background: #F86F03;
+    font-size: 30px;
+    height: 35px;
+    font-style: oblique;
+    background-image: radial-gradient(black, transparent);">
+    </a>
+           
+          </div> -->
+
+
+
+                  
+
+  
+    <!-- Input field for user to enter the Captcha -->
+   
+            
+
 
           <input type="button" value="Submit" id="submitPhone" class="btn solid phone_div" />
 
-             <input type="button" value="Verify" id="" class="btn solid otp_div" style="display:none;" />
+             <input type="button" value="Verify" id="verify_otp" class="btn solid otp_div" style="display:none;" />
+
+             <!-- <input type="button" value="Submit" id="personal_details" class="btn solid email_div" style="display:none;" /> -->
 
 
-            <p class="resend text-muted mb-0 otp_div" style="display:none;">
-              Didn't receive code? <a id="resend_otp" href="javascript:0">Resend</a>
+
+            <p class="resend text-muted mb-0 otp_div" id="otp_div" style="display:none;">
+              <span id="time_left" >Time Left : <span id="timer"></span></span>
+
+              Didn't receive code? <a id="resend_otp" class="disabled" href="javascript:0">Resend</a>
             </p>
           <div class="social-media">
           </div>
@@ -107,185 +198,81 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/imask"></script>
-  <script>
-    var phoneInput = document.getElementById('phone');
-    var phoneMask = new IMask(phoneInput, {
-      mask: '(000) 000-0000'
-    }); 
 
-  </script>
+<script src="{{ asset('/web/js/sms_chat_demo.js')}}"></script>
+
+
 
   <script>
-    $(document).ready(function(){
-      var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      $("#submitPhone").click(function()
-      {
-        $("#message").show();
-        var country_code = $("#country_code").val();
-        var phone = $("#phone").val();
-        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
-        //alert(phone_number.length);
-        if(phone_number.length > 9)
-        {
-          $.ajax({
-            url: '/otp/phone',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
-            dataType: 'JSON',
-            success: function (data) { 
-
-              number = data.phone_number;
-              var masking_number = number.replace(/.(?=.{4})/g, 'X');
-              $("#uuid").val(data.id);
-              $('option:not(:selected)').attr('disabled', true);
-              $("#phone").prop("readonly", true);
-              $("#uuid").prop("readonly", true);
-
-
-              $(".otp_div").show();
-              $(".phone_div").hide();
-        $("#message").show();
-
-              $("#message").html('Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
-              //$('#message').delay(5000).fadeOut('slow');
-
-
-
-
-            }
-          }); 
-        }
-        else
-        {
-        $("#message").show();
-
-          $("#message").html('Please enter 10 digits Phone Number.');
-          $('#message').delay(5000).fadeOut('slow');
-          return false;
-        }
-      });
-
-       $("#resend_otp").click(function()
-      {
-        $("#message").show();
-        var country_code = $("#country_code").val();
-        var phone = $("#phone").val();
-        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
-        //alert(phone_number.length);
-        if(phone_number.length > 9)
-        {
-          $.ajax({
-            url: '/otp/phone',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
-            dataType: 'JSON',
-            success: function (data) { 
-
-              number = data.phone_number;
-              var masking_number = number.replace(/.(?=.{4})/g, 'X');
-              $("#uuid").val(data.id);
-              $('option:not(:selected)').attr('disabled', true);
-              $("#phone").prop("readonly", true);
-              $("#uuid").prop("readonly", true);
-
-              $(".otp_div").show();
-              $(".phone_div").hide();
-        $("#message").show();
-
-              $("#message").html('OTP is resend, Please Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
-              //$('#message').delay(5000).fadeOut('slow');
-
-
-
-
-            }
-          }); 
-        }
-        else
-        {
-        $("#message").show();
-
-          $("#message").html('Please enter 10 digits Phone Number.');
-          $('#message').delay(5000).fadeOut('slow');
-          return false;
-        }
-      });
-    });    
-    </script>
-
-    <script>
+    captcha();
+   function captcha()
+   {
+      const captchaTable = document.getElementById('captchaTable');
+      const captchaInput = document.getElementById('captchaInput');
+      const refreshButton = document.getElementById('refreshButton');
+      const verifyButton = document.getElementById('verifyButton');
+      const resultMessage = document.getElementById('resultMessage');
       
-      const inputs = document.querySelectorAll(".otp-field > input");
-const button = document.querySelector(".btn");
-
-window.addEventListener("load", () => inputs[0].focus());
-button.setAttribute("disabled", "disabled");
-
-inputs[0].addEventListener("paste", function (event) {
-  event.preventDefault();
-
-  const pastedValue = (event.clipboardData || window.clipboardData).getData(
-    "text"
-  );
-  const otpLength = inputs.length;
-
-  for (let i = 0; i < otpLength; i++) {
-    if (i < pastedValue.length) {
-      inputs[i].value = pastedValue[i];
-      inputs[i].removeAttribute("disabled");
-      inputs[i].focus;
-    } else {
-      inputs[i].value = ""; // Clear any remaining inputs
-      inputs[i].focus;
-    }
-  }
-});
-
-inputs.forEach((input, index1) => {
-  input.addEventListener("keyup", (e) => {
-    const currentInput = input;
-    const nextInput = input.nextElementSibling;
-    const prevInput = input.previousElementSibling;
-
-    if (currentInput.value.length > 1) {
-      currentInput.value = "";
-      return;
-    }
-
-    if (
-      nextInput &&
-      nextInput.hasAttribute("disabled") &&
-      currentInput.value !== ""
-    ) {
-      nextInput.removeAttribute("disabled");
-      nextInput.focus();
-    }
-
-    if (e.key === "Backspace") {
-      inputs.forEach((input, index2) => {
-        if (index1 <= index2 && prevInput) {
-          input.setAttribute("disabled", true);
-          input.value = "";
-          prevInput.focus();
-        }
+      // Generate the initial Captcha
+      generateCaptchaTable();
+      
+      // Event listener for the Refresh button
+      refreshButton.addEventListener('click', function () {
+        generateCaptchaTable();
+        resultMessage.textContent = '';
       });
-    }
-
-    button.classList.remove("active");
-    button.setAttribute("disabled", "disabled");
-
-    const inputsNo = inputs.length;
-    if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
-      button.classList.add("active");
-      button.removeAttribute("disabled");
-
-      return;
-    }
-  });
-});
-
-    </script>
-
+      
+      // Event listener for the Verify button
+      verifyButton.addEventListener('click', function () {
+        const inputText = 
+          captchaInput.value.trim().toLowerCase();
+        const captchaText = 
+          captchaTable.dataset.captcha.trim().toLowerCase();
+        
+        // Verify the entered Captcha
+        if (inputText === captchaText) {
+          resultMessage.textContent = 'Captcha verified successfully.';
+          resultMessage.classList.remove('text-red-500');
+          resultMessage.classList.add('text-green-500');
+        } else {
+          resultMessage.textContent = 'Incorrect Captcha. Please try again.';
+          resultMessage.classList.remove('text-green-500');
+          resultMessage.classList.add('text-red-500');
+        }
+        
+        // Clear the input field and regenerate the Captcha
+        captchaInput.value = '';
+        generateCaptchaTable();
+      });
+      
+      // Function to generate a random string for the Captcha
+      function generateRandomString(length) {
+        const characters = 
+'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+          result += 
+          characters.charAt(Math.floor(Math.random() * 
+                        characters.length));
+        }
+        return result;
+      }
+      
+      // Function to generate the Captcha table
+      function generateCaptchaTable() {
+        const captchaText = generateRandomString(6);
+        captchaTable.dataset.captcha = captchaText;
+        captchaTable.innerHTML = '';
+        for (let i = 0; i < captchaText.length; i++) {
+          const cell = document.createElement('div');
+          cell.textContent = captchaText.charAt(i);
+          cell.classList.add();
+          captchaTable.appendChild(cell);
+        }
+      }
+    };
+  </script>
+ 
   
 
 </body>

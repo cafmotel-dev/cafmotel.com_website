@@ -18,7 +18,8 @@ class PhoneVerification extends Model
         3 => "Sent",
         4 => "Verified",
         5 => "Failed",
-        6 => "Invalid"
+        6 => "Invalid",
+        7 => "Expired",
     ];
 
     public function toArray()
