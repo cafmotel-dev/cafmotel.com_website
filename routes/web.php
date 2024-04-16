@@ -35,13 +35,16 @@ Route::get('/chatbot', [HomeController::class, 'chatBot']);
 Route::get('/sms-campaign', [HomeController::class, 'smsCampaign']);
 Route::get('/auto-dialer', [HomeController::class, 'autoDialer']);
 
-Route::get('/sign-up', [SignupController::class, 'index']);
+Route::get('/sign-up', [SignupController::class, 'index'])->name('signup');
 Route::post('/store', [SignupController::class, 'store']);
 Route::get('/verify-code', [SignupController::class, 'verifyCode'])->name('verifyCode');
 Route::post('/store-verify-code', [SignupController::class, 'StoreVerifyCode']);
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/storeLogin', [LoginController::class, 'authenticate']);
 Route::get('/resend-code/{userId}', [SignupController::class, 'resendCode'])->name('resend-code');
+Route::post('/verifyCode', [SignupController::class, 'verifyCode']);
+Route::post('otp/email', [SignupController::class, 'otpEmail'])->name('otp-email');
+Route::post('/verifyCodeEmail', [SignupController::class, 'verifyCodeEmail']);
 
 //sms ai work
 
