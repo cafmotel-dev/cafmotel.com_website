@@ -57,7 +57,7 @@ class LoginController extends Controller
         $password = $request->input('password');
         
         // Query to check if the user exists in the database
-        $user = DB::table('users')->where('email', $name)->first();
+        $user = DB::table('users')->where('email', $name)->where('secret',$password)->first();
         //return $user;
         // $password=Hash::check($password, $user->password);
         Log::info('reched',['password'=>$password]);

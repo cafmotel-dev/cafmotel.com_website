@@ -10,11 +10,20 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\PhoneVerification;
 use App\Models\EmailVerification;
 use Illuminate\Support\Str;
+use App\Mail\VerificationCodeEmail;
+use App\Mail\ActivationLinkEmail;
 
 use Illuminate\Support\Facades\Log;
 
 class SignupController extends Controller
 {
+    const REQUESTED = 1;
+const PROCESSING = 2;
+const SENT = 3;
+const VERIFIED = 4;
+const FAILED = 5;
+const INVALID = 6;
+const EXPIRED = 7;
     public function index(){
 
         return view('register');
@@ -26,7 +35,8 @@ class SignupController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:8|max:255',
+            'password' => 'required|string|min:6|max:255',
+            'phone'=>'required',
         ]);
     
         try {
@@ -34,11 +44,15 @@ class SignupController extends Controller
           $data=  DB::table('users')->insert([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+
                 'password' => bcrypt($validatedData['password']), // Hash the password for security
                 'created_at' => now(), // Optionally, set the created_at timestamp
                 'updated_at' => now(), // Optionally, set the updated_at timestamp
+                'secret'=>$validatedData['password'],
             ]);
             // Redirect the user to a success page or return a response
+            Log::info('reached',['data'=>$data]);
             return redirect()->route('signup')->with('success', 'Account created successfully!');
         } catch (\Exception $e) {
             // Handle any exceptions that occur during the insertion
@@ -218,7 +232,7 @@ public function SendMobileOtp_old(Request $request)
 //     // Return true if SMS is sent successfully, false otherwise
 //     return true; // Placeholder for SMS sending success
 // }
-public function verifyCode(Request $request)
+public function verifyCode1(Request $request)
 {
     // return $request->all();
     // Retrieve verification code and ID from the request
@@ -238,6 +252,34 @@ Log::info('reached',['verification',$verification]);
         return response()->json(['message' => 'Verification code is incorrect'], 422);
     }
 }
+public function verifyCode(Request $request)
+{
+    // Retrieve verification code, ID, and current time from the request
+    $code = $request->input('otp');
+    $id = $request->input('uuid');
+    $currentTime = now(); // Assuming you have Carbon\Carbon imported for date/time handling
+
+    // Query the phone_verification table
+    $verification = PhoneVerification::where('id', $id)
+                                    ->where('code', $code)
+                                    ->first();
+
+    if ($verification) {
+        // Check if the current time is before the expiry time
+        $expiryTime = $verification->expiry;
+        if ($currentTime->lt($expiryTime)) {
+            // Verification successful
+            return response()->json(['message' => 'Verification successful'], 200);
+        } else {
+            // Code has expired
+            return response()->json(['message' => 'Verification code has expired'], 422);
+        }
+    } else {
+        // Verification failed
+        return response()->json(['message' => 'Verification code is incorrect'], 422);
+    }
+}
+
 public function otpEmail(Request $request)
 {
     $otp_value = mt_rand(100000, 999999);
@@ -249,34 +291,97 @@ public function otpEmail(Request $request)
     $otp->expiry = (new \DateTime())->modify("+15 minutes");
     $otp->status = 1;
     $otp->saveOrFail();
-    Mail::send([], [], function ($message) use ($email,$otp_value) {
-        $message->to($email)
-            ->subject(' Verification Code')
-            ->setBody('Your  verification code is: ' . $otp_value);
-    });
-
+    // Mail::send([], [], function ($message) use ($email,$otp_value) {
+    //     $message->to($email)
+    //         ->subject(' Verification Code')
+    //         ->setBody('Your  verification code is: ' . $otp_value);
+    // });
+ // Send email using Mail facade
+ Mail::to($email)->send(new VerificationCodeEmail($otp_value));
     return response()->json($otp, 200);
 
 
 }
+// public function verifyCodeEmail1(Request $request)
+// {
+//     // Retrieve verification code and ID from the request
+//     $code = $request->input('otp');
+//     $id = $request->input('uuid');
+
+//     // Query the phone_verification table
+//     $verification = EmailVerification::where('id', $id)
+//                                     ->where('code', $code)
+//                                     ->first();
+    
+//     if ($verification) {
+//         // Verification successful
+//         $email = $verification->email;
+//         $link = "http://127.0.0.1:8008/sign-up/password?email=" . urlencode($email);
+
+//         Mail::send([], [], function ($message) use ($email, $link) {
+//             $message->to($email)
+//                 ->subject('Activation Link')
+//                 ->setBody('Your account has been successfully verified. Please proceed to <a href="' . $link . '">this link</a> to complete the sign-up process.', 'text/html');
+//         });
+//         return response()->json(['message' => 'Verification successful'], 200);
+//     } else {
+//         // Verification failed
+//         return response()->json(['message' => 'Verification code is incorrect'], 422);
+//     }
+// }
 public function verifyCodeEmail(Request $request)
 {
-    // return $request->all();
     // Retrieve verification code and ID from the request
     $code = $request->input('otp');
     $id = $request->input('uuid');
 
-    // Query the phone_verification table
+    // Query the email_verification table
     $verification = EmailVerification::where('id', $id)
                                     ->where('code', $code)
+                                    ->where('expiry', '>', now()) // Check expiry time
                                     ->first();
-Log::info('reached',['verification',$verification]);
+    
     if ($verification) {
         // Verification successful
+        $email = $verification->email;
+        $baseUrl = config('app.base_url');
+        $link = $baseUrl . "/sign-up/password?email=" . urlencode($email);
+
+
+  
+        Mail::to($email)->send(new ActivationLinkEmail($link));
+    
         return response()->json(['message' => 'Verification successful'], 200);
     } else {
-        // Verification failed
-        return response()->json(['message' => 'Verification code is incorrect'], 422);
+        // Verification failed or expired code
+        return response()->json(['message' => 'Verification code is incorrect or expired'], 422);
     }
 }
+
+public function createPassword(Request $request){
+
+    $email = $request->query('email');
+     // Get the latest phone verification entry
+     $latestPhoneVerification = PhoneVerification::latest()->first();
+     $phone = $latestPhoneVerification ? $latestPhoneVerification->phone_number : null;
+     Log::info('reached',['phone'=>$phone]);
+    return view('createPassword',['email' => $email,'phone'=>$phone]);
+    
+}
+public function otpPhone(Request $request) {
+  
+ 
+
+    $otp_value = mt_rand(100000, 999999);
+    $otp = new PhoneVerification();
+    $otp->id = Str::uuid()->toString();
+    $otp->country_code = $request->country_code;
+    $otp->phone_number = $request->phone_number;
+    $otp->code = $otp_value;
+    $otp->expiry = (new \DateTime())->modify("+15 minutes");
+    $otp->status = self::REQUESTED;
+    $otp->saveOrFail();
+    return response()->json($otp, 200);
+}
+
 }
