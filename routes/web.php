@@ -43,8 +43,10 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/storeLogin', [LoginController::class, 'authenticate']);
 Route::get('/resend-code/{userId}', [SignupController::class, 'resendCode'])->name('resend-code');
 Route::post('/verifyCode', [SignupController::class, 'verifyCode']);
+Route::post('signup/otp/phone', [SignupController::class, 'otpPhone'])->name('sign-otp-phone');
 Route::post('otp/email', [SignupController::class, 'otpEmail'])->name('otp-email');
 Route::post('/verifyCodeEmail', [SignupController::class, 'verifyCodeEmail']);
+Route::get('/sign-up/password', [SignupController::class, 'createPassword']);
 
 //sms ai work
 

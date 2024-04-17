@@ -422,8 +422,8 @@ form.sign-in-form {
 	<div class="container">
 		<div class="forms-container">
 			<div class="signin-signup">
-				<form action="" class="sign-in-form"method="">
-                   
+				<form action="{{url('storeLogin')}}" class="sign-in-form"method="post">
+          @csrf         
 					<h2 class="title phn_div">Sign in</h2>
           
                     <div class="input-field">
@@ -436,9 +436,9 @@ form.sign-in-form {
                     </div>
                     <input type="submit" value="Login" class="btn solid" />
         </form>
-					<p class="social-text">Or Sign in with social platforms</p>
+					<p class="social-text"></p>
 					<div class="social-media">
-						<a href="#" class="social-icon">
+						<!-- <a href="#" class="social-icon">
 							<i class="fab fa-facebook-f"></i>
 						</a>
 						<a href="#" class="social-icon">
@@ -449,12 +449,12 @@ form.sign-in-form {
 						</a>
 						<a href="#" class="social-icon">
 							<i class="fab fa-linkedin-in"></i>
-						</a>
+						</a> -->
 					</div>
 				<form action=""class="sign-up-form">
                     
 					<h2 class="title phn_div"id="sign_up">Sign up</h2>
-          <h2 class="title otp_div" >Verify OTP</h2>
+          <h2 class="title otp_div"style="display:none;" >Verify OTP</h2>
 
           <span style="line-height: 3;"  class="" id="message"></span>
 
@@ -485,7 +485,7 @@ form.sign-in-form {
           </div>
           </div>
           </div>
-          <h2 class="title otp_email_div" >Verify OTP</h2>
+          <h2 class="title otp_email_div" style="display:none;">Verify OTP</h2>
 
           <span style="line-height: 3;"  class="" id="messageEmail"></span>
 
@@ -512,27 +512,33 @@ form.sign-in-form {
 
                     <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
 
+                    <p class="resend text-muted mb-0 otp_email_div" id="otp_email_div" style="display:none;">
+              <span id="time_left_email" >Time Left : <span id="timer_email"></span></span>
 
+              Didn't receive code? <a type="button"id="resend_otp_email" class="disabled" href="javascript:0">Resend</a>
+            </p>
           </div>
           </div>
           </div>
           </div>
-          <div class="row justify-content-center email_div" style="display: none;">
+          <!-- <div class="row justify-content-center email_div" style="display: none;">
           <div class="col-12 col-md-6 col-lg-4">
-          <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
-          <span style="line-height: 3;"  class="" id="messageEmail"></span>
-          <input type="hidden" id="uuidEmail"  />
+            <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+              <div class="card-body p-5 text-center"> -->
+                <span style="line-height: 3;"  class="" id="messageEmail"></span>
+                <input type="hidden" id="uuidEmail"  />
 
 
-          <div class="input-field">
-						<i class="fas fa-envelope"></i>
-						<input type="email" placeholder="Email"name="email"id="email" />
-					</div>
-          <input type="button" value="Submit" id="submitEmail" class="btn solid email_div" style="display:none;" />
+                <div class="input-field email_div"style="display:none;">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email" placeholder="Email"name="email"id="email"class="form-control"required />
+                </div>
+                <input type="button" value="Submit" id="submitEmail" class="btn solid email_div" style="display:none;" />
 
+              <!-- </div>
+            </div>
           </div>
-          </div>
-          </div>
+         </div> -->
 					<div class="input-field phn_div">
             
           <i class="fas fa-globe"></i>
@@ -554,13 +560,15 @@ form.sign-in-form {
           <input type="button" value="Verify" id="verifybtnEmail" class="btn solid otp_email_div" style="display:none;" />
 
 
-<p class="resend text-muted mb-0 otp_div" style="display:none;">
-  Didn't receive code? <a href="">Resend</a>
-</p>
+          <p class="resend text-muted mb-0 otp_div" id="otp_div" style="display:none;">
+              <span id="time_left" >Time Left : <span id="timer"></span></span>
+
+              Didn't receive code? <a type="button"id="resend_otp" class="disabled" href="javascript:0">Resend</a>
+            </p>
 </form>
-					<p class="social-text">Or Sign up with social platforms</p>
+					<p class="social-text"></p>
 					<div class="social-media">
-						<a href="#" class="social-icon">
+						<!-- <a href="#" class="social-icon">
 							<i class="fab fa-facebook-f"></i>
 						</a>
 						<a href="#" class="social-icon">
@@ -571,7 +579,7 @@ form.sign-in-form {
 						</a>
 						<a href="#" class="social-icon">
 							<i class="fab fa-linkedin-in"></i>
-						</a>
+						</a> -->
 					</div>
 				</form>
 			</div>
@@ -630,19 +638,34 @@ sign_in_btn.addEventListener("click", () => {
 });
 	</script>
   <script>
+    //phn verification
     $(document).ready(function(){
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+      var timerInterval; 
       $("#submitPhone").click(function()
       {
         $("#message").show();
         var country_code = $("#country_code").val();
         var phone = $("#phone").val();
         phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+        var countdown = 15; // Seconds for the countdown
+        timerInterval = setInterval(function() {
+            $('#timer').text(countdown);
+            countdown--;
+            if (countdown < 0) {
+                clearInterval(timerInterval); // Stop the timer
+                $('#timer').text(''); // Clear the timer display
+                $('#time_left').hide(); // Clear the timer display
+
+                
+                $('#resend_otp').removeClass('disabled'); // Enable the resend button
+            }
+        }, 1000); // Update the timer every second
         //alert(phone_number.length);
         if(phone_number.length > 9)
         {
           $.ajax({
-            url: '/otp/phone',
+            url: '/signup/otp/phone',
             type: 'POST',
             data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
             dataType: 'JSON',
@@ -767,34 +790,40 @@ $(document).ready(function(){
 
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $("#verifybtn").click(function() {
-     
-        $("#message").show();
+    $("#message").show();
 
-        var otp = $("#combinedOtp").val();
-        console.log('OTP:', otp); // Log OTP value for debugging
-        var uuid = $("#uuid").val();
+    var otp = $("#combinedOtp").val();
+    console.log('OTP:', otp); // Log OTP value for debugging
+    var uuid = $("#uuid").val();
 
-        $.ajax({
-            url: '/verifyCode',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
-            dataType: 'JSON',
-            success: function (data) { 
-                $("#message").html('Your number has been verified successfully');
-                $(".otp_div").hide();
-
-                $(".email_div").show();
-                $("#sign_up").show();
-                
-
-                
-            },
-            error: function (xhr, status, error) {
-                // Handle error cases if needed
-                console.log(xhr.responseText);
+    $.ajax({
+        url: '/verifyCode',
+        type: 'POST',
+        data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
+        dataType: 'JSON',
+        success: function (data) { 
+            $("#message").html('Your number has been verified successfully');
+            $(".otp_div").hide();
+            $(".email_div").show();
+            $("#sign_up").show();
+            setTimeout(function() {
+                $("#message").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+            }, 3000); // 3000ms = 3 seconds
+        },
+        error: function (xhr, status, error) {
+            // Handle error cases if needed
+            var response = xhr.responseJSON;
+            if (response && response.message) {
+                $("#message").html(response.message);
+            } else {
+                $("#message").html('An error occurred while verifying the code.');
             }
-        }); 
-    });
+        }
+    }); 
+});
+
+    //email verification
+
   
     $(".otp-digit-email").on('input', function() {
         var combinedOtp = '';
@@ -811,10 +840,164 @@ $(document).ready(function(){
         console.log('Combined OTP:', combinedOtp); // Log combined OTP for debugging
     });
     $(document).ready(function(){
-      var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      $("#submitEmail").click(function()
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    var timerInterval;
+
+    $("#submitEmail").click(function() {
+        var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
+
+        if(email) {
+            $("#messageEmail").show();
+            $("#sign_up").hide();
+            var countdown = 15; // Seconds for the countdown
+            timerInterval = setInterval(function() {
+                $('#timer_email').text(countdown);
+                countdown--;
+                if (countdown < 0) {
+                    clearInterval(timerInterval); // Stop the timer
+                    $('#timer_email').text('');
+                    $('#time_left_email').hide(); // Clear the timer display
+                    $('#resend_otp_email').removeClass('disabled'); // Enable the resend button
+                }
+            }, 1000);
+
+            $.ajax({
+                url: '/otp/email',
+                type: 'POST',
+                data: {_token: CSRF_TOKEN, email: email},
+                dataType: 'JSON',
+                success: function (data) {
+                    $("#uuidEmail").val(data.id);
+                    $('option:not(:selected)').attr('disabled', true);
+                    $("#email").prop("readonly", true);
+
+                    $(".otp_email_div").show();
+                    $(".email_div").hide();
+                    // $("#sign_up").show();
+
+                    $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
+
+                    setTimeout(function() {
+                        $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+                    }, 3000);
+                }
+            });
+        } else {
+            $("#messageEmail").show();
+            $("#messageEmail").html('Please enter a valid email.');
+            setTimeout(function() {
+                $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+            }, 3000);
+
+        }
+    });
+});
+   
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    $("#verifybtnEmail").click(function() {
+     
+        $("#message").show();
+        $("#message").html('');
+
+        var otp = $("#combinedOtpEmail").val();
+        console.log('OTP:', otp); // Log OTP value for debugging
+        var uuid = $("#uuidEmail").val();
+
+        $.ajax({
+            url: '/verifyCodeEmail',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
+            dataType: 'JSON',
+            success: function (data) { 
+                $("#message").html('Your Email has been verified successfully.Please see your email for activation link.');
+                // $("#message").html('Please see your email for activation link.');
+
+                $(".otp_email_div").hide();
+
+           
+                
+            },
+            error: function (xhr, status, error) {
+                // Handle error cases if needed
+                var response = xhr.responseJSON;
+            if (response && response.message) {
+                $("#message").html(response.message);
+            } else {
+                $("#message").html('An error occurred while verifying the code.');
+            }
+            }
+        }); 
+    });
+});
+
+    </script> 
+    <script>
+    //resend phone code
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $("#resend_otp").click(function()
+      {
+        $("#message").show();
+                $("#message").html('');
+
+        var country_code = $("#country_code").val();
+        var phone = $("#phone").val();
+        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+        //alert(phone_number.length);
+        if(phone_number.length > 9)
+        {
+          $.ajax({
+            url: '/signup/otp/phone',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
+            dataType: 'JSON',
+            success: function (data) { 
+
+              number = data.phone_number;
+              var masking_number = number.replace(/.(?=.{4})/g, 'X');
+              $("#uuid").val(data.id);
+              $('option:not(:selected)').attr('disabled', true);
+              $("#phone").prop("readonly", true);
+              $("#uuid").prop("readonly", true);
+
+              $(".otp_div").show();
+              $("#otp_div").hide();
+
+              $(".phone_div").hide();
+        $("#message").show();
+
+
+              $("#message").html('OTP is resend, Please Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
+              //$('#message').delay(5000).fadeOut('slow');
+
+
+
+
+
+            }
+          }); 
+        }
+        else
+        {
+        $("#message").show();
+
+          $("#message").html('Please enter 10 digits Phone Number.');
+          $('#message').delay(5000).fadeOut('slow');
+                $("#message").html('');
+
+          return false;
+        }
+      });
+    </script>
+     <script>
+    //resend email code
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    $("#resend_otp_email").click(function()
       {
         $("#messageEmail").show();
+        $("#sign_up").hide();
+       
         var email = $("#email").val();
         //alert(phone_number.length);
       
@@ -831,46 +1014,18 @@ $(document).ready(function(){
 
               $(".otp_email_div").show();
               $(".email_div").hide();
-              $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
+              $("#messageEmail").html('OTP is resend Please Enter the 6-digit OTP Code that was sent to your email');
               //$('#message').delay(5000).fadeOut('slow');
 
 
-
+              setTimeout(function() {
+                $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+            }, 3000); 
 
             }
           }); 
       
       });
-    });    
-    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-    $("#verifybtnEmail").click(function() {
-     
-        $("#message").show();
-
-        var otp = $("#combinedOtpEmail").val();
-        console.log('OTP:', otp); // Log OTP value for debugging
-        var uuid = $("#uuidEmail").val();
-
-        $.ajax({
-            url: '/verifyCodeEmail',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
-            dataType: 'JSON',
-            success: function (data) { 
-                $("#message").html('Your Email has been verified successfully');
-             
-                
-
-                
-            },
-            error: function (xhr, status, error) {
-                // Handle error cases if needed
-                console.log(xhr.responseText);
-            }
-        }); 
-    });
-});
-
     </script>
 </body>
 
