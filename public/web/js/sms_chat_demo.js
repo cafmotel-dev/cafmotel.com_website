@@ -14,7 +14,7 @@ $(document).ready(function(){
             return; // If the timer has already started, exit the function
         }
 
-        var seconds = 15;
+        var seconds = 60;
 
         function tick() {
             var counter = document.getElementById("timer");
@@ -180,7 +180,7 @@ $("#submitPhone").click(function()
           $.ajax({
             url: '/otp/phone',
             type: 'POST',
-            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
+            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number,name:name},
             dataType: 'JSON',
             success: function (data) { 
 
@@ -340,22 +340,59 @@ $("#personal_details").click(function() {
 
                 $("#otp_1").val('');
          $("#otp_2").val('');
+              $('#otp_2').attr('disabled', true);
+
          $("#otp_3").val('');
+              $('#otp_3').attr('disabled', true);
+
          $("#otp_4").val('');
+              $('#otp_4').attr('disabled', true);
+
          $("#otp_5").val('');
+              $('#otp_5').attr('disabled', true);
+
          $("#otp_6").val('');
+              $('#otp_6').attr('disabled', true);
                 $("#message").html('one time password is expired! Please try again');
         $("#message").show();
               $('#message').delay(5000).fadeOut('slow');
                 $("#message").html('');
 
               }
+
+               else
+                if(data.status == 'Failed')
+              {
+
+                $("#otp_1").val('');
+         $("#otp_2").val('');
+              $('#otp_2').attr('disabled', true);
+
+         $("#otp_3").val('');
+              $('#otp_3').attr('disabled', true);
+
+         $("#otp_4").val('');
+              $('#otp_4').attr('disabled', true);
+
+         $("#otp_5").val('');
+              $('#otp_5').attr('disabled', true);
+
+         $("#otp_6").val('');
+              $('#otp_6').attr('disabled', true);
+
+                $("#message").html('');
+
+                $("#message").html('one time password is invalid! Please try again');
+        $("#message").show();
+              $('#message').delay(5000).fadeOut('slow');
+
+              }
               else
               {
+                $("#message").html('');
                 $("#message").html('one time password is verified');
         $("#message").show();
               $('#message').delay(5000).fadeOut('slow');
-                $("#message").html('');
 
 
                 $(".otp_div").hide();
