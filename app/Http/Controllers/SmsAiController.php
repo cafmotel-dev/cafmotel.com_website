@@ -108,7 +108,7 @@ class SmsAiController extends Controller {
             if ($otp->code == $request->code) {
                 //backend api call for sms chat ai settings
                 
-                $api_url   = 'http://127.0.0.1:5001/open-ai-setting-website';
+                $api_url   = env('APP_URL').'/open-ai-setting-website';
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $api_url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
