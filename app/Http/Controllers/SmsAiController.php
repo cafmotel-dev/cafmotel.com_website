@@ -38,7 +38,7 @@ class SmsAiController extends Controller {
 
             $result = json_decode($response);
 
-            $cli = '12017789949';//$result->data[0]->cli;
+            $cli = $result->data[0]->cli;
             $number = $request->country_code.$request->phone_number;
 
             //send sms using telnyx api
@@ -118,7 +118,7 @@ class SmsAiController extends Controller {
 
                 $result = json_decode($response);
 
-                $cli = '12017789949';//$result->data[0]->cli;
+                $cli = $result->data[0]->cli;
                 $number = $otp->country_code.$otp->phone_number;
                 $introduction = $result->data[0]->introduction;
                 $description = $result->data[0]->description;
