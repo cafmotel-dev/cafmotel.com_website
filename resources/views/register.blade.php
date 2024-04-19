@@ -11,431 +11,7 @@
 
 	<title>Sign in & Sign up Form</title>
 
-	<style>
-		
-		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-	font-family: 'Montserrat', sans-serif;
-}
-
-body,
-input {
-  font-family: 'Montserrat', sans-serif;
-}
-
-.container {
-  position: relative;
-  width: 100%;
-  background-color: #fff;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-.forms-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.signin-signup {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  left: 75%;
-  width: 50%;
-  transition: 1s 0.7s ease-in-out;
-  display: grid;
-  grid-template-columns: 1fr;
-  z-index: 5;
-}
-
-form {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 0rem 5rem;
-  transition: all 0.2s 0.7s;
-  overflow: hidden;
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-}
-
-form.sign-up-form {
-  opacity: 0;
-  z-index: 1;
-}
-
-form.sign-in-form {
-  z-index: 2;
-}
-
-.title {
-  font-size: 2.2rem;
-  color: #444;
-  margin-bottom: 10px;
-}
-
-.input-field {
-  max-width: 380px;
-  width: 100%;
-  background-color: #f0f0f0;
-  margin: 10px 0;
-  height: 55px;
-  border-radius: 5px;
-  display: grid;
-  grid-template-columns: 15% 85%;
-  padding: 0 0.4rem;
-  position: relative;
-}
-
-.input-field i {
-  text-align: center;
-  line-height: 55px;
-  color: #acacac;
-  transition: 0.5s;
-  font-size: 1.1rem;
-}
-
-.input-field input {
-  background: none;
-  outline: none;
-  border: none;
-  line-height: 1;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-.input-field input::placeholder {
-  color: #aaa;
-  font-weight: 500;
-}
-
-.social-text {
-  padding: 0.7rem 0;
-  font-size: 1rem;
-}
-
-.social-media {
-  display: flex;
-  justify-content: center;
-}
-
-.social-icon {
-  height: 46px;
-  width: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0.45rem;
-  color: #333;
-  border-radius: 50%;
-  border: 1px solid #333;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-
-.social-icon:hover {
-  color: #F86F03;
-  border-color: #F86F03;
-}
-
-.btn {
-  width: 150px;
-  background-color: #F86F03;
-  border: none;
-  outline: none;
-  height: 49px;
-  border-radius: 4px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: 0.5s;
-}
-
-.btn:hover {
-  background-color: #f98c39;
-}
-.panels-container {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.container:before {
-  content: "";
-  position: absolute;
-  height: 2000px;
-  width: 2000px;
-  top: -10%;
-  right: 48%;
-  transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #F86F03 0%, #FFA41B 100%);
-  transition: 1.8s ease-in-out;
-  border-radius: 50%;
-  z-index: 6;
-}
-
-.image {
-  width: 100%;
-  transition: transform 1.1s ease-in-out;
-  transition-delay: 0.4s;
-}
-
-.panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-around;
-  text-align: center;
-  z-index: 6;
-}
-
-.left-panel {
-  pointer-events: all;
-  padding: 3rem 17% 2rem 12%;
-}
-
-.right-panel {
-  pointer-events: none;
-  padding: 3rem 12% 2rem 17%;
-}
-
-.panel .content {
-  color: #fff;
-  transition: transform 0.9s ease-in-out;
-  transition-delay: 0.6s;
-}
-
-.panel h3 {
-  font-weight: 600;
-  line-height: 1;
-  font-size: 1.5rem;
-}
-
-.panel p {
-  font-size: 0.95rem;
-  padding: 0.7rem 0;
-}
-
-.btn.transparent {
-  margin: 0;
-  background: none;
-  border: 2px solid #fff;
-  width: 130px;
-  height: 41px;
-  font-weight: 600;
-  font-size: 0.8rem;
-}
-
-.right-panel .image,
-.right-panel .content {
-  transform: translateX(800px);
-}
-
-/* ANIMATION */
-
-.container.sign-up-mode:before {
-  transform: translate(100%, -50%);
-  right: 52%;
-}
-
-.container.sign-up-mode .left-panel .image,
-.container.sign-up-mode .left-panel .content {
-  transform: translateX(-800px);
-}
-
-.container.sign-up-mode .signin-signup {
-  left: 25%;
-}
-
-.container.sign-up-mode form.sign-up-form {
-  opacity: 1;
-  z-index: 2;
-}
-
-.container.sign-up-mode form.sign-in-form {
-  opacity: 0;
-  z-index: 1;
-}
-
-.container.sign-up-mode .right-panel .image,
-.container.sign-up-mode .right-panel .content {
-  transform: translateX(0%);
-}
-
-.container.sign-up-mode .left-panel {
-  pointer-events: none;
-}
-
-.container.sign-up-mode .right-panel {
-  pointer-events: all;
-}
-
-@media (max-width: 870px) {
-  .container {
-    min-height: 800px;
-    height: 100vh;
-  }
-  .signin-signup {
-    width: 100%;
-    top: 95%;
-    transform: translate(-50%, -100%);
-    transition: 1s 0.8s ease-in-out;
-  }
-
-  .signin-signup,
-  .container.sign-up-mode .signin-signup {
-    left: 50%;
-  }
-
-  .panels-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 2fr 1fr;
-  }
-
-  .panel {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 2.5rem 8%;
-    grid-column: 1 / 2;
-  }
-
-  .right-panel {
-    grid-row: 3 / 4;
-  }
-
-  .left-panel {
-    grid-row: 1 / 2;
-  }
-
-  .image {
-    width: 200px;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.6s;
-  }
-
-  .panel .content {
-    padding-right: 15%;
-    transition: transform 0.9s ease-in-out;
-    transition-delay: 0.8s;
-  }
-
-  .panel h3 {
-    font-size: 1.2rem;
-  }
-
-  .panel p {
-    font-size: 0.7rem;
-    padding: 0.5rem 0;
-  }
-
-  .btn.transparent {
-    width: 110px;
-    height: 35px;
-    font-size: 0.7rem;
-  }
-
-  .container:before {
-    width: 1500px;
-    height: 1500px;
-    transform: translateX(-50%);
-    left: 30%;
-    bottom: 68%;
-    right: initial;
-    top: initial;
-    transition: 2s ease-in-out;
-  }
-
-  .container.sign-up-mode:before {
-    transform: translate(-50%, 100%);
-    bottom: 32%;
-    right: initial;
-  }
-
-  .container.sign-up-mode .left-panel .image,
-  .container.sign-up-mode .left-panel .content {
-    transform: translateY(-300px);
-  }
-
-  .container.sign-up-mode .right-panel .image,
-  .container.sign-up-mode .right-panel .content {
-    transform: translateY(0px);
-  }
-
-  .right-panel .image,
-  .right-panel .content {
-    transform: translateY(300px);
-  }
-
-  .container.sign-up-mode .signin-signup {
-    top: 5%;
-    transform: translate(-50%, 0);
-  }
-}
-
-@media (max-width: 570px) {
-  form {
-    padding: 0 1.5rem;
-  }
-
-  .image {
-    display: none;
-  }
-  .panel .content {
-    padding: 0.5rem 1rem;
-  }
-  .container {
-    padding: 1.5rem;
-  }
-
-  .container:before {
-    bottom: 72%;
-    left: 50%;
-  }
-
-  .container.sign-up-mode:before {
-    bottom: 28%;
-    left: 50%;
-  }
-}
-#messageEmail {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-top: 10px; /* Adjust as needed */
-}
-
-@media (min-width:600px){
-  .thankyoucontent{
-  max-width:1000px;
-  margin:0 auto;
-}
-  .wrapper-1{
-  height: initial;
-  max-width:620px;
-  margin:0 auto;
-  margin-top:50px;
-  }
-  
-  
-}
-	</style>
+	
 </head>
 
 <body>
@@ -468,7 +44,7 @@ form.sign-in-form {
 
           <h2 class="title otp_div"style="display:none;" >Verify Phone OTP</h2>
 
-          <span style="line-height: 3;"  class="" id="message"></span>
+          <span style="line-height: 1.5;"  class="" id="message"></span>
 
 
           <input type="hidden" id="uuid"  />
@@ -499,7 +75,7 @@ form.sign-in-form {
           </div>
           <h2 class="title otp_email_div" style="display:none;">Verify Email OTP</h2>
 
-          <span style="line-height: 3;"  class="" id="messageEmail"></span>
+          <span style="line-height: 1.5;"  class="" id="messageEmail"></span>
 
           <input type="hidden" id="uuidEmail"val=""  />
 
@@ -514,7 +90,7 @@ form.sign-in-form {
           <div class="otp-field mb-4">
           <input type="number" name="digit1" class="otp-digit-email"id="otp_1_email" />
           <input type="number" name="digit2" class="otp-digit-email"id="otp_2_email" disabled />
-          <input type="number" name="digit3" class="otp-digit-email" id="otp_3__email"disabled />
+          <input type="number" name="digit3" class="otp-digit-email" id="otp_3_email"disabled />
           <input type="number" name="digit4" class="otp-digit-email" id="otp_4_email"disabled />
           <input type="number" name="digit5" class="otp-digit-email"id="otp_5_email" disabled />
           <input type="number" name="digit6" class="otp-digit-email"id="otp_6_email" disabled />
@@ -628,13 +204,14 @@ form.sign-in-form {
 				</form>
 			</div>
 		</div>
-    <div class="thankyoucontent"id="thankyou_div" style="background: #F86F03;display:none" >
+    <div class="thankyoucontent"id="thankyou_div" style="background: #F86F03;display:none;  max-width: 500px;
+    margin: 0 150px;" >
     <div class="wrapper-1">
     <div class="wrapper-2">
        <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
      <h1>Thank you!</h1>
-      <p>for Your time</p> 
-    
+      <p> You have been  registered Successfully</p> 
+
     </div>
    
    
@@ -690,71 +267,7 @@ sign_in_btn.addEventListener("click", () => {
   container.classList.remove("sign-up-mode");
 });
 	</script>
-  <!-- <script>
-    //phn verification
-    $(document).ready(function(){
-      var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-      var timerInterval; 
-      $("#submitPhone").click(function() {
-  $("#message").show();
-
-  var captchaInput = $("#captchaInput").val();
-  var captchaInputImage = $("#captchaTable").text();
-  
-  // Check if the CAPTCHA input is empty or incorrect
-  if (captchaInput.trim() === '' || captchaInput !== captchaInputImage) {
-    $("#resultMessage").text("Incorrect Captcha. Please try again.");
-    return false; // Prevent form submission
-  }
-
-  // If CAPTCHA is correct, proceed with AJAX request
-  var country_code = $("#country_code").val();
-  var phone = $("#phone").val();
-  phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
-  var countdown = 60; // Seconds for the countdown
-  timerInterval = setInterval(function() {
-      $('#timer').text(countdown);
-      countdown--;
-      if (countdown < 0) {
-          clearInterval(timerInterval); // Stop the timer
-          $('#timer').text(''); // Clear the timer display
-          $('#time_left').hide(); // Clear the timer display
-          $('#resend_otp').removeClass('disabled'); // Enable the resend button
-      }
-  }, 1000); // Update the timer every second
-  
-  if (phone_number.length > 9) {
-    // Make AJAX request if everything is valid
-    $.ajax({
-      url: '/signup/otp/phone',
-      type: 'POST',
-      data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
-      dataType: 'JSON',
-      success: function (data) { 
-        // Handle success response
-        number = data.phone_number;
-        var masking_number = number.replace(/.(?=.{4})/g, 'X');
-        $("#uuid").val(data.id);
-        $('option:not(:selected)').attr('disabled', true);
-        $("#phone").prop("readonly", true);
-        $(".otp_div").show();
-        $(".phn_div").hide();
-        $("#phn_no").hide();
-        $("#message").html('Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
-      },
-      error: function (xhr, status, error) {
-        // Handle error response
-        $("#resultMessage").text("Error: " + xhr.responseText);
-      }
-    }); 
-  } else {
-    $("#resultMessage").text("Please enter a 10-digit Phone Number.");
-    return false; // Prevent form submission
-  }
-});
-
-    });    
-    </script> -->
+ 
 
     <script>
       
@@ -837,12 +350,7 @@ $(document).ready(function(){
             combinedOtp += $(this).val();
         });
         $("#combinedOtp").val(combinedOtp);
-        // Show the submit button if all OTP digits are filled
-        // if (combinedOtp.length === 6) {
-        //     $("#verifybtn").show();
-        // } else {
-        //     $("#verifybtn").hide();
-        // }
+
         console.log('Combined OTP:', combinedOtp); // Log combined OTP for debugging
     });
 
@@ -892,10 +400,11 @@ $(document).ready(function(){
             if (response && response.message) {
                 $("#message").html(response.message);
             } else {
-                $("#message").html('An error occurred while verifying the code.');
+                $("#message").html('An error occured during form submission.');
             }
         }
     }); 
+});
 });
 
     //email verification
@@ -907,12 +416,7 @@ $(document).ready(function(){
             combinedOtp += $(this).val();
         });
         $("#combinedOtpEmail").val(combinedOtp);
-        // Show the submit button if all OTP digits are filled
-        // if (combinedOtp.length === 6) {
-        //     $("#verifybtnEmail").show();
-        // } else {
-        //     $("#verifybtnEmail").hide();
-        // }
+
         console.log('Combined OTP:', combinedOtp); // Log combined OTP for debugging
     });
     $(document).ready(function(){
@@ -920,64 +424,66 @@ $(document).ready(function(){
     var timerInterval;
 
     $("#submitEmail").click(function() {
-        var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
+    var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
 
-        if(email) {
-            $("#messageEmail").show();
-            $("#message").hide();
-            $("#sign_up").hide();
-            var countdown = 60; // Seconds for the countdown
-            timerInterval = setInterval(function() {
-                $('#timer_email').text(countdown);
-                countdown--;
-                if (countdown < 0) {
-                    clearInterval(timerInterval); // Stop the timer
-                    $('#timer_email').text('');
-                    $('#time_left_email').hide(); // Clear the timer display
-                    $('#resend_otp_email').removeClass('disabled'); // Enable the resend button
-                }
-            }, 1000);
+    if(email) {
+        $("#messageEmail").show();
+        $("#message").hide();
+        $("#sign_up").hide();
+        var countdown = 60; // Seconds for the countdown
+        timerInterval = setInterval(function() {
+            $('#timer_email').text(countdown);
+            countdown--;
+            if (countdown < 0) {
+                clearInterval(timerInterval); // Stop the timer
+                $('#timer_email').text('');
+                $('#time_left_email').hide(); // Clear the timer display
+                $('#resend_otp_email').removeClass('disabled'); // Enable the resend button
+            }
+        }, 1000);
 
-            $.ajax({
-                url: '/otp/email',
-                type: 'POST',
-                data: {_token: CSRF_TOKEN, email: email},
-                dataType: 'JSON',
-                success: function (data) {
-                  console.log(data);
-                  
-                    $("#uuidEmail").val(data.id);
-                    $('option:not(:selected)').attr('disabled', true);
-                    $("#email").prop("readonly", true);
-                    if (data.status == 'Verified') {
-                      $(".otp_email_div").hide();
+        $.ajax({
+            url: '/otp/email',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, email: email},
+            dataType: 'JSON',
+            success: function (data) {
+                console.log(data);
+                $("#uuidEmail").val(data.id);
+                $('option:not(:selected)').attr('disabled', true);
+                $("#email").prop("readonly", true);
+                if (data.status == 'Verified') {
+                    $(".otp_email_div").hide();
                     $(".email_div").show();
-              
-                $("#messageEmail").html('Your email  is Already Verified');
-              } else {
-        
-
-                $(".otp_email_div").show();
+                    $("#messageEmail").html('Your email is Already Verified');
+                } else {
+                    $(".otp_email_div").show();
                     $(".email_div").hide();
-                $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email ');
-              }
-     
-
-                    setTimeout(function() {
-                        $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
-                    }, 3000);
+                    $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
                 }
-            });
-        } else {
-            $("#messageEmail").show();
-            $("#messageEmail").html('Please enter a valid email.');
-            setTimeout(function() {
-                $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
-            }, 3000);
 
-        }
-    });
+                setTimeout(function() {
+                    $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+                }, 3000);
+            },
+            error: function(xhr, status, error) {
+                // Handle error cases if needed
+                console.error(xhr.responseText);
+                $("#messageEmail").html('This email is already Verified.Please try with different email.');
+                setTimeout(function() {
+                    $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+                }, 3000);
+            }
+        });
+    } else {
+        $("#messageEmail").show();
+        $("#messageEmail").html('Please enter a valid email.');
+        setTimeout(function() {
+            $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+        }, 3000);
+    }
 });
+
    
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $("#verifybtnEmail").click(function() {
@@ -1131,7 +637,8 @@ $(document).ready(function(){
           },
           error: function(xhr, status, error){
             // Handle error response
-            alert('Error: ' + error);
+            $("#message").html('Email or Phone number already registred');
+
           }
         });
       });
@@ -1246,8 +753,9 @@ $(document).ready(function(){
               captcha();
             },
             error: function () {
+           
               $("#message").show();
-              $("#message").html('Error occurred during form submission.');
+              $("#message").html('Phone number already verified.Please try with differnt number');
               $('#message').delay(5000).fadeOut('slow');
               captcha();
             }
