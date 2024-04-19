@@ -64,13 +64,12 @@ class LoginController extends Controller
         if ($user) {
             // User exists, verify the password
             if (Hash::check($password, $user->password)) {
-                // Password is correct, log in the user
-                session()->flash('success', 'Login successful.');
-                return redirect('/');
+                // Password is correct, log in the user           
+                return response()->json(['message' => 'Login successful'], 200);
             } else {
                 // Incorrect password
-                session()->flash('error', 'Invalid username or password.');
-                return back();
+                return response()->json(['message' => 'Invalid username or password.'], 200);
+
             }
         } else {
             // User not found
