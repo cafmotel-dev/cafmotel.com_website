@@ -104,6 +104,16 @@ public function verifyCode(Request $request)
 
 public function otpEmail(Request $request)
 {
+        // Check if the phone number is already verified
+        $verified = EmailVerification::where('email', $request->email)
+        ->where('status', 4)
+        ->first();
+    
+    if ($verified) {
+    // Phone number already verified, show a message
+    return response()->json(['message' => 'Email already verified. Please try with a different email.'], 422);
+    }
+    
     $otp_value = mt_rand(100000, 999999);
     $email=$request->email;
     $uuid = Str::uuid()->toString();
@@ -202,9 +212,18 @@ public function createPassword(Request $request){
     
 }
 
-public function otpPhone(Request $request) {
+public function otpPhone(Request $request) 
+{
 
-      
+       // Check if the phone number is already verified
+    $verified = PhoneVerification::where('phone_number', $request->phone_number)
+    ->where('status', 4)
+    ->first();
+
+if ($verified) {
+// Phone number already verified, show a message
+return response()->json(['message' => 'Phone number already verified. Please try with a different number.'], 422);
+}
 
         //send sms using telnyx api
         $otp_value = mt_rand(100000, 999999);
@@ -264,5 +283,5 @@ public function otpPhone(Request $request) {
             $otp->saveOrFail();
             return response()->json($otp, 200);
         }
-    }
+}
 }
