@@ -166,7 +166,7 @@
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-              <p style="margin: 0;">See the Code below to confirm your email address. If you didn't create an account with <a href="https://cafmotel.com">Paste</a>, you can safely delete this email.</p>
+              <p style="margin: 0;">Your confirmation code is <b>{{ $otpValue }}</b>. Please Confirm your email address and get ready for a smooth and hassle-free experience at Cafmotel.</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -174,37 +174,36 @@
           <!-- start button -->
           <tr>
             <td align="left" bgcolor="#ffffff">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <!-- <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                   <td align="center" bgcolor="#ffffff" style="padding: 12px;">
                     <table border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td align="center" bgcolor="#1a82e2" style="border-radius: 6px;">
-                        {{ $otpValue }}
-                          <!-- <a href="https://www.blogdesire.com" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a> -->
+                          <a href="https://www.blogdesire.com" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">Do Something Sweet</a>
                         </td>
                       </tr>
                     </table>
                   </td>
                 </tr>
-              </table>
+              </table> -->
             </td>
           </tr>
           <!-- end button -->
 
           <!-- start copy -->
-          <tr>
+          <!-- <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
               <p style="margin: 0;">If that doesn't work, copy and paste the following link in your browser:</p>
               <p style="margin: 0;"><a href="https://cafmotel.com" target="_blank">https://cafmotel.com/sign-up</a></p>
             </td>
-          </tr>
+          </tr> -->
           <!-- end copy -->
 
           <!-- start copy -->
           <tr>
             <td align="left" bgcolor="#ffffff" style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px; border-bottom: 3px solid #d4dadf">
-              <p style="margin: 0;">Cheers,<br> Cafmotel</p>
+              <p style="margin: 0;">Thanks & Regards,<br> Cafmotel</p>
             </td>
           </tr>
           <!-- end copy -->
@@ -231,9 +230,9 @@
 
           <!-- start permission -->
           <tr>
-            <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
+            <!-- <td align="center" bgcolor="#e9ecef" style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
               <p style="margin: 0;">You received this email because we received a request for sign up for your account. If you didn't request signup you can safely delete this email.</p>
-            </td>
+            </td> -->
           </tr>
           <!-- end permission -->
 
