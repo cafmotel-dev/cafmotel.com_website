@@ -69,5 +69,20 @@ class HomeController extends Controller
         
     }
 
+    public function voice(){
+        return view('voice');
+        
+    }
+
+    public function messaging(){
+        return view('messaging');
+        
+    }
+
+    public function ai(){
+        return view('ai');
+        
+    }
+
     
 }

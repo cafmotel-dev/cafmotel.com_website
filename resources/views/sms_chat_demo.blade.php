@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-  <title>Sign in & Sign up Form</title>
+  <title>AI Demo | Cafmotel Technology</title>
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <link rel="stylesheet" href="{{ asset('/web/css/sms_chat_demo.css')}}" />
  
@@ -84,17 +84,17 @@
             </select>
           </div>
 
+           <div class="input-field phone_div">
+            <i class="fas fa-user"></i>
+            <input type="text" id="name"  placeholder="Name" />
+
+          </div>
           <div class="input-field phone_div">
             <i class="fas fa-phone"></i>
             <input type="text" id="phone" autocomplete="nope" autocomplete="off" placeholder="Phone Number" />
 
           </div>
 
-           <div class="input-field phone_div">
-            <i class="fas fa-user"></i>
-            <input type="text" id="name"  placeholder="Name" />
-
-          </div>
 
           <a id="captchaTable"
       class="flex justify-center social-icon phone_div" style="
@@ -171,27 +171,14 @@
     <div class="panels-container">
       <div class="panel left-panel">
           <div class="content">
-              <h3>Chat Demo ?</h3>
+              <h3>AI Demo ?</h3>
               <p>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-                  ex ratione. Aliquid!
+                  "Next-Level Messaging: AI-Powered SMS Enhancing Interaction and Productivity."
               </p>
           </div>
           <img  src="https://i.ibb.co/6HXL6q1/Privacy-policy-rafiki.png" class="image" alt="" />
       </div>
-      <div class="panel right-panel">
-          <div class="content">
-              <h3>One of us ?</h3>
-              <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-                  laboriosam ad deleniti.
-              </p>
-              <button class="btn transparent" id="sign-in-btn">
-                  Sign in
-              </button>
-          </div>
-          <img src="https://i.ibb.co/nP8H853/Mobile-login-rafiki.png"  class="image" alt="" />
-      </div>
+     
     </div>
   </div>
 

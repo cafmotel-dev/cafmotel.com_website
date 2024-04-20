@@ -69,7 +69,7 @@
                              <a href="#" class="nav-link">Products <i class="bx bx-chevron-down"></i></a>
                              <ul class="dropdown-menu">
                                  <li class="nav-item">
-                                     <a href="voice.php" class="nav-link">Voice<i class="bx bx-chevron-right"></i></a>
+                                     <a href="/voice" class="nav-link">Voice<i class="bx bx-chevron-right"></i></a>
                                      <ul class="dropdown-menu">
                                          <li class="nav-item">
                                              <a href="/cloud-call-center-solutions" class="nav-link">Cloud Contact
@@ -118,7 +118,7 @@
                                  </li>
 
                                  <li class="nav-item">
-                                     <a href="messaging.php" class="nav-link">Messaging <i
+                                     <a href="/messaging" class="nav-link">Messaging <i
                                              class="bx bx-chevron-right"></i></a>
                                      <ul class="dropdown-menu">
                                          <li class="nav-item">
@@ -135,7 +135,7 @@
                                      </ul>
                                  </li>
                                  <li class="nav-item">
-                                     <a href="ai.php" class="nav-link">AI <i class="bx bx-chevron-right"></i></a>
+                                     <a href="/ai" class="nav-link">AI <i class="bx bx-chevron-right"></i></a>
                                      <ul class="dropdown-menu">
 
 

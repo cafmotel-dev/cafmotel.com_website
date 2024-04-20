@@ -138,10 +138,17 @@ $("#submitPhone").click(function()
           var captchaInputImage = $("#captchaTable").text();
 
          
-        
+          if(!name) {
+    $("#message").html('Please enter your valid Name');
+    $('#message').delay(5000).fadeOut('slow');
+    $("#message").show();
+    return false;
+  }
 
 
+
         
+       else
           if(phone_number.length < 10)
         
           {
@@ -153,14 +160,8 @@ $("#submitPhone").click(function()
           return false;
           }
 
-           else
-            if(!name) {
-    $("#message").html('Please enter your valid Name');
-    $('#message').delay(5000).fadeOut('slow');
-    $("#message").show();
-    return false;
-  }
-
+           
+          
         else  
           if(!captchaInput)
           {

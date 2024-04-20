@@ -35,6 +35,10 @@ Route::get('/chatbot', [HomeController::class, 'chatBot']);
 Route::get('/sms-campaign', [HomeController::class, 'smsCampaign']);
 Route::get('/auto-dialer', [HomeController::class, 'autoDialer']);
 
+Route::get('/voice', [HomeController::class, 'voice']);
+Route::get('/ai', [HomeController::class, 'ai']);
+Route::get('/messaging', [HomeController::class, 'messaging']);
+
 Route::get('/sign-up', [SignupController::class, 'index'])->name('signup');
 Route::post('/store', [SignupController::class, 'store']);
 Route::get('/verify-code', [SignupController::class, 'verifyCode'])->name('verifyCode');
@@ -47,6 +51,7 @@ Route::post('signup/otp/phone', [SignupController::class, 'otpPhone'])->name('si
 Route::post('otp/email', [SignupController::class, 'otpEmail'])->name('otp-email');
 Route::post('/verifyCodeEmail', [SignupController::class, 'verifyCodeEmail']);
 Route::get('/sign-up/password', [SignupController::class, 'createPassword']);
+
 
 //sms ai work
 
