@@ -690,7 +690,7 @@ $(document).ready(function(){
 
       // Event listener for the Verify button
       verifyButton.addEventListener('click', function () {
-        verifyButton.disabled = true;
+        // verifyButton.disabled = true;
         const inputText = captchaInput.value.trim().toLowerCase();
         const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
         const phoneNumber = phoneNumberInput.value.replace(/[^a-zA-Z0-9]/g, '');
@@ -778,7 +778,7 @@ $(document).ready(function(){
               number = data.phone_number;
               var masking_number = number.replace(/.(?=.{4})/g, 'X');
               $("#uuid").val(data.id);
-              $('option:not(:selected)').attr('disabled', true);
+              //$('option:not(:selected)').attr('disabled', true);
               $("#phone").prop("readonly", false);
               $("#uuid").prop("readonly", true);
               if (data.status == 'Verified') {
