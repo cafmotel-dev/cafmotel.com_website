@@ -101,8 +101,8 @@
                     <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
 
                     <p class="resend text-muted mb-0 otp_email_div" id="otp_email_div" style="display:none;">
-              <span id="time_left_email" >Time Left : <span id="timer_email"></span></span>
-
+                      
+                    <span id="time_left_email" >Time Left : <span id="timer_email"></span></span>
               Didn't receive code? <a type="button"id="resend_otp_email" class="disabled" href="javascript:0">Resend</a>
             </p>
           </div>
@@ -366,6 +366,13 @@ $(document).ready(function(){
         $("#message").html('Please enter the one-time password.');
         return false; // Prevent further execution of the function
     }
+    if (otp.length !== 6) {
+        // If OTP length is not 6, show an error message
+        $("#message").html('Please enter a 6-digit one-time password.');
+        $(".otp-digit").val('');
+
+        return false; // Prevent further execution of the function
+    }
     $.ajax({
         url: '/verifyCode',
         type: 'POST',
@@ -450,21 +457,29 @@ $(document).ready(function(){
             success: function (data) {
                 console.log(data);
                 $("#uuidEmail").val(data.id);
-                $('option:not(:selected)').attr('disabled', true);
-                $("#email").prop("readonly", true);
+                $("#email").prop("readonly", false);
+
                 if (data.status == 'Verified') {
                     $(".otp_email_div").hide();
                     $(".email_div").show();
+                    
                     $("#messageEmail").html('Your email is Already Verified');
+                    $("#email").html('');
+                    
                 } else {
+                  $("#messageEmail").html('');
+
+                  $("#email").hide();
+                  $(".email_div").hide();
                     $(".otp_email_div").show();
-                    $(".email_div").hide();
+
                     $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
                 }
 
                 setTimeout(function() {
                     $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
                 }, 3000);
+                
             },
             error: function(xhr, status, error) {
                 // Handle error cases if needed
@@ -614,13 +629,22 @@ $(document).ready(function(){
         $("#message").html('');
 
         $("#message").show();
-
+   
         var name = $('input[name="name"]').val();
         var password = $("#password").val();
         var email = $("#email").val();
         var country_code = $("#country_code").val();
         var phone_number = $("#phone").val();
         phone  = phone_number.replace(/[^a-zA-Z0-9]/g, '');
+             if (name.trim() === '') {
+            $("#message").html('Please enter your name.');
+            return false; // Prevent further execution
+        }
+
+        if (password.trim() === '') {
+            $("#message").html('Please enter your password.');
+            return false; // Prevent further execution
+        }
         // AJAX POST request
         $.ajax({
           url: 'store', 
@@ -637,7 +661,7 @@ $(document).ready(function(){
           },
           error: function(xhr, status, error){
             // Handle error response
-            $("#message").html('Email or Phone number already registred');
+            $("#message").html('Email or phone number already registred.');
 
           }
         });
@@ -654,7 +678,7 @@ $(document).ready(function(){
       const refreshButton = document.getElementById('refreshButton');
       const verifyButton = document.getElementById('submitPhone');
       const resultMessage = document.getElementById('message');
-
+      const phoneNumberInput = document.getElementById('phone'); 
       // Generate the initial Captcha
       generateCaptchaTable();
 
@@ -666,9 +690,31 @@ $(document).ready(function(){
 
       // Event listener for the Verify button
       verifyButton.addEventListener('click', function () {
+        verifyButton.disabled = true;
         const inputText = captchaInput.value.trim().toLowerCase();
         const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
+        const phoneNumber = phoneNumberInput.value.replace(/[^a-zA-Z0-9]/g, '');
+            // Check if phone number is empty or less than 10 digits
+    if (phoneNumber === '') {
+      resultMessage.textContent = 'Please enter  Phone Number.';
+      resultMessage.classList.remove('text-green-500');
+      resultMessage.classList.add('text-red-500');
+      return; // Stop further execution
+    }
+    else if( phoneNumber.length < 10){
+      resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
+      resultMessage.classList.remove('text-green-500');
+      resultMessage.classList.add('text-red-500');
+      return; // Stop further execution
+    }
 
+  // Check if Captcha is empty
+  if (inputText === '') {
+      resultMessage.textContent = 'Please enter the Captcha.';
+      resultMessage.classList.remove('text-green-500');
+      resultMessage.classList.add('text-red-500');
+      return; // Stop further execution
+    }
         // Verify the entered Captcha
         if (inputText === captchaText) {
           resultMessage.textContent = 'Captcha verified successfully.';
@@ -733,14 +779,15 @@ $(document).ready(function(){
               var masking_number = number.replace(/.(?=.{4})/g, 'X');
               $("#uuid").val(data.id);
               $('option:not(:selected)').attr('disabled', true);
-              $("#phone").prop("readonly", true);
+              $("#phone").prop("readonly", false);
               $("#uuid").prop("readonly", true);
               if (data.status == 'Verified') {
                 $(".otp_div").hide();
-                $(".phn_div").hide();
-                $(".email_div").show();
+                $(".phn_div").show();
+                $(".email_div").hide();
                 $("#message").html('Your number ' + masking_number + ' is Already Verified');
               } else {
+
                 $(".otp_div").show();
                 $(".phn_div").hide();
                 $("#phn_no").hide();
@@ -755,7 +802,7 @@ $(document).ready(function(){
             error: function () {
            
               $("#message").show();
-              $("#message").html('Phone number already verified.Please try with differnt number');
+              $("#message").html('Phone number already verified.Please try with differnt numbers');
               $('#message').delay(5000).fadeOut('slow');
               captcha();
             }
