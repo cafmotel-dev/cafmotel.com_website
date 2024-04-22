@@ -356,7 +356,22 @@ $(document).ready(function(){
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $("#verifybtn").click(function() {
     $("#message").show();
+    $(".otp-digit").val('');
+            $("#otp_1").val('');
+         $("#otp_2").val('');
+              $('#otp_2').attr('disabled', true);
 
+         $("#otp_3").val('');
+              $('#otp_3').attr('disabled', true);
+
+         $("#otp_4").val('');
+              $('#otp_4').attr('disabled', true);
+
+         $("#otp_5").val('');
+              $('#otp_5').attr('disabled', true);
+
+         $("#otp_6").val('');
+              $('#otp_6').attr('disabled', true);
     var otp = $("#combinedOtp").val();
     console.log('OTP:', otp); // Log OTP value for debugging
     var uuid = $("#uuid").val();
@@ -378,21 +393,7 @@ $(document).ready(function(){
         data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
         dataType: 'JSON',
         success: function (data) { 
-          $("#otp_1").val('');
-         $("#otp_2").val('');
-              $('#otp_2').attr('disabled', true);
-
-         $("#otp_3").val('');
-              $('#otp_3').attr('disabled', true);
-
-         $("#otp_4").val('');
-              $('#otp_4').attr('disabled', true);
-
-         $("#otp_5").val('');
-              $('#otp_5').attr('disabled', true);
-
-         $("#otp_6").val('');
-              $('#otp_6').attr('disabled', true);
+        
             $("#message").html('Your number has been verified successfully.Please enter your email for further process.');
 
             $(".otp_div").hide();
@@ -404,7 +405,7 @@ $(document).ready(function(){
         error: function (xhr, status, error) {
             // Handle error cases if needed
             $(".otp-digit").val('');
-
+           
             var response = xhr.responseJSON;
             if (response && response.message) {
                 $("#message").html(response.message);
@@ -485,39 +486,13 @@ $(document).ready(function(){
       } else {
         $("#messageEmail").html('Please enter a valid email.');
       }
-      ('#email').hide();
-      // Hide the submit button and input field instantly after submission
-      $("#email, #submitEmail").prop("disabled", true).hide();
+
     });
 
    
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $("#verifybtnEmail").click(function() {
-     
-        $("#messageEmail").show();
-        $("#messageEmail").html('');
-
-        var otp = $("#combinedOtpEmail").val();
-        console.log('OTP:', otp); // Log OTP value for debugging
-        var uuid = $("#uuidEmail").val();
-        if (!otp.trim()) {
-        // If OTP is empty or only whitespace characters, show an error message
-        $("#messageEmail").html('Please enter the one-time password.');
-        $("#messageEmail").html('');
-
-        return false; // Prevent further execution of the function
-    }
-        $.ajax({
-            url: '/verifyCodeEmail',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
-            dataType: 'JSON',
-            success: function (data) { 
-                $("#messageEmail").html('Your Email has been verified successfully.Please enter your name amd password for complete the registration process.');
-                $(".password_div").show();
-
-                // $("#message").html('Please see your email for activation link.');
-                $("#otp_1_email").val('');
+      $("#otp_1_email").val('');
                   $("#otp_2_email").val('');
                         $('#otp_2_email').attr('disabled', true);
 
@@ -532,6 +507,42 @@ $(document).ready(function(){
 
                   $("#otp_6_email").val('');
                         $('#otp_6_email').attr('disabled', true);
+        $("#messageEmail").show();
+        $("#messageEmail").html('');
+
+        var otp = $("#combinedOtpEmail").val();
+        console.log('OTP:', otp); // Log OTP value for debugging
+        var uuid = $("#uuidEmail").val();
+        if (!otp.trim()) {
+        // If OTP is empty or only whitespace characters, show an error message
+        $("#messageEmail").html('Please enter the one-time password.');
+        $("#messageEmail").html('');
+
+        return false; // Prevent further execution of the function
+    }
+    if (!otp.trim()) {
+        // If OTP is empty or only whitespace characters, show an error message
+        $("#message").html('Please enter the one-time password.');
+        return false; // Prevent further execution of the function
+    }
+    if (otp.length !== 6) {
+        // If OTP length is not 6, show an error message
+        $("#message").html('Please enter a 6-digit one-time password.');
+        $(".otp-digit").val('');
+
+        return false; // Prevent further execution of the function
+    }
+        $.ajax({
+            url: '/verifyCodeEmail',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, otp: otp, uuid: uuid},
+            dataType: 'JSON',
+            success: function (data) { 
+                $("#messageEmail").html('Your Email has been verified successfully.Please enter your name amd password for complete the registration process.');
+                $(".password_div").show();
+
+                // $("#message").html('Please see your email for activation link.');
+               
 
                 $(".otp_email_div").hide();
 
@@ -596,7 +607,6 @@ $(document).ready(function(){
         $("#messageEmail").html('OTP is resent. Please Enter the 6-digit OTP Code that was sent to your email');
         $("#otp_email_div").hide();
 
-        $("div_email").hide();
 
         $("time_left_email").hide();
 
