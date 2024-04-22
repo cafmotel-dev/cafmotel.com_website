@@ -66,7 +66,7 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="cloud-call-center-solutions.php">Cloud Contact</a></h3>
+                        <h3><a href="cloud-call-center-solutions">Cloud Contact</a></h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         <a href="/cloud-call-center-solutions" class="default-btn">Learn More</a>
                     </div>
@@ -81,7 +81,7 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="virtual-number.php">Virtual Number</a></h3>
+                        <h3><a href="virtual-number">Virtual Number</a></h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         <a href="/virtual-number" class="default-btn">Learn More</a>
                     </div>
@@ -96,7 +96,7 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="ivr-solutions.php">IVR Solution</a></h3>
+                        <h3><a href="ivr-solutions">IVR Solution</a></h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         <a href="/ivr-solutions" class="default-btn">Learn More</a>
                     </div>
@@ -111,7 +111,7 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-two"></div>
                             </div>
                         </div>
-                        <h3><a href="number-masking.php">Number Masking</a></h3>
+                        <h3><a href="number-masking">Number Masking</a></h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         <a href="/number-masking" class="default-btn">Learn More</a>
                     </div>

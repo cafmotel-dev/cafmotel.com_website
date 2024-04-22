@@ -233,7 +233,7 @@
 
 
                     </p>
-                    <a href="contact.php" class="default-btn">Get Started</a>
+                    <a href="contact-us" class="default-btn">Get Started</a>
                 </div>
             </div>
         </div>
@@ -300,8 +300,8 @@
 
                     <ul class="footer-links-list">
                         <li><a href="/">Home</a></li>
-                        <li><a href="reseller.php">Reseller Program</a></li>
-                        <li><a href="contact.php">Contact Us</a></li>
+                        <li><a href="reseller-program">Reseller Program</a></li>
+                        <li><a href="contact-us">Contact Us</a></li>
                     </ul>
                 </div>
             </div>
@@ -311,25 +311,25 @@
 
                     <ul class="footer-links-list">
                         <li>
-                            <a href="cloud-call-center-solutions.php">Cloud Contact Centre</a>
+                            <a href="cloud-call-center-solutions">Cloud Contact Centre</a>
                         </li>
 
                         <li>
-                            <a href="virtual-number.php">Virtual Number</a>
+                            <a href="virtual-number">Virtual Number</a>
                         </li>
 
                         <li>
-                            <a href="ivr-solutions.php">IVR Solution</a>
+                            <a href="ivr-solutions">IVR Solution</a>
                         </li>
                         <li>
-                            <a href="number-masking.php">Number Masking</a>
+                            <a href="number-masking">Number Masking</a>
                         </li>
                         <li>
-                            <a href="lead-management.php">Lead Management</a>
+                            <a href="lead-management">Lead Management</a>
                         </li>
 
                         <li>
-                            <a href="toll-free-number.php">Toll Free Number</a>
+                            <a href="toll-free-number">Toll Free Number</a>
                         </li>
                     </ul>
                 </div>
@@ -342,13 +342,13 @@
                     <ul class="footer-links-list">
 
                         <li>
-                            <a href="auto-dialer.php">Auto Dialer</a>
+                            <a href="auto-dialer">Auto Dialer</a>
                         </li>
                         <li>
-                            <a href="click-to-call.php">Click to Call</a>
+                            <a href="click-to-call">Click to Call</a>
                         </li>
                         <li>
-                            <a href="sms-campaign.php">SMS Campaign</a>
+                            <a href="sms-campaign">SMS Campaign</a>
                         </li>
 
 
@@ -357,7 +357,7 @@
                         </li>
 
                         <li>
-                            <a href="chatBot.php">ChatBot</a>
+                            <a href="chatbot">ChatBot</a>
                         </li>
                     </ul>
                 </div>
