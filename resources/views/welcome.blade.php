@@ -23,7 +23,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact.php" class="default-btn">Get Started</a>
+                                        <a href="contact-us" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact.php" class="default-btn">Get Started</a>
+                                        <a href="contact-us" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact.php" class="default-btn">Get Started</a>
+                                        <a href="contact-us" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
@@ -141,12 +141,12 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-one"></div>
                             </div>
                         </div>
-                        <h3><a href="voice.php">Voice</a></h3>
+                        <h3><a href="voice">Voice</a></h3>
                         <p>
                             Optimize outreach and streamline processes with advanced dialer solutions for enhanced
                             efficiency and productivity.
                         </p>
-                        <a href="voice.php" class="default-btn">Learn More</a>
+                        <a href="voice" class="default-btn">Learn More</a>
                     </div>
                 </div>
 
@@ -158,12 +158,12 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-one"></div>
                             </div>
                         </div>
-                        <h3><a href="messaging.php">Messaging</a></h3>
+                        <h3><a href="messaging">Messaging</a></h3>
                         <p>
                             Automate and personalize messaging efficiently on a large scale for a more tailored and
                             effective communication approach.
                         </p>
-                        <a href="messaging.php" class="default-btn">Learn More</a>
+                        <a href="messaging" class="default-btn">Learn More</a>
                     </div>
                 </div>
 
@@ -175,12 +175,12 @@ Solutions, Outbound Calling Services.')
                                 <div class="circle-one"></div>
                             </div>
                         </div>
-                        <h3><a href="ai.php">Artificial Intelligence</a></h3>
+                        <h3><a href="ai">Artificial Intelligence</a></h3>
                         <p>
                             Enhance strategies with AI platforms for smarter, more effective communication
                             empowerment and engagement.
                         </p>
-                        <a href="ai.php" class="default-btn">Learn More</a>
+                        <a href="ai" class="default-btn">Learn More</a>
                     </div>
                 </div>
             </div>

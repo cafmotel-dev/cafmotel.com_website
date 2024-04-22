@@ -30,7 +30,6 @@ Route::get('/toll-free-number', [HomeController::class, 'tollFreeNumber']);
 
 
 Route::get('/reseller-program', [HomeController::class, 'resellerProgram']);
-Route::get('/contact-us', [HomeController::class, 'contactUs']);
 Route::get('/chatbot', [HomeController::class, 'chatBot']);
 Route::get('/sms-campaign', [HomeController::class, 'smsCampaign']);
 Route::get('/auto-dialer', [HomeController::class, 'autoDialer']);
