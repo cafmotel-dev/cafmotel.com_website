@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Contact;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Mailable;
 class HomeController extends Controller
 {
     public function virtualNumber(){
@@ -83,6 +85,29 @@ class HomeController extends Controller
         return view('ai');
         
     }
-
+    public function saveContact(Request $request)
+{
+    // Create a new Contact instance and fill it with the request data
+    $contact = new Contact();
+    $contact->name = $request->name;
+    $contact->email = $request->email;
+    $contact->phone = $request->phone;
+    $contact->message = $request->message;
     
+    // Save the contact record to the database
+    $contact->save();
+    
+    // Send an email notification
+    Mail::send([], [], function ($message) use ($contact) {
+        $message->to('shikhachhabra1234@gmail.com')
+                ->subject('New Contact Form Submission')
+                ->setBody("Name: {$contact->name}\nEmail: {$contact->email}\nPhone: {$contact->phone}\nMessage: {$contact->message}");
+    });
+    
+    // Optionally, you can return a response or redirect the user
+    return response()->json(['message' => 'Contact information saved successfully'], 200);
 }
+
+        }
+    
+

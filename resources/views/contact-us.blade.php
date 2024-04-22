@@ -6,9 +6,20 @@ Solutions, Outbound Calling Services.')
 
 
 @section('content')
+<style>
+    .phn_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px; /* Adjust as needed */
+}
 
-       
 
+
+    </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Start Page Title Area -->
     <section class="page-title-area">
         <div class="container">
@@ -105,6 +116,7 @@ Solutions, Outbound Calling Services.')
                 <h2>Ready to Get Started?<span class="overlay"></span></h2>
                 <p>Your email address will not be published. Required fields are marked *</p>
             </div>
+            <div id="msg" class="h3 text-center"></div>
 
             <div class="row">
                 <div class="col-lg-6 col-md-12">
@@ -116,7 +128,7 @@ Solutions, Outbound Calling Services.')
                 <div class="col-lg-6 col-md-12">
                    
                     <div class="contact-form">
-                        <form method="post" role="form">
+                        <form  role="form">
                             <div class="row">
                                 <div class="col-lg-12 col-md-6">
                                     <div class="form-group">
@@ -151,9 +163,46 @@ Solutions, Outbound Calling Services.')
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
+                                <!-- <div class="form-group">
+                            <label for="captcha">CAPTCHA:</label>
+                            <input type="text" class="form-control" id="captcha" name="captcha" required
+                                placeholder="Enter the CAPTCHA">
+                            <img src="{{ captcha_src() }}" alt="CAPTCHA" onclick="refreshCaptcha()">
+                            <button type="button" class="btn btn-link" onclick="refreshCaptcha()">Refresh CAPTCHA</button>
+                        </div> -->
+                        <div class="form-group text-center">
+  
+
+    <div class="col-lg-12 col-md-12">
+    <div class="form-group d-flex align-items-center">
+    <a id="captchaTable"
+        class="flex justify-center text-white social-icon phn_div" style="
+        font-size: 20px;
+        height: 25px;
+        font-style: oblique;
+        border: none;
+        margin-right:10px;
+        background: #F86F03;
+        border-radius: 37px; padding: 16px;
+       
+        ">
+    </a>
+        <button id="refreshButton" class="bg-blue-500 text-black rounded-md focus:outline-none ml-2"
+                style=" border: none; border-radius: 37px; padding: 6px;
+                color: black; cursor: pointer; margin-right:10px;">
+         <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+        <input type="text" class="form-control" id="captchaInput" required
+               data-error="Please enter captcha" placeholder="Enter Captcha">
+         
+    </div>
+    <div class="help-block with-errors"></div>
+</div>
+
+
 
                                 <div class="col-lg-12 col-md-12">
-                                    <button type="submit" name="submit" class="default-btn">Send Message</button>
+                                    <button type="submit" name="submit"id="submit" class="default-btn">Send Message</button>
                                     <div id="msgSubmit" class="h3 text-center hidden"></div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -201,8 +250,117 @@ Solutions, Outbound Calling Services.')
         </div>
     </div>
     <!-- End Map Area -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/imask"></script>
+  <script>
+    var phoneInput = document.getElementById('phone_number');
+    var phoneMask = new IMask(phoneInput, {
+      mask: '(000) 000-0000'
+    }); 
+</script>
+<script>
+captcha(); // Call the captcha function on page load
 
+function captcha() {
+    const captchaTable = document.getElementById('captchaTable');
+    const captchaInput = document.getElementById('captchaInput');
+    const refreshButton = document.getElementById('refreshButton');
+    const verifyButton = document.getElementById('submit');
+    const resultMessage = document.getElementById('msg');
 
+    // Generate the initial Captcha
+    generateCaptchaTable();
+
+    // Event listener for the Refresh button
+    refreshButton.addEventListener('click', function () {
+        generateCaptchaTable();
+        resultMessage.textContent = '';
+    });
+
+    // Event listener for the Verify button
+    verifyButton.addEventListener('click', function () {
+        const inputText = captchaInput.value.trim().toLowerCase();
+        const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
+        if (inputText === '') {
+            resultMessage.textContent = 'Please enter the CAPTCHA.';
+            resultMessage.classList.remove('text-green-500', 'text-red-500');
+            return; // Exit the function if CAPTCHA input is empty
+        }
+        // Verify the entered Captcha
+        if (inputText === captchaText) {
+            // If CAPTCHA is correct, submit the form
+            $('form').submit();
+        } else {
+            resultMessage.textContent = 'Incorrect Captcha. Please try again.';
+            resultMessage.classList.remove('text-green-500');
+            resultMessage.classList.add('text-red-500');
+        }
+
+        // Clear the input field and regenerate the Captcha
+        captchaInput.value = '';
+        generateCaptchaTable();
+    });
+
+    // Function to generate a random string for the Captcha
+    function generateRandomString(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    // Function to generate the Captcha table
+    function generateCaptchaTable() {
+        const captchaText = generateRandomString(6);
+        captchaTable.dataset.captcha = captchaText;
+        captchaTable.innerHTML = '';
+        for (let i = 0; i < captchaText.length; i++) {
+            const cell = document.createElement('div');
+            cell.textContent = captchaText.charAt(i);
+            cell.classList.add();
+            captchaTable.appendChild(cell);
+        }
+    }
+}
+
+$(document).ready(function () {
+    // Prevent the default form submission
+    $('form').submit(function (e) {
+        e.preventDefault();
+
+        var formData = $(this).serialize(); // Serialize form data
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var url = '/save-contact-us'; // Replace 'your-endpoint-url' with your actual endpoint URL
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
+            },
+            success: function (response) {
+                // Handle success response
+                $("#msg").html('Thank you for contacting us. We will reach you shortly');
+                console.log(response);
+                $("#name").val('');
+                $("#phone_number").val('');
+                $("#email").val('');
+                $("#message").val('');
+
+                // Display success message or take appropriate action
+            },
+         
+        });
+    });
+});
+
+    </script>
 @endsection
 
 

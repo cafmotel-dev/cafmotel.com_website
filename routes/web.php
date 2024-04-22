@@ -34,7 +34,8 @@ Route::get('/contact-us', [HomeController::class, 'contactUs']);
 Route::get('/chatbot', [HomeController::class, 'chatBot']);
 Route::get('/sms-campaign', [HomeController::class, 'smsCampaign']);
 Route::get('/auto-dialer', [HomeController::class, 'autoDialer']);
-
+Route::get('/contact-us', [HomeController::class, 'contactUs']);
+Route::post('/save-contact-us', [HomeController::class, 'saveContact']);
 Route::get('/voice', [HomeController::class, 'voice']);
 Route::get('/ai', [HomeController::class, 'ai']);
 Route::get('/messaging', [HomeController::class, 'messaging']);
