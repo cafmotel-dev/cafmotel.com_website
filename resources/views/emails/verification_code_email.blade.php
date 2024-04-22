@@ -115,7 +115,7 @@
           <tr>
             <td align="center" valign="top" style="padding: 36px 24px;">
               <a href="https://www.cafmotel.com" target="_blank" style="display: inline-block;">
-                <img src="https://tse3.mm.bing.net/th?id=OIP.clZ7dGf6vY_bbDmfAayg-gAAAA&pid=Api&P=0&h=180" alt="Logo" border="0" width="48" style="display: block; width: 70px; max-width: 100px; min-width: 100px;">
+               
               </a>
             </td>
           </tr>
@@ -132,6 +132,7 @@
     <!-- start hero -->
     <tr>
       <td align="center" bgcolor="#e9ecef">
+     
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
         <tr>
@@ -139,8 +140,10 @@
         <![endif]-->
         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
           <tr>
-            <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
-              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">Confirm Your Email Address</h1>
+      
+            <td align="center" bgcolor="#ffffff" style="padding: 36px 24px 0; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; border-top: 3px solid #d4dadf;">
+                  <img src="https://tse3.mm.bing.net/th?id=OIP.clZ7dGf6vY_bbDmfAayg-gAAAA&pid=Api&P=0&h=180" alt="Logo" border="0" width="48" style="display: block; width: 70px; max-width: 100px; min-width: 100px;">
+              <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;text-align:left;">Confirm Your Email Address</h1>
             </td>
           </tr>
         </table>

@@ -102,7 +102,7 @@
 
                     <p class="resend text-muted mb-0 otp_email_div" id="otp_email_div" style="display:none;">
                       
-                    <span id="time_left_email" >Time Left : <span id="timer_email"></span></span>
+               <span id="time_left_email" >Time Left : <span id="timer_email"></span></span>
               Didn't receive code? <a type="button"id="resend_otp_email" class="disabled" href="javascript:0">Resend</a>
             </p>
           </div>
@@ -172,7 +172,6 @@
            </div>
                 <input type="button" value="Submit" id="submitRegister" class="btn solid password_div" style="display:none;" />
 
-                <!-- <input type="button" value="Submit" id="submitEmail" class="btn solid email_div" style="display:none;" /> -->
 				
           <input type="button" value="Submit" id="submitPhone" class="btn solid phn_div" />
 
@@ -395,9 +394,12 @@ $(document).ready(function(){
          $("#otp_6").val('');
               $('#otp_6').attr('disabled', true);
             $("#message").html('Your number has been verified successfully.Please enter your email for further process.');
+
             $(".otp_div").hide();
             $(".email_div").show();
-          
+            setTimeout(function() {
+                $("#message").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+            }, 3000);
         },
         error: function (xhr, status, error) {
             // Handle error cases if needed
@@ -430,74 +432,63 @@ $(document).ready(function(){
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var timerInterval;
 
+    $(document).ready(function(){
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+    var timerInterval;
+
     $("#submitEmail").click(function() {
-    var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
+      var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
 
-    if(email) {
-        $("#messageEmail").show();
-        $("#message").hide();
-        $("#sign_up").hide();
-        var countdown = 60; // Seconds for the countdown
-        timerInterval = setInterval(function() {
-            $('#timer_email').text(countdown);
-            countdown--;
-            if (countdown < 0) {
-                clearInterval(timerInterval); // Stop the timer
-                $('#timer_email').text('');
-                $('#time_left_email').hide(); // Clear the timer display
-                $('#resend_otp_email').removeClass('disabled'); // Enable the resend button
-            }
-        }, 1000);
-
+      if(email) {
         $.ajax({
-            url: '/otp/email',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, email: email},
-            dataType: 'JSON',
-            success: function (data) {
-                console.log(data);
-                $("#uuidEmail").val(data.id);
-                $("#email").prop("readonly", false);
+          url: '/otp/email',
+          type: 'POST',
+          data: {_token: CSRF_TOKEN, email: email},
+          dataType: 'JSON',
+          success: function (data) {
+            console.log(data);
+            $("#uuidEmail").val(data.id);
+            $("#email").prop("readonly", false);
 
-                if (data.status == 'Verified') {
-                    $(".otp_email_div").hide();
-                    $(".email_div").show();
-                    
-                    $("#messageEmail").html('Your email is Already Verified');
-                    $("#email").html('');
-                    
-                } else {
-                  $("#messageEmail").html('');
-
-                  $("#email").hide();
-                  $(".email_div").hide();
-                    $(".otp_email_div").show();
-
-                    $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
-                }
-
-                setTimeout(function() {
-                    $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
-                }, 3000);
-                
-            },
-            error: function(xhr, status, error) {
-                // Handle error cases if needed
-                console.error(xhr.responseText);
-                $("#messageEmail").html('This email is already Verified.Please try with different email.');
-                setTimeout(function() {
-                    $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
-                }, 3000);
+            if (data.status == 'Verified') {
+              $(".otp_email_div").hide();
+              $(".email_div").show();
+              $("#messageEmail").html('Your email is Already Verified');
+            } else {
+              $(".otp_email_div").show();
+              $(".email_div").hide();
+              $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
             }
+
+            $("#messageEmail").fadeIn(1000, function() {
+              // Start the timer only if the email is not verified
+              if (data.status != 'Verified') {
+                var countdown = 60; // Seconds for the countdown
+                timerInterval = setInterval(function() {
+                  $('#timer_email').text(countdown);
+                  countdown--;
+                  if (countdown < 0) {
+                    clearInterval(timerInterval); // Stop the timer
+                    $('#timer_email').text('');
+                    $('#time_left_email').hide(); // Hide the timer display
+                    $('#resend_otp_email').removeClass('disabled'); // Enable the resend button
+                  }
+                }, 1000);
+              }
+            });
+          },
+          error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            $("#messageEmail").html('This email is already Verified. Please try with a different email.');
+          }
         });
-    } else {
-        $("#messageEmail").show();
+      } else {
         $("#messageEmail").html('Please enter a valid email.');
-        setTimeout(function() {
-            $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
-        }, 3000);
-    }
-});
+      }
+      ('#email').hide();
+      // Hide the submit button and input field instantly after submission
+      $("#email, #submitEmail").prop("disabled", true).hide();
+    });
 
    
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -565,7 +556,7 @@ $(document).ready(function(){
         }); 
     });
 });
-
+    });
     </script> 
    
      <script>
@@ -603,6 +594,13 @@ $(document).ready(function(){
         $(".otp_email_div").show();
         $(".email_div").hide();
         $("#messageEmail").html('OTP is resent. Please Enter the 6-digit OTP Code that was sent to your email');
+        $("#otp_email_div").hide();
+
+        $("div_email").hide();
+
+        $("time_left_email").hide();
+
+        
         setTimeout(function() {
           $("#messageEmail").fadeOut(1000);
         }, 3000);
@@ -645,6 +643,18 @@ $(document).ready(function(){
             $("#message").html('Please enter your password.');
             return false; // Prevent further execution
         }
+         // Validate name length
+        if (name.trim().length < 3) {
+            $("#message").html('Name should be at least 3 characters long.');
+            return false; // Prevent further execution
+        }
+
+        // Validate password length and complexity
+        if (password.trim().length < 6 ||
+            !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(password)) {
+            $("#message").html('Password should be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
+            return false; // Prevent further execution
+        }
         // AJAX POST request
         $.ajax({
           url: 'store', 
@@ -670,167 +680,165 @@ $(document).ready(function(){
   </script>
 <script>
 
-    captcha();
+captcha();
 
-    function captcha() {
-      const captchaTable = document.getElementById('captchaTable');
-      const captchaInput = document.getElementById('captchaInput');
-      const refreshButton = document.getElementById('refreshButton');
-      const verifyButton = document.getElementById('submitPhone');
-      const resultMessage = document.getElementById('message');
-      const phoneNumberInput = document.getElementById('phone'); 
-      // Generate the initial Captcha
-      generateCaptchaTable();
+function captcha() {
+  const captchaTable = document.getElementById('captchaTable');
+  const captchaInput = document.getElementById('captchaInput');
+  const refreshButton = document.getElementById('refreshButton');
+  const verifyButton = document.getElementById('submitPhone');
+  const resultMessage = document.getElementById('message');
+  const phoneNumberInput = document.getElementById('phone'); 
+  // Generate the initial Captcha
+  generateCaptchaTable();
 
-      // Event listener for the Refresh button
-      refreshButton.addEventListener('click', function () {
-        generateCaptchaTable();
-        resultMessage.textContent = '';
-      });
+  // Event listener for the Refresh button
+  refreshButton.addEventListener('click', function () {
+    generateCaptchaTable();
+    resultMessage.textContent = '';
+  });
 
-      // Event listener for the Verify button
-      verifyButton.addEventListener('click', function () {
-        // verifyButton.disabled = true;
-        const inputText = captchaInput.value.trim().toLowerCase();
-        const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
-        const phoneNumber = phoneNumberInput.value.replace(/[^a-zA-Z0-9]/g, '');
-            // Check if phone number is empty or less than 10 digits
+  // Event listener for the Verify button
+  verifyButton.addEventListener('click', function () {
+    // verifyButton.disabled = true;
+    const inputText = captchaInput.value.trim().toLowerCase();
+    const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
+    const phoneNumber = phoneNumberInput.value.replace(/[^a-zA-Z0-9]/g, '');
+    
+    // Check if phone number is empty or less than 10 digits
     if (phoneNumber === '') {
-      resultMessage.textContent = 'Please enter  Phone Number.';
+      resultMessage.textContent = 'Please enter a Phone Number.';
       resultMessage.classList.remove('text-green-500');
       resultMessage.classList.add('text-red-500');
       return; // Stop further execution
-    }
-    else if( phoneNumber.length < 10){
+    } else if (phoneNumber.length < 10) {
       resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
       resultMessage.classList.remove('text-green-500');
       resultMessage.classList.add('text-red-500');
       return; // Stop further execution
     }
 
-  // Check if Captcha is empty
-  if (inputText === '') {
+    // Check if Captcha is empty
+    if (inputText === '') {
       resultMessage.textContent = 'Please enter the Captcha.';
       resultMessage.classList.remove('text-green-500');
       resultMessage.classList.add('text-red-500');
       return; // Stop further execution
     }
-        // Verify the entered Captcha
-        if (inputText === captchaText) {
-          resultMessage.textContent = 'Captcha verified successfully.';
-          resultMessage.classList.remove('text-red-500');
-          resultMessage.classList.add('text-green-500');
-          // Proceed with form submission
-          submitForm();
-        } else {
-          resultMessage.textContent = 'Incorrect Captcha. Please try again.';
-          resultMessage.classList.remove('text-green-500');
-          resultMessage.classList.add('text-red-500');
-          captchaInput.value = ''; // Clear the input field
-          generateCaptchaTable(); // Regenerate Captcha
+
+    // Verify the entered Captcha
+    if (inputText === captchaText) {
+      resultMessage.textContent = 'Captcha verified successfully.';
+      resultMessage.classList.remove('text-red-500');
+      resultMessage.classList.add('text-green-500');
+      // Proceed with form submission only if phone number is different
+      if (phoneNumber !== phoneNumberInput.dataset.previous) {
+        phoneNumberInput.dataset.previous = phoneNumber; // Update previous phone number
+        submitForm(); // Call submitForm only once
+      }
+    } else {
+      resultMessage.textContent = 'Incorrect Captcha. Please try again.';
+      resultMessage.classList.remove('text-green-500');
+      resultMessage.classList.add('text-red-500');
+      captchaInput.value = ''; // Clear the input field
+      generateCaptchaTable(); // Regenerate Captcha
+    }
+  });
+
+  // Function to generate a random string for the Captcha
+  function generateRandomString(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
+
+  // Function to generate the Captcha table
+  function generateCaptchaTable() {
+    const captchaText = generateRandomString(6);
+    captchaTable.dataset.captcha = captchaText;
+    captchaTable.innerHTML = '';
+    for (let i = 0; i < captchaText.length; i++) {
+      const cell = document.createElement('div');
+      cell.textContent = captchaText.charAt(i);
+      cell.classList.add();
+      captchaTable.appendChild(cell);
+    }
+  }
+
+  // Function to handle form submission
+  function submitForm() {
+    var country_code = $("#country_code").val();
+    var phone = $("#phone").val();
+    phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+
+    if (phone_number.length < 10) {
+      $("#message").show();
+      $("#message").html('Please enter a 10-digit Phone Number.');
+      $('#message').delay(5000).fadeOut('slow');
+      return false;
+    } else {
+      // Start timer for 60 seconds
+      startTimer(60, document.getElementById('timer'));
+      $.ajax({
+        url: 'signup/otp/phone',
+        type: 'POST',
+        data: {_token: CSRF_TOKEN, country_code: country_code, phone_number: phone_number},
+        dataType: 'JSON',
+        success: function (data) {
+          number = data.phone_number;
+          var masking_number = number.replace(/.(?=.{4})/g, 'X');
+          $("#uuid").val(data.id);
+          //$('option:not(:selected)').attr('disabled', true);
+          $("#phone").prop("readonly", false);
+          $("#uuid").prop("readonly", true);
+          if (data.status == 'Verified') {
+            $(".otp_div").hide();
+            $(".phn_div").show();
+            $(".email_div").hide();
+            $("#message").html('Your number ' + masking_number + ' is Already Verified');
+          } else {
+            $(".otp_div").show();
+            $(".phn_div").hide();
+            $("#phn_no").hide();
+            $("#message").html('Enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
+          }
+          $("#message").show();
+        },
+        error: function () {
+          $("#message").show();
+          $("#message").html('Phone number already verified. Please try with a different number.');
+          $('#message').delay(5000).fadeOut('slow');
         }
       });
-
-      // Function to generate a random string for the Captcha
-      function generateRandomString(length) {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        for (let i = 0; i < length; i++) {
-          result += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return result;
-      }
-
-      // Function to generate the Captcha table
-      function generateCaptchaTable() {
-        const captchaText = generateRandomString(6);
-        captchaTable.dataset.captcha = captchaText;
-        captchaTable.innerHTML = '';
-        for (let i = 0; i < captchaText.length; i++) {
-          const cell = document.createElement('div');
-          cell.textContent = captchaText.charAt(i);
-          cell.classList.add();
-          captchaTable.appendChild(cell);
-        }
-      }
-
-      // Function to handle form submission
-      function submitForm() {
-        var country_code = $("#country_code").val();
-        var phone = $("#phone").val();
-        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
-
-        if (phone_number.length < 10) {
-          $("#message").show();
-          $("#message").html('Please enter a 10-digit Phone Number.');
-          $('#message').delay(5000).fadeOut('slow');
-          return false;
-        } else 
-        {
-          // Start timer for 60 seconds
-        startTimer(60, document.getElementById('timer'));
-          $.ajax({
-            url: 'signup/otp/phone',
-            type: 'POST',
-            data: {_token: CSRF_TOKEN, country_code: country_code, phone_number: phone_number},
-            dataType: 'JSON',
-            success: function (data) {
-              number = data.phone_number;
-              var masking_number = number.replace(/.(?=.{4})/g, 'X');
-              $("#uuid").val(data.id);
-              //$('option:not(:selected)').attr('disabled', true);
-              $("#phone").prop("readonly", false);
-              $("#uuid").prop("readonly", true);
-              if (data.status == 'Verified') {
-                $(".otp_div").hide();
-                $(".phn_div").show();
-                $(".email_div").hide();
-                $("#message").html('Your number ' + masking_number + ' is Already Verified');
-              } else {
-
-                $(".otp_div").show();
-                $(".phn_div").hide();
-                $("#phn_no").hide();
-
-                
-                $("#message").html('Enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
-              }
-              $("#message").show();
-              
-              captcha();
-            },
-            error: function () {
-           
-              $("#message").show();
-              $("#message").html('Phone number already verified.Please try with differnt numbers');
-              $('#message').delay(5000).fadeOut('slow');
-              captcha();
-            }
-          });
-        }
-      }
-      
-    };
-    function startTimer(duration, display) {
-      var timer = duration, minutes, seconds;
-      timerInterval = setInterval(function() {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
-
-        display.textContent = minutes + ':' + seconds;
-
-        if (--timer < 0) {
-          clearInterval(timerInterval);
-          $('#timer').text('');
-          $('#time_left').hide();
-          $('#resend_otp').removeClass('disabled');
-        }
-      }, 1000);
     }
-  </script>
+  }
+  
+};
+
+function startTimer(duration, display) {
+  var timer = duration, minutes, seconds;
+  timerInterval = setInterval(function() {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+    display.textContent = minutes + ':' + seconds;
+
+    if (--timer < 0) {
+      clearInterval(timerInterval);
+      $('#timer').text('');
+      $('#time_left').hide();
+      $('#resend_otp').removeClass('disabled');
+    }
+  }, 1000);
+}
+</script>
+
  <script>
     //resend phone code
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -839,7 +847,8 @@ $(document).ready(function(){
 $(document).on('click', '#resend_otp', function() {
     $("#message").show();
     $("#message").html('');
-
+  
+    
     var country_code = $("#country_code").val();
     var phone = $("#phone").val();
     phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
@@ -877,6 +886,8 @@ $(document).on('click', '#resend_otp', function() {
           $(".phone_div").hide();
           $("#message").show();
           $("#message").html('OTP is resent. Please enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
+
+
         },
         error: function (xhr, status, error) {
           $(".otp-digit").val('');
