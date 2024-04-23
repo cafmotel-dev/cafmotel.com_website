@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
 	<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="{{ asset('/web/css/sms_chat_demo.css')}}" />
 
 	<title>Sign in & Sign up Form</title>
@@ -18,7 +17,7 @@
 	<div class="container">
 		<div class="forms-container">
 			<div class="signin-signup">
-			<form action="" class="sign-in-form" method="post">
+			<form action="" class="sign-up-form" method="post">
           @csrf
 					<h2 class="title">Sign in</h2>
           
@@ -36,7 +35,7 @@
 					<div class="social-media">
 		
 					</div>
-				<form action=""class="sign-up-form">
+				<form action=""class="sign-in-form">
                     
 					<h2 class="title"id="sign_up"style="display:none;">Sign up</h2>
 					<h6 class="title"id="phn_no">Please Enter Your Number</h6>
@@ -219,28 +218,17 @@
 		<div class="panels-container">
 			<div class="panel left-panel">
 				<div class="content">
-					<h3>New User ?</h3>
-					<p>
-					Join us and be part of an amazing community!
-					</p>
-					<button class="btn transparent" id="sign-up-btn">
-						Sign up
-					</button>
-				</div>
+          <h3>Existing User ?</h3>
+          <p>
+          Ready to dive back in? Sign in and let's continue the journey!
+          </p>
+          <a target="_blank" href="{{env('SIGN_IN')}}" style="padding: 5px;text-decoration: none;" class="btn transparent" id="sign-up-btn">
+            Sign in
+          </a>
+        </div>
 				<img  src="https://i.ibb.co/6HXL6q1/Privacy-policy-rafiki.png" class="image" alt="" />
 			</div>
-			<div class="panel right-panel">
-				<div class="content">
-					<h3>Existing User ?</h3>
-					<p>
-					Ready to dive back in? Sign in and let's continue the journey!
-					</p>
-					<button class="btn transparent" id="sign-in-btn">
-						Sign in
-					</button>
-				</div>
-				<img src="https://i.ibb.co/nP8H853/Mobile-login-rafiki.png"  class="image" alt="" />
-			</div>
+			
 		</div>
 	</div>
 
@@ -254,8 +242,8 @@
     }); 
 </script>
 	<script>
-		const sign_in_btn = document.querySelector("#sign-in-btn");
-const sign_up_btn = document.querySelector("#sign-up-btn");
+		const sign_in_btn = document.querySelector("#sign-up-btn");
+const sign_up_btn = document.querySelector("#sign-in-btn");
 const container = document.querySelector(".container");
 
 sign_up_btn.addEventListener("click", () => {

@@ -164,7 +164,7 @@
 
                          </li>
                          <li class="nav-item">
-                             <a href="/login" class="nav-link ">Login </a>
+                             <a target="_blank" href="{{env('SIGN_IN')}}" class="nav-link ">Login </a>
                          </li>
                      </ul>
 
