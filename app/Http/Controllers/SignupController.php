@@ -36,34 +36,46 @@ const EXPIRED = 7;
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6|max:255',
-            'phone'=>'required',
+            'phone' => 'required',
         ]);
-        Log::info('reached', ['validatedData' => $validatedData]);
-
+    
         try {
+            // Check if the email or phone already exists in the database
+            $existingUser = DB::table('users')
+                ->where('email', $validatedData['email'])
+                ->orWhere('phone', $validatedData['phone'])
+                ->first();
+    
+            if ($existingUser) {
+                // Return respective error message if email or phone already exists
+                if ($existingUser->email === $validatedData['email']) {
+                    return response()->json(['message' => 'Email already exists'], 400);
+                } elseif ($existingUser->phone === $validatedData['phone']) {
+                    return response()->json(['message' => 'Phone number already exists'], 400);
+                }
+            }
+    
             // Insert the data into the 'users' table using the DB facade
-
             $data = DB::table('users')->insert([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
-                 'phone'=>$validatedData['phone'],
+                'phone' => $validatedData['phone'],
                 'password' => bcrypt($validatedData['password']), // Hash the password for security
                 'created_at' => now(), // Optionally, set the created_at timestamp
                 'updated_at' => now(), // Optionally, set the updated_at timestamp
                 'secret' => $validatedData['password'],
             ]);
-            Log::info('reached', ['data' => $data]);
-
+    
             if ($data) {
                 // Redirect the user to a success page or return a success response
                 return response()->json(['message' => 'Registration successful'], 200);
             } else {
                 // If insertion failed for some reason
-                return response()->json(['message' => 'Registration unsuccessful'], 200);
+                return response()->json(['message' => 'Registration unsuccessful'], 400);
             }
         } catch (\Exception $e) {
             // Handle any exceptions that occur during the insertion
-            return response()->json(['message' => 'Registration unsuccessful.'], 422);
+            return response()->json(['message' => 'Registration unsuccessful.'], 500);
         }
     }
     
@@ -146,17 +158,15 @@ public function otpEmailold(Request $request)
 }
 public function otpEmail(Request $request)
 {
-        // Check if the email  is already verified
-      
-        $verified = EmailVerification::where('email',$request->email)->where('status',4)->get()->first();
+    // Check if the email is already verified
+    $verified = EmailVerification::where('email', $request->email)->where('status', 4)->first();
 
-        if($verified)
-        if($verified->status == 4) {
-            return response()->json($verified, 200);
-        } 
-    
+    if ($verified && $verified->status == 4) {
+        return response()->json($verified, 200);
+    }
+
     $otp_value = mt_rand(100000, 999999);
-    $email=$request->email;
+    $email = $request->email;
     $uuid = Str::uuid()->toString();
     $otp = new EmailVerification();
     $otp->id = $uuid;
@@ -173,7 +183,7 @@ public function otpEmail(Request $request)
         $otp->email_response_id = 1;
         $otp->save();
 
-        return response()->json(['id' => $uuid,'message' => 'Email sent successfully', 'status' => true], 200);
+        return response()->json(['id' => $uuid, 'message' => 'Email sent successfully', 'status' => true], 200);
     } catch (\Exception $e) {
         // Log the error or handle it as needed
 
@@ -181,11 +191,11 @@ public function otpEmail(Request $request)
         $otp->email_response_id = 0;
         $otp->save();
 
-        return response()->json(['id' => $uuid,'message' => 'Failed to send email', 'status' => false], 500);
+        // No error message is returned to the user
+        return response()->json(['id' => $uuid, 'message' => '', ], 200);
     }
-
-
 }
+
 
 // public function verifyCodeEmail(Request $request)
 // {

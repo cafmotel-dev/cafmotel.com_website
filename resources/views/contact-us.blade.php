@@ -163,9 +163,10 @@ Solutions, Outbound Calling Services.')
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                      
-                        <div class="form-group text-center">
-  
+
+                                <div class="form-group text-center">
+                            <span id="msgCaptcha"style="color:red;"></span>
+
 
     <div class="col-lg-12 col-md-12">
     <div class="form-group d-flex align-items-center">
@@ -188,9 +189,10 @@ Solutions, Outbound Calling Services.')
         </button>
         <input type="text" class="form-control" id="captchaInput" required
                data-error="Please enter captcha" placeholder="Enter Captcha">
-         
-    </div>
-    <div class="help-block with-errors"></div>
+               
+            </div>
+            
+            <div class="help-block with-errors"></div>
 </div>
 
 
@@ -254,36 +256,37 @@ Solutions, Outbound Calling Services.')
     }); 
 </script>
 <script>
-// Call the captcha function on page load
-captcha();
+    // Call the captcha function on page load
+    captcha();
 
-function captcha() {
-    const captchaTable = document.getElementById('captchaTable');
-    const captchaInput = document.getElementById('captchaInput');
-    const refreshButton = document.getElementById('refreshButton');
-    const verifyButton = document.getElementById('submit');
-    const resultMessage = document.getElementById('msg');
+    function captcha() {
+        const captchaTable = document.getElementById('captchaTable');
+        const captchaInput = document.getElementById('captchaInput');
+        const refreshButton = document.getElementById('refreshButton');
+        const verifyButton = document.getElementById('submit');
+        const resultMessage = document.getElementById('msgCaptcha');
 
-    // Generate the initial Captcha
-    generateCaptchaTable();
+        // Generate the initial Captcha
+        generateCaptchaTable();
 
-    // Event listener for the Refresh and Verify buttons
-    refreshButton.addEventListener('click', handleCaptchaActions);
-    verifyButton.addEventListener('click', handleCaptchaActions);
+        // Event listener for the Refresh button
+        refreshButton.addEventListener('click', function () {
+            generateCaptchaTable();
+            resultMessage.textContent = '';
+        });
 
-    // Function to handle Refresh and Verify button actions
-    function handleCaptchaActions(event) {
-        event.preventDefault();
-        // Clear the result message
-        resultMessage.textContent = '';
+        // Event listener for the Verify button
+        verifyButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent form submission
 
-        if (event.target.id === 'submit') {
             const inputText = captchaInput.value.trim().toLowerCase();
             const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
             if (inputText === '') {
                 resultMessage.textContent = 'Please enter the CAPTCHA.';
                 resultMessage.classList.remove('text-green-500', 'text-red-500');
-                generateCaptchaTable(); // Regenerate Captcha on empty input
+                setTimeout(function() {
+        resultMessage.textContent = ''; // Clear the message after 3 seconds
+    }, 3000);
                 return; // Exit the function if CAPTCHA input is empty
             }
             // Verify the entered Captcha
@@ -291,71 +294,75 @@ function captcha() {
                 resultMessage.textContent = 'Incorrect Captcha. Please try again.';
                 resultMessage.classList.remove('text-green-500');
                 resultMessage.classList.add('text-red-500');
-                generateCaptchaTable(); // Regenerate Captcha on incorrect input
+                generateCaptchaTable(); // Refresh CAPTCHA on incorrect input
+                setTimeout(function() {
+                resultMessage.textContent = ''; // Clear the message after 3 seconds
+            }, 3000);
                 return; // Exit the function if CAPTCHA is incorrect
             }
-        }
-        // If Verify button was clicked, submit the form
-        if (event.target.id === 'submit') {
+
+            // CAPTCHA is correct, submit the form
             $('form').submit();
+        });
+
+        // Function to generate a random string for the Captcha
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        // Function to generate the Captcha table
+        function generateCaptchaTable() {
+            const captchaText = generateRandomString(6);
+            captchaTable.dataset.captcha = captchaText;
+            captchaTable.innerHTML = '';
+            for (let i = 0; i < captchaText.length; i++) {
+                const cell = document.createElement('div');
+                cell.textContent = captchaText.charAt(i);
+                cell.classList.add();
+                captchaTable.appendChild(cell);
+            }
+            captchaInput.value = ''; // Clear the input field
         }
     }
 
-    // Function to generate a random string for the Captcha
-    function generateRandomString(length) {
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-        return result;
-    }
+    $(document).ready(function () {
+        // Prevent the default form submission
+        $('form').submit(function (e) {
+            e.preventDefault();
 
-    // Function to generate the Captcha table
-    function generateCaptchaTable() {
-        const captchaText = generateRandomString(6);
-        captchaTable.dataset.captcha = captchaText;
-        captchaTable.innerHTML = '';
-        for (let i = 0; i < captchaText.length; i++) {
-            const cell = document.createElement('div');
-            cell.textContent = captchaText.charAt(i);
-            cell.classList.add();
-            captchaTable.appendChild(cell);
-        }
-        captchaInput.value = ''; // Clear the input field
-    }
-}
+            var formData = $(this).serialize(); // Serialize form data
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var url = '/save-contact-us'; // Replace 'your-endpoint-url' with your actual endpoint URL
 
-$(document).ready(function () {
-    // Prevent the default form submission
-    $('form').submit(function (e) {
-        e.preventDefault();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
+                },
+                success: function (response) {
+                    // Handle success response
+                    $("#msg").html('Thank you for contacting us. We will reach you shortly');
+                    console.log(response);
+                    $('form')[0].reset(); 
 
-        var formData = $(this).serialize(); // Serialize form data
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        var url = '/save-contact-us'; // Replace 'your-endpoint-url' with your actual endpoint URL
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
-            },
-            success: function (response) {
-                // Handle success response
-                $("#msg").html('Thank you for contacting us. We will reach you shortly');
-                console.log(response);
-                $('form')[0].reset(); 
-             
-                // Display success message or take appropriate action
-            },
-         
+                    // Display success message or take appropriate action
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    // Show error message for other types of errors
+                    $("#msg").html('An error occurred while submitting the form.');
+                }
+            });
         });
     });
-});
-
 </script>
 
 

@@ -40,6 +40,7 @@
                     
 					<h2 class="title"id="sign_up"style="display:none;">Sign up</h2>
 					<h6 class="title"id="phn_no">Please Enter Your Number</h6>
+					<h6 class="title"id="email_heading"style="display:none;">Please Enter Your Email</h6>
 
 
           <h2 class="title otp_div"style="display:none;" >Verify Phone OTP</h2>
@@ -395,6 +396,7 @@ $(document).ready(function(){
         success: function (data) { 
         
             $("#message").html('Your number has been verified successfully.Please enter your email for further process.');
+            $("#email_heading").show();
 
             $(".otp_div").hide();
             $(".email_div").show();
@@ -439,8 +441,9 @@ $(document).ready(function(){
 
     $("#submitEmail").click(function() {
       var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
-
-      if(email) {
+// Regular expression to validate email format
+var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(email && emailRegex.test(email)) {
         $.ajax({
           url: '/otp/email',
           type: 'POST',
@@ -458,6 +461,7 @@ $(document).ready(function(){
             } else {
               $(".otp_email_div").show();
               $(".email_div").hide();
+              $("#email_heading").hide();
               $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
             }
 
@@ -480,7 +484,7 @@ $(document).ready(function(){
           },
           error: function(xhr, status, error) {
             console.error(xhr.responseText);
-            $("#messageEmail").html('This email is already Verified. Please try with a different email.');
+            $("#messageEmail").html('An error occured while submitting the form.');
           }
         });
       } else {
@@ -604,7 +608,7 @@ $(document).ready(function(){
                         $('#otp_6_email').attr('disabled', true);
         $(".otp_email_div").show();
         $(".email_div").hide();
-        $("#messageEmail").html('OTP is resent. Please Enter the 6-digit OTP Code that was sent to your email');
+        $("#messageEmail").html('OTP resent. Please Enter the 6-digit OTP Code that was sent to your email');
         $("#otp_email_div").hide();
 
 
@@ -630,21 +634,21 @@ $(document).ready(function(){
      <script>
           var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-    $(document).ready(function(){
-      // AJAX request when Submit button is clicked
-      $('#submitRegister').click(function(){
+          $(document).ready(function(){
+    // AJAX request when Submit button is clicked
+    $('#submitRegister').click(function(){
         // Retrieve form data
         $("#message").html('');
-
         $("#message").show();
-   
+
         var name = $('input[name="name"]').val();
         var password = $("#password").val();
         var email = $("#email").val();
         var country_code = $("#country_code").val();
         var phone_number = $("#phone").val();
-        phone  = phone_number.replace(/[^a-zA-Z0-9]/g, '');
-             if (name.trim() === '') {
+        var phone = phone_number.replace(/[^a-zA-Z0-9]/g, '');
+
+        if (name.trim() === '') {
             $("#message").html('Please enter your name.');
             return false; // Prevent further execution
         }
@@ -653,7 +657,8 @@ $(document).ready(function(){
             $("#message").html('Please enter your password.');
             return false; // Prevent further execution
         }
-         // Validate name length
+
+        // Validate name length
         if (name.trim().length < 3) {
             $("#message").html('Name should be at least 3 characters long.');
             return false; // Prevent further execution
@@ -665,28 +670,33 @@ $(document).ready(function(){
             $("#message").html('Password should be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
             return false; // Prevent further execution
         }
-        // AJAX POST request
+
+        // AJAX POST request to check if email or phone already exists
         $.ajax({
-          url: 'store', 
-          type: 'POST',
-          data: { _token: CSRF_TOKEN,name: name, password: password,email:email,country_code:country_code,phone:phone },
-          success: function(response){
-            // Handle success response
-            $("#message").html('Form submitted successfully.');
-            $("#message").html('');
-            $(".password_div").hide();
-            $("#thankyou_div").show();
+            url: 'store', // Replace 'store' with your actual route for storing data
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, name: name, password: password, email: email, country_code: country_code, phone: phone},
+            success: function(response){
+                // Handle success response
+                $("#message").html('Form submitted successfully.');
+                $("#message").html('');
+                $(".password_div").hide();
+                $("#thankyou_div").show();
 
-            // Optionally, you can redirect the user or perform other actions here
-          },
-          error: function(xhr, status, error){
-            // Handle error response
-            $("#message").html('Email or phone number already registred.');
-
-          }
+                // Optionally, you can redirect the user or perform other actions here
+            },
+            error: function(xhr, status, error){
+                // Handle error response
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    $("#message").html(xhr.responseJSON.message);
+                } else {
+                    $("#message").html('An error occurred while submitting form.');
+                }
+            }
         });
-      });
     });
+});
+
   </script>
 <script>
 
@@ -895,7 +905,7 @@ $(document).on('click', '#resend_otp', function() {
           $("#otp_div").hide();
           $(".phone_div").hide();
           $("#message").show();
-          $("#message").html('OTP is resent. Please enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
+          $("#message").html('OTP resent. Please enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
 
 
         },
