@@ -163,13 +163,7 @@ Solutions, Outbound Calling Services.')
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
-                                <!-- <div class="form-group">
-                            <label for="captcha">CAPTCHA:</label>
-                            <input type="text" class="form-control" id="captcha" name="captcha" required
-                                placeholder="Enter the CAPTCHA">
-                            <img src="{{ captcha_src() }}" alt="CAPTCHA" onclick="refreshCaptcha()">
-                            <button type="button" class="btn btn-link" onclick="refreshCaptcha()">Refresh CAPTCHA</button>
-                        </div> -->
+                      
                         <div class="form-group text-center">
   
 
@@ -251,8 +245,7 @@ Solutions, Outbound Calling Services.')
     </div>
     <!-- End Map Area -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script> -->
+
 <script src="https://cdn.jsdelivr.net/npm/imask"></script>
   <script>
     var phoneInput = document.getElementById('phone_number');
@@ -261,7 +254,8 @@ Solutions, Outbound Calling Services.')
     }); 
 </script>
 <script>
-captcha(); // Call the captcha function on page load
+// Call the captcha function on page load
+captcha();
 
 function captcha() {
     const captchaTable = document.getElementById('captchaTable');
@@ -273,35 +267,39 @@ function captcha() {
     // Generate the initial Captcha
     generateCaptchaTable();
 
-    // Event listener for the Refresh button
-    refreshButton.addEventListener('click', function () {
-        generateCaptchaTable();
+    // Event listener for the Refresh and Verify buttons
+    refreshButton.addEventListener('click', handleCaptchaActions);
+    verifyButton.addEventListener('click', handleCaptchaActions);
+
+    // Function to handle Refresh and Verify button actions
+    function handleCaptchaActions(event) {
+        event.preventDefault();
+        // Clear the result message
         resultMessage.textContent = '';
-    });
 
-    // Event listener for the Verify button
-    verifyButton.addEventListener('click', function () {
-        const inputText = captchaInput.value.trim().toLowerCase();
-        const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
-        if (inputText === '') {
-            resultMessage.textContent = 'Please enter the CAPTCHA.';
-            resultMessage.classList.remove('text-green-500', 'text-red-500');
-            return; // Exit the function if CAPTCHA input is empty
+        if (event.target.id === 'submit') {
+            const inputText = captchaInput.value.trim().toLowerCase();
+            const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
+            if (inputText === '') {
+                resultMessage.textContent = 'Please enter the CAPTCHA.';
+                resultMessage.classList.remove('text-green-500', 'text-red-500');
+                generateCaptchaTable(); // Regenerate Captcha on empty input
+                return; // Exit the function if CAPTCHA input is empty
+            }
+            // Verify the entered Captcha
+            if (inputText !== captchaText) {
+                resultMessage.textContent = 'Incorrect Captcha. Please try again.';
+                resultMessage.classList.remove('text-green-500');
+                resultMessage.classList.add('text-red-500');
+                generateCaptchaTable(); // Regenerate Captcha on incorrect input
+                return; // Exit the function if CAPTCHA is incorrect
+            }
         }
-        // Verify the entered Captcha
-        if (inputText === captchaText) {
-            // If CAPTCHA is correct, submit the form
+        // If Verify button was clicked, submit the form
+        if (event.target.id === 'submit') {
             $('form').submit();
-        } else {
-            resultMessage.textContent = 'Incorrect Captcha. Please try again.';
-            resultMessage.classList.remove('text-green-500');
-            resultMessage.classList.add('text-red-500');
         }
-
-        // Clear the input field and regenerate the Captcha
-        captchaInput.value = '';
-        generateCaptchaTable();
-    });
+    }
 
     // Function to generate a random string for the Captcha
     function generateRandomString(length) {
@@ -324,6 +322,7 @@ function captcha() {
             cell.classList.add();
             captchaTable.appendChild(cell);
         }
+        captchaInput.value = ''; // Clear the input field
     }
 }
 
@@ -348,11 +347,8 @@ $(document).ready(function () {
                 // Handle success response
                 $("#msg").html('Thank you for contacting us. We will reach you shortly');
                 console.log(response);
-                $("#name").val('');
-                $("#phone_number").val('');
-                $("#email").val('');
-                $("#message").val('');
-
+                $('form')[0].reset(); 
+             
                 // Display success message or take appropriate action
             },
          
@@ -360,7 +356,9 @@ $(document).ready(function () {
     });
 });
 
-    </script>
+</script>
+
+
 @endsection
 
 
