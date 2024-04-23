@@ -14,7 +14,7 @@ $(document).ready(function(){
 
           function countdownReset() {
 
-            alert(timerStartedReset);
+            //alert(timerStartedReset);
             if (timerStartedReset) {
             return; // If the timer has already started, exit the function
         }
@@ -498,7 +498,7 @@ $("#personal_details").click(function() {
 
   $("#reset_ai_verify").click(function()
       {
-        alert();
+       // alert();
 
       var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -509,7 +509,7 @@ $("#personal_details").click(function() {
         var otp_5 = $("#otp_5_reset").val();
         var otp_6 = $("#otp_6_reset").val();
 
-        alert(otp_6);
+     //   alert(otp_6);
 
 
 
@@ -528,7 +528,7 @@ $("#personal_details").click(function() {
           var otp_code = otp_1+otp_2+otp_3+otp_4+otp_5+otp_6;
           var otpId = $("#uuid").val();
           var reset = 1;
-          alert(otp_code);
+         // alert(otp_code);
           $.ajax({
             url: '/otp/phone/verify',
             type: 'POST',
