@@ -7,7 +7,69 @@ $(document).ready(function(){
 
 
       var timerStarted = false;
+      var timerStartedReset = false;
+
         var checked = 1;
+
+
+          function countdownReset() {
+
+            alert(timerStartedReset);
+            if (timerStartedReset) {
+            return; // If the timer has already started, exit the function
+        }
+
+        var secondsReset = 60;
+
+        function tickReset() {
+            var counter = document.getElementById("timer_reset");
+            secondsReset--;
+            counter.innerHTML = "0:" + (secondsReset < 10 ? "0" : "") + String(secondsReset);
+
+            if (secondsReset > 0) {
+                setTimeout(tickReset, 1000);
+            } 
+            else {
+                    $("#resend_otp_reset").removeClass("disabled");
+
+
+                var uuid_otp_verify = $("#uuid_otp_verify").val();
+                if(uuid_otp_verify == "")
+                {
+
+
+               // $("#hideResend").show();
+            }
+            else
+           
+
+                $("#submit_registration").hide();
+
+                counter.innerHTML = "";
+                $("#time_left_reset").hide();
+                $("#hideResend").show();
+                if(checked == 2)
+                {
+
+                    $("#whatsapp_link").show();
+                    $("#resend_otp_reset").hide();
+
+
+                }
+        timerStartedReset = false; // Set the flag to indicate that the timer has started
+        checked = 2; // Set the flag to indicate that the timer has started
+
+
+
+
+            
+
+            }
+        }
+
+        tickReset();
+        timerStartedReset = true; // Set the flag to indicate that the timer has started
+    }
 
         function countdown() {
             if (timerStarted) {
@@ -67,7 +129,63 @@ $(document).ready(function(){
         timerStarted = true; // Set the flag to indicate that the timer has started
     }
 
+  $("#resend_otp_reset").click(function()
+      {
+        $("#message").show();
+                $("#message").html('');
 
+        var country_code = $("#country_code").val();
+        var phone = $("#phone").val();
+        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+        //alert(phone_number.length);
+        if(phone_number.length > 9)
+        {
+          $.ajax({
+            url: '/otp/phone/reset',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
+            dataType: 'JSON',
+            success: function (data) { 
+
+              number = data.phone_number;
+              var masking_number = number.replace(/.(?=.{4})/g, 'X');
+              $("#uuid").val(data.id);
+              $('option:not(:selected)').attr('disabled', true);
+              $("#phone").prop("readonly", true);
+              $("#uuid").prop("readonly", true);
+
+              //$(".otp_div").show();
+              $("#otp_div").hide();
+              $(".reset_ai_otp_div").show();
+              $("#otp_div_reset_ai").hide();
+
+
+
+              $(".phone_div").hide();
+        $("#message").show();
+
+
+              $("#message").html('OTP is resends, Please Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
+              //$('#message').delay(5000).fadeOut('slow');
+
+
+
+
+
+            }
+          }); 
+        }
+        else
+        {
+        $("#message").show();
+
+          $("#message").html('Please enter 10 digits Phone Number.');
+          $('#message').delay(5000).fadeOut('slow');
+                $("#message").html('');
+
+          return false;
+        }
+      });
 
 
        $("#resend_otp").click(function()
@@ -123,6 +241,82 @@ $(document).ready(function(){
           return false;
         }
       });
+
+       $("#reset_ai").click(function(){
+
+
+        var country_code = $("#country_code").val();
+        var phone = $("#phone").val();
+        phone_number = phone.replace(/[^a-zA-Z0-9]/g, '');
+
+        //alert(country_code);
+        //alert(phone_number);
+
+
+
+
+        $.ajax({
+            url: '/otp/phone/reset',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, country_code:country_code,phone_number:phone_number},
+            dataType: 'JSON',
+            success: function (data) { 
+
+              number = data.phone_number;
+              var masking_number = number.replace(/.(?=.{4})/g, 'X');
+              $("#uuid").val(data.id);
+              $('option:not(:selected)').attr('disabled', true);
+              $("#phone").prop("readonly", true);
+              $("#uuid").prop("readonly", true);
+              /*if(data.status == 'Verified')
+              {
+
+                $(".reset_ai_otp_div").show();
+              $(".phone_div").hide();
+              $(".reset_ai_form").hide();
+
+              $("#message").html('Your number '+masking_number+' is Already Verified. Do you want to Reset the AI Demo?.Please click to below button');
+              }
+              else
+              {*/
+
+              $(".reset_ai_form").hide();
+
+                $("#message").html('');
+                $("#otp_div_reset_ai").show();
+
+              $(".otp_div").hide();
+
+
+                 //$("#reset_ai").show();
+
+                 $("#reset_ai_otp_div").show();
+                 $(".reset_ai_otp_div").show();
+
+              $(".phone_div").hide();
+              $("#message").html('Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
+              //}
+
+
+
+
+              
+        $("#message").show();
+
+
+
+              //$('#message').delay(5000).fadeOut('slow');
+
+       countdownReset();
+   // captcha();
+
+
+
+
+            }
+          }); 
+
+       });
 
 $("#submitPhone").click(function()
       {
@@ -195,9 +389,9 @@ $("#submitPhone").click(function()
               {
 $(".otp_div").hide();
               $(".phone_div").hide();
-              $(".email_div").show();
+              $(".reset_ai_form").show();
 
-              $("#message").html('Your number '+masking_number+' is Already Verified');
+              $("#message").html('Your number '+masking_number+' is Already Verified. Do you want to Reset the AI Demo?.Please click to below button');
               }
               else
               {
@@ -206,6 +400,9 @@ $(".otp_div").hide();
                 $(".otp_div").show();
               $(".phone_div").hide();
               $("#message").html('Enter the 6-digit OTP Code that was sent to your number '+masking_number+'.');
+
+                  countdown();
+    captcha();
               }
 
 
@@ -218,8 +415,7 @@ $(".otp_div").hide();
 
               //$('#message').delay(5000).fadeOut('slow');
 
-       countdown();
-    captcha();
+   
 
 
 
@@ -233,7 +429,7 @@ $(".otp_div").hide();
 
         $("#message").show();
 
-            $("#message").html('Captcha is not match');
+            $("#message").html("Captcha doesn't match");
           $('#message').delay(5000).fadeOut('slow');
     captcha();
 
@@ -295,6 +491,136 @@ $("#personal_details").click(function() {
             }
           }); 
 
+
+
+      });
+
+
+  $("#reset_ai_verify").click(function()
+      {
+        alert();
+
+      var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+        var otp_1 = $("#otp_1_reset").val();
+        var otp_2 = $("#otp_2_reset").val();
+        var otp_3 = $("#otp_3_reset").val();
+        var otp_4 = $("#otp_4_reset").val();
+        var otp_5 = $("#otp_5_reset").val();
+        var otp_6 = $("#otp_6_reset").val();
+
+        alert(otp_6);
+
+
+
+        if(otp_1 == '' || otp_2 == '' || otp_3 == '' || otp_4 == '' || otp_5 == '' || otp_6 == '')
+        {
+          $("#message_otp").show();
+          $("#message_otp").html("Please enter the one time password");
+          $('#message_otp').delay(5000).fadeOut('slow');
+          return false;
+
+        }
+
+        else
+        {
+
+          var otp_code = otp_1+otp_2+otp_3+otp_4+otp_5+otp_6;
+          var otpId = $("#uuid").val();
+          var reset = 1;
+          alert(otp_code);
+          $.ajax({
+            url: '/otp/phone/verify',
+            type: 'POST',
+            data: {_token: CSRF_TOKEN, code:otp_code,otpId:otpId,reset:reset},
+            dataType: 'JSON',
+            success: function (data) { 
+
+              if(data.status == 'Expired')
+              {
+
+                $("#otp_1_reset").val('');
+         $("#otp_2_reset").val('');
+              $('#otp_2_reset').attr('disabled', true);
+
+         $("#otp_3_reset").val('');
+              $('#otp_3_reset').attr('disabled', true);
+
+         $("#otp_4_reset").val('');
+              $('#otp_4_reset').attr('disabled', true);
+
+         $("#otp_5_reset").val('');
+              $('#otp_5_reset').attr('disabled', true);
+
+         $("#otp_6_reset").val('');
+              $('#otp_6_reset').attr('disabled', true);
+                $("#message").html('one time password is expired! Please try again');
+        $("#message").show();
+              $('#message').delay(5000).fadeOut('slow');
+                $("#message").html('');
+
+              }
+
+               else
+                if(data.status == 'Failed')
+              {
+
+                $("#otp_1_reset").val('');
+         $("#otp_2_reset").val('');
+              $('#otp_2_reset').attr('disabled', true);
+
+         $("#otp_3_reset").val('');
+              $('#otp_3_reset').attr('disabled', true);
+
+         $("#otp_4_reset").val('');
+              $('#otp_4_reset').attr('disabled', true);
+
+         $("#otp_5_reset").val('');
+              $('#otp_5_reset').attr('disabled', true);
+
+         $("#otp_6_reset").val('');
+              $('#otp_6_reset').attr('disabled', true);
+
+                $("#message").html('');
+
+                $("#message").html('one time password is invalid! Please try again');
+        $("#message").show();
+              $('#message').delay(5000).fadeOut('slow');
+
+              }
+              else
+              {
+                $("#message").html('');
+                $("#message").html('one time password is verified');
+                $("#message").show();
+                $('#message').delay(5000).fadeOut('slow');
+
+
+                $(".otp_div").hide();
+              $("#otp_div").hide();
+
+              $(".phone_div").hide();
+              $(".email_div").show();
+              $(".reset_ai_otp_div").hide();
+
+
+              $("#result_message").html('We have Re-initiated an AI conversation with the mobile number you have verified.');
+              }
+
+             
+
+
+
+
+
+
+
+
+
+
+            }
+          }); 
+        }
 
 
       });
@@ -401,6 +727,8 @@ $("#personal_details").click(function() {
 
               $(".phone_div").hide();
               $(".email_div").show();
+
+              $("#result_message").html('We have initiated an AI conversation with the mobile number you have verified.');
               }
 
              

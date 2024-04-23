@@ -16,9 +16,10 @@
     <div class="forms-container">
       <div class="signin-signup">
         <form action="#" class="sign-in-form">
-          <h2 class="title phone_div">Personal Details</h2>
+          <h2 class="title phone_div">Enter Details for AI Demo</h2>
           <h2 class="title otp_div" style="display:none;" >Verify OTP</h2>
-          <!-- <h2 class="title email_div" style="display:none;">Personal Details</h2> -->
+          <h2 class="title reset_ai_otp_div" style="display:none;" >Reset AI Demo</h2>
+
 
 
             <span class="" id="message"></span>
@@ -48,13 +49,48 @@
               </div>
             </div>
 
+
+             <div class="row justify-content-center reset_ai_form" style="display: none;">
+
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                  <div class="card-body p-5 text-center">
+                    <div class="otp-field mb-4">
+                      
+                    </div>
+                    <input type="button" value="Reset AI" style="display:none;" id="" class="btn solid" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+               <div class="row justify-content-center reset_ai_otp_div" style="display: none;">
+
+              <div class="col-12 col-md-6 col-lg-4">
+                <div class="card bg-white mb-5 mt-5 border-0" style="box-shadow: 0 12px 15px rgba(0, 0, 0, 0.02);">
+                  <div class="card-body p-5 text-center">
+                    <div class="otp-field mb-4">
+                      <input type="number" id="otp_1_reset" name="otp_1_reset" />
+                      <input type="number" id="otp_2_reset" name="otp_2_reset" disabled />
+                      <input type="number" id="otp_3_reset" name="otp_3_reset" disabled />
+                      <input type="number" id="otp_4_reset" name="otp_4_reset" disabled />
+                      <input type="number" id="otp_5_reset" name="otp_5_reset" disabled />
+                      <input type="number" id="otp_6_reset" name="otp_6_reset" disabled />
+                    </div>
+
+                    <input type="button" value="Submit" style="display:none;" id="" class="btn solid" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
 <div class="thankyoucontent email_div" style="background: #F86F03;display:none" >
  <div class="wrapper-1">
     <div class="wrapper-2">
        <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
      <h1>Thank you!</h1>
-      <p>for contacting us, we will reply promptly</p> 
-      <p>once your message is received. </p>
+      <p id="result_message"></p>
     
     </div>
    
@@ -152,6 +188,12 @@
 
              <input type="button" value="Verify" id="verify_otp" class="btn solid otp_div" style="display:none;" />
 
+             <input type="button" value="Reset AI" id="reset_ai" class="btn solid reset_ai_form" style="display:none;" />
+
+             <input type="button" value="Reset AI Verify" id="reset_ai_verify" class="btn solid reset_ai_otp_div" style="display:none;" />
+
+
+
              <!-- <input type="button" value="Submit" id="personal_details" class="btn solid email_div" style="display:none;" /> -->
 
 
@@ -161,6 +203,14 @@
 
               Didn't receive code? <a id="resend_otp" class="disabled" href="javascript:0">Resend</a>
             </p>
+
+         
+
+            <p class="resend text-muted mb-0 reset_ai_otp_div" id="otp_div_reset_ai" style="display:none;">
+              <span id="time_left_reset" >Time Left : <span id="timer_reset"></span></span>
+
+              Didn't receive code? <a id="resend_otp_reset" class="disabled" href="javascript:0">Resend</a>
+            </p> 
           <div class="social-media">
           </div>
         </p>
