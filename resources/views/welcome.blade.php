@@ -469,10 +469,10 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="client-info">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('/web/image/user1.jpg')}}" alt="image">
+                                        <!-- <img src="{{ asset('/web/image/user1.jpg')}}" alt="image"> -->
                                         <div class="title">
                                             <h3>R Martin</h3>
-                                            <span>Product Manager</span>
+                                            <span>Product Manager, Fig Capital</span>
                                         </div>
                                     </div>
                                 </div>
@@ -485,10 +485,10 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="client-info">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('/web/image/user2.jpg')}}" alt="image">
+                                        <!-- <img src="{{ asset('/web/image/user2.jpg')}}" alt="image"> -->
                                         <div class="title">
-                                            <h3>Annie Gomez</h3>
-                                            <span>Product Manager</span>
+                                            <h3>Vhennie Pastroll </h3>
+                                            <span>Operation Head, E-NOVATIVE SOLUTIONS</span>
                                         </div>
                                     </div>
                                 </div>
@@ -501,10 +501,10 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="client-info">
                                     <div class="d-flex align-items-center">
-                                        <img src="{{ asset('/web/image/user3.jpg')}}" alt="image">
+                                        <!-- <img src="{{ asset('/web/image/user3.jpg')}}" alt="image"> -->
                                         <div class="title">
-                                            <h3>Kim Thomas</h3>
-                                            <span>Product Manager</span>
+                                            <h3>Hashim Rashid</h3>
+                                            <span>Owner, Statista IT Services</span>
                                         </div>
                                     </div>
                                 </div>
