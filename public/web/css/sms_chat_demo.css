@@ -92,6 +92,12 @@ h1{
  }
 
 @media (min-width:360px){
+
+  .title {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 10px;
+}
   h1{
     font-size:2.5em;
   }
@@ -101,6 +107,12 @@ h1{
 }
 
 @media (min-width:600px){
+
+  .title {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 10px;
+}
   .thankyoucontent{
   max-width:1000px;
   margin:0 auto;
@@ -395,6 +407,12 @@ form.sign-in-form {
 }
 
 @media (max-width: 870px) {
+
+  .title {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 10px;
+}
   .container {
     min-height: 800px;
     height: 100vh;
@@ -498,6 +516,12 @@ form.sign-in-form {
 }
 
 @media (max-width: 570px) {
+
+  .title {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 10px;
+}
   form {
     padding: 0 1.5rem;
   }
@@ -513,7 +537,7 @@ form.sign-in-form {
   }
 
   .container:before {
-    bottom: 72%;
+    bottom: 75%;
     left: 50%;
   }
 

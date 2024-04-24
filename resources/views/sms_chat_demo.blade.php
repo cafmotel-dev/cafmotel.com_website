@@ -22,8 +22,8 @@
 
 
 
-            <span class="" id="message"></span>
-            <span class="" id="message_otp"></span>
+            <span class="" style="text-align: justify;" id="message"></span>
+            <span class="" style="text-align: justify;" id="message_otp"></span>
 
             <br>
             <input type="hidden" class="form-control" id="uuid"  />

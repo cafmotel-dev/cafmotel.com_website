@@ -168,13 +168,13 @@
                          </li>
                      </ul>
 
-                     <div class="d-flex align-items-center" style="padding: 15px;">
+                     {{--<div class="d-flex align-items-center" style="padding: 15px;">
                                
                                 <div class="option-item">
                                     <a href="/sms/chat/demo" class="default-btn">AI Demo<i class="flaticon-chevron"></i></a>
                                 </div>
                                
-                            </div>
+                            </div>--}}
 
              </nav>
          </div>
