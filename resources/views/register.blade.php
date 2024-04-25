@@ -204,7 +204,7 @@
 			</div>
 		</div>
     <div class="thankyoucontent"id="thankyou_div" style="background: #F86F03;display:none;  max-width: 500px;
-    margin: 0 150px;" >
+    margin-right:100px;" >
     <div class="wrapper-1">
     <div class="wrapper-2">
        <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
@@ -428,6 +428,7 @@ $(document).ready(function(){
     var timerInterval;
 
     $("#submitEmail").click(function() {
+      $(this).prop('disabled', true);
       var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
 // Regular expression to validate email format
 var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -445,12 +446,17 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (data.status == 'Verified') {
               $(".otp_email_div").hide();
               $(".email_div").show();
-              $("#messageEmail").html('Your email is Already Verified');
+              $("#messageEmail").html('Your email has already been verified');
+              $("#submitEmail").prop('disabled', false);
+
             } else {
+              
               $(".otp_email_div").show();
               $(".email_div").hide();
               $("#email_heading").hide();
               $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
+               // Disable the button if email is not verified
+               $("#submitEmail").prop('disabled', true);
             }
 
             $("#messageEmail").fadeIn(1000, function() {
@@ -477,6 +483,8 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         });
       } else {
         $("#messageEmail").html('Please enter a valid email.');
+        $(this).prop('disabled', false);
+
       }
 
     });
@@ -514,12 +522,12 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     }
     if (!otp.trim()) {
         // If OTP is empty or only whitespace characters, show an error message
-        $("#message").html('Please enter the one-time password.');
+        $("#messageEmail").html('Please enter the one-time password.');
         return false; // Prevent further execution of the function
     }
     if (otp.length !== 6) {
         // If OTP length is not 6, show an error message
-        $("#message").html('Please enter a 6-digit one-time password.');
+        $("#messageEmail").html('Please enter a 6-digit one-time password.');
         $(".otp-digit").val('');
 
         return false; // Prevent further execution of the function
@@ -596,7 +604,7 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         $('#otp_6_email').attr('disabled', true);
         $(".otp_email_div").show();
         $(".email_div").hide();
-        $("#messageEmail").html('OTP resent. Please Enter the 6-digit OTP Code that was sent to your email');
+        $("#messageEmail").html('OTP has been resent. Please Enter the 6-digit OTP Code that was sent to your email');
         $("#otp_email_div").hide();
 
 
@@ -635,29 +643,24 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         var country_code = $("#country_code").val();
         var phone_number = $("#phone").val();
         var phone = phone_number.replace(/[^a-zA-Z0-9]/g, '');
+   
+        if (name.trim() === '' || name.trim().length < 3) {
+    if (name.trim() === '') {
+        $("#message").html('Please Enter Your Name.');
+    } else {
+        $("#message").html('Name should be at least 3 characters long.');
+    }
+    return false; // Prevent further execution
+}
 
-        if (name.trim() === '') {
-            $("#message").html('Please enter your name.');
-            return false; // Prevent further execution
-        }
-
+if (password.trim() === '' || password.trim().length < 6 || !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(password)) {
         if (password.trim() === '') {
             $("#message").html('Please enter your password.');
-            return false; // Prevent further execution
-        }
-
-        // Validate name length
-        if (name.trim().length < 3) {
-            $("#message").html('Name should be at least 3 characters long.');
-            return false; // Prevent further execution
-        }
-
-        // Validate password length and complexity
-        if (password.trim().length < 6 ||
-            !/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/.test(password)) {
+        } else {
             $("#message").html('Password should be at least 6 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
-            return false; // Prevent further execution
         }
+        return false; // Prevent further execution
+    }
 
         // AJAX POST request to check if email or phone already exists
         $.ajax({
@@ -806,7 +809,7 @@ function captcha() {
             $(".otp_div").hide();
             $(".phn_div").show();
             $(".email_div").hide();
-            $("#message").html('Your number ' + masking_number + ' is Already Verified');
+            $("#message").html('Your number ' + masking_number + ' has already been verified');
           } else {
             $(".otp_div").show();
             $(".phn_div").hide();
@@ -893,7 +896,7 @@ $(document).on('click', '#resend_otp', function() {
           $("#otp_div").hide();
           $(".phone_div").hide();
           $("#message").show();
-          $("#message").html('OTP resent. Please enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
+          $("#message").html('OTP has been resent. Please enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
 
 
         },
