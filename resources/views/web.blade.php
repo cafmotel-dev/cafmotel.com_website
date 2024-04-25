@@ -194,13 +194,14 @@
             <h2>Request A Demo</h2>
             <p>Submit a request to acquire an Advanced Auto & Predictive Dialer software tailored for your call center
                 enterprise. Boost sales efficiently!</p>
-            <form class="newsletter-form" data-bs-toggle="validator" novalidate="true">
-                <input type="text" class="input-newsletter" placeholder="Enter your email address" name="EMAIL"
-                    required="" autocomplete="off">
+                <div id="validator-newsletter" class="form-result"></div>
+            <form class="newsletter-form" data-bs-toggle="validator" novalidate="true"id="newsletter-form">
+                @csrf
+                <input type="email" class="input-newsletter" placeholder="Enter your email address" name="email"
+                    required="" autocomplete="off"id="email">
                 <button type="submit" class="default-btn-with-radius disabled"
                     style="pointer-events: all; cursor: pointer;">Submit Now <i
                         class="flaticon-next-button"></i></button>
-                <div id="validator-newsletter" class="form-result"></div>
             </form>
         </div>
     </div>
@@ -233,7 +234,7 @@
 
 
                     </p>
-                    <a href="contact-us" class="default-btn">Get Started</a>
+                    <a href="sign-up" class="default-btn">Get Started</a>
                 </div>
             </div>
         </div>
@@ -430,6 +431,57 @@
 <script src="{{ asset('/web/js/contact-form-script.js')}}"></script>
 <script src="{{ asset('/web/js/ajaxchimp.min.js')}}"></script>
 <script src="{{ asset('/web/js/main.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#newsletter-form').on('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        var emailInput = $('#email').val().trim(); // Get the trimmed value of the email input
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to validate email format
+
+        // Check if email input is empty or not in valid email format
+        if (emailInput === '') {
+            $('#validator-newsletter').html('<div class="alert alert-danger">Please enter your email.</div>');
+            setTimeout(function() {
+                $('#validator-newsletter').empty(); // Clear the message after 3 seconds
+            }, 3000);
+        } else if (!emailRegex.test(emailInput)) {
+            $('#validator-newsletter').html('<div class="alert alert-danger">Please enter a valid email.</div>');
+            setTimeout(function() {
+                $('#validator-newsletter').empty(); // Clear the message after 3 seconds
+            }, 3000);
+        } else {
+            // Email input is valid, proceed with form submission
+            var formData = $(this).serialize(); // Serialize form data
+
+            $.ajax({
+                url: 'request-demo', // Make sure this URL is correct
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the success response here
+                    $('#validator-newsletter').html('<div class="alert alert-success">Demo Request Sent successfully.</div>');
+                    // Optionally, you can reset the form after successful submission
+                    $('#newsletter-form')[0].reset();
+                    setTimeout(function() {
+                $('#validator-newsletter').empty(); // Clear the message after 3 seconds
+            }, 3000);
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response here
+                    $('#validator-newsletter').html('<div class="alert alert-danger">An error occurred. Please try again later.</div>');
+                    setTimeout(function() {
+                $('#validator-newsletter').empty(); // Clear the message after 3 seconds
+            }, 3000);
+                }
+            });
+        }
+    });
+});
+
+</script>
+
 </body>
 
 </html>

@@ -23,7 +23,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact-us" class="default-btn">Get Started</a>
+                                        <a href="sign-up" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact-us" class="default-btn">Get Started</a>
+                                        <a href="sign-up" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@ Solutions, Outbound Calling Services.')
                                 </p>
                                 <div class="btn-box">
                                     <div class="d-flex align-items-center">
-                                        <a href="contact-us" class="default-btn">Get Started</a>
+                                        <a href="sign-up" class="default-btn">Get Started</a>
 
                                     </div>
                                 </div>
