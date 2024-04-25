@@ -132,6 +132,8 @@ Solutions, Outbound Calling Services.')
                             <div class="row">
                                 <div class="col-lg-12 col-md-6">
                                     <div class="form-group">
+                                    <span id="nameMsg"style="color:red;"></span>
+
                                         <input type="text" name="name" class="form-control" id="name" required
                                             data-error="Please enter your name" placeholder="Your name">
                                         <div class="help-block with-errors"></div>
@@ -140,6 +142,8 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="col-lg-12 col-md-6">
                                     <div class="form-group">
+                                    <span id="emailMsg"style="color:red;"></span>
+
                                         <input type="email" name="email" class="form-control" id="email" required
                                             data-error="Please enter your email" placeholder="Your email address">
                                         <div class="help-block with-errors"></div>
@@ -148,6 +152,8 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="col-lg-12 col-md-12">
                                     <div class="form-group">
+                                    <span id="phoneMsg"style="color:red;"></span>
+
                                         <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" type="text" name="phone" class="form-control" id="phone_number"
                                             required data-error="Please enter your phone number"
                                             placeholder="Your phone number">
@@ -157,6 +163,8 @@ Solutions, Outbound Calling Services.')
 
                                 <div class="col-lg-12 col-md-12">
                                     <div class="form-group">
+                                    <span id="Msg"style="color:red;"></span>
+
                                         <textarea name="message" id="message" class="form-control" cols="30" rows="6"
                                             required data-error="Please enter your message"
                                             placeholder="Write your message..."></textarea>
@@ -278,6 +286,55 @@ Solutions, Outbound Calling Services.')
         // Event listener for the Verify button
         verifyButton.addEventListener('click', function (event) {
             event.preventDefault(); // Prevent form submission
+   // Get form data
+   var name = $('#name').val();
+        var email = $('#email').val();
+        var phone = $('#phone_number').val();
+        var message = $('#message').val();
+
+        // Check if name is empty
+        if (name.trim() === '') {
+            $("#nameMsg").html('Please enter your name.');
+            setTimeout(function () {
+                $("#nameMsg").html('');
+            }, 3000);
+            return; // Stop form submission
+        }
+
+        // Check if email is empty and in valid format
+        if (email.trim() === '' || !isValidEmail(email)) {
+            if (email.trim() === '') {
+                $("#emailMsg").html('Please enter your email.');
+            } else {
+                $("#emailMsg").html('Please enter a valid email.');
+            }
+            setTimeout(function () {
+                $("#emailMsg").html('');
+            }, 3000);
+            return; // Stop form submission
+        }
+
+        // Check if phone is empty and a valid 10-digit number
+        if (phone.trim() === '' || !isValidPhoneNumber(phone)) {
+            if (phone.trim() === '') {
+                $("#phoneMsg").html('Please enter your phone number.');
+            } else {
+                $("#phoneMsg").html('Please enter a valid 10-digit number.');
+            }
+            setTimeout(function () {
+                $("#phoneMsg").html('');
+            }, 3000);
+            return; // Stop form submission
+        }
+
+        // Check if message is empty
+        if (message.trim() === '') {
+            $("#Msg").html('Please enter your message.');
+            setTimeout(function () {
+                $("#Msg").html('');
+            }, 3000);
+            return; // Stop form submission
+        }
 
             const inputText = captchaInput.value.trim().toLowerCase();
             const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
@@ -331,38 +388,53 @@ Solutions, Outbound Calling Services.')
     }
 
     $(document).ready(function () {
-        // Prevent the default form submission
-        $('form').submit(function (e) {
-            e.preventDefault();
+    // Prevent the default form submission
+    $('form').submit(function (e) {
+        e.preventDefault();
 
-            var formData = $(this).serialize(); // Serialize form data
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var url = '/save-contact-us'; // Replace 'your-endpoint-url' with your actual endpoint URL
 
-            $.ajax({
-                url: url,
-                type: 'POST',
-                data: formData,
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
-                },
-                success: function (response) {
-                    // Handle success response
-                    $("#msg").html('Thank you for contacting us. We will reach you shortly');
-                    console.log(response);
-                    $('form')[0].reset(); 
 
-                    // Display success message or take appropriate action
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    // Show error message for other types of errors
-                    $("#msg").html('An error occurred while submitting the form.');
-                }
-            });
+
+        // If all fields are filled and valid, proceed with form submission
+        var formData = $(this).serialize(); // Serialize form data
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        var url = '/save-contact-us'; // Replace 'your-endpoint-url' with your actual endpoint URL
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
+            },
+            success: function (response) {
+                // Handle success response
+                $("#msg").html('Thank you for contacting us. We will reach you shortly');
+                console.log(response);
+                $('form')[0].reset(); // Reset form after successful submission
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                // Show error message for other types of errors
+                $("#msg").html('An error occurred while submitting the form.');
+            }
         });
     });
+});
+
+// Function to validate email format
+function isValidEmail(email) {
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+}
+
+// Function to validate phone number format (10 digits)
+function isValidPhoneNumber(phone) {
+    var phonePattern = /^\(\d{3}\) \d{3}-\d{4}$/; 
+    return phonePattern.test(phone);
+}
+
 </script>
 
 
