@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\RequestDemo;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Mailable;
 class HomeController extends Controller
@@ -113,6 +114,26 @@ class HomeController extends Controller
         
         // Return a success response to the user
         return response()->json(['message' => 'Contact information saved, but email sending failed'], 200);
+    }
+}
+public function RequestDemo(Request $request)
+{
+    try {
+        // Create a new Contact instance and fill it with the request data
+        $demo = new RequestDemo();
+        $demo->email = $request->email;
+   // Save the demo record to the database
+        $demo->save();
+        
+     
+        
+        // Optionally, you can return a response or redirect the user
+        return response()->json(['message' => 'Demo Request Sent successfully'], 200);
+    } catch (\Exception $e) {
+        // Log the error or perform any necessary actions silently
+        
+        // Return a success response to the user
+        return response()->json(['message' => ' Demo Request failed'], 200);
     }
 }
 

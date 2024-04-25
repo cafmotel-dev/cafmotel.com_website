@@ -51,6 +51,7 @@ Route::post('signup/otp/phone', [SignupController::class, 'otpPhone'])->name('si
 Route::post('otp/email', [SignupController::class, 'otpEmail'])->name('otp-email');
 Route::post('/verifyCodeEmail', [SignupController::class, 'verifyCodeEmail']);
 Route::get('/sign-up/password', [SignupController::class, 'createPassword']);
+Route::post('/request-demo', [HomeController::class, 'RequestDemo']);
 
 
 //sms ai work
