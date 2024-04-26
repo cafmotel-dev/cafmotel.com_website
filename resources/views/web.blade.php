@@ -33,7 +33,7 @@
                 padding: 10px;
             }
         }
-
+  
         </style>
     </head>
 <body class="">
@@ -60,7 +60,7 @@
 
                  <div class="collapse navbar-collapse mean-menu">
                      <ul class="navbar-nav">
-                         <li class="nav-item">
+                         <li class="nav-item"id="homeMenu">
                              <a href="/" class="nav-link active">Home </a>
 
                          </li>
@@ -68,9 +68,9 @@
                          <li class="nav-item">
                              <a href="#" class="nav-link">Products <i class="bx bx-chevron-down"></i></a>
                              <ul class="dropdown-menu">
-                                 <li class="nav-item">
+                                 <li class="nav-item"id="voiceMenu">
                                      <a href="/voice" class="nav-link">Voice<i class="bx bx-chevron-right"></i></a>
-                                     <ul class="dropdown-menu">
+                                     <ul class="dropdown-menu"id="voiceSubMenu">
                                          <li class="nav-item">
                                              <a href="/cloud-call-center-solutions" class="nav-link">Cloud Contact
                                                  Centre</a>
@@ -152,19 +152,19 @@
                              </ul>
                          </li>
 
-                         <li class="nav-item">
+                         <li class="nav-item"id="resellerMenu">
                              <a href="/reseller-program" class="nav-link">Reseller Program</a>
                          </li>
                         
-                        <li class="nav-item">
+                        <li class="nav-item"id="contactMenu">
                              <a href="/contact-us" class="nav-link">Contact Us</a>
                          </li>
-                         <li class="nav-item">
+                         <li class="nav-item"id="registerMenu">
                              <a href="/sign-up" class="nav-link">Register </a>
 
                          </li>
-                         <li class="nav-item">
-                             <a target="_blank" href="{{env('SIGN_IN')}}" class="nav-link ">Login </a>
+                         <li class="nav-item"id="loginMenu">
+                             <a target="_blank" href="{{env('SIGN_IN')}}" class="nav-link">Login </a>
                          </li>
                      </ul>
 
@@ -481,7 +481,32 @@
 });
 
 </script>
+<script>
+$(document).ready(function() {
+    // Get the current page URL
+    var currentUrl = window.location.href;
 
+    // Check if the current URL matches any of the menu item URLs
+    $('.navbar-nav a').each(function() {
+        var menuItemUrl = $(this).attr('href');
+
+        // Exclude specific URLs from being considered for active class
+        if (menuItemUrl !== '{{ env('SIGN_IN') }}') {
+            if (currentUrl.includes(menuItemUrl)) {
+                $(this).addClass('active'); // Add active class to the menu item
+
+                // Remove active class from other menu items
+                $('.navbar-nav a').not(this).removeClass('active');
+
+                // Optional: Add active class to parent menu items if needed
+                $(this).parents('.nav-item').children('.nav-link').addClass('active');
+            }
+        }
+    });
+});
+
+
+    </script>
 </body>
 
 </html>
