@@ -61,7 +61,7 @@
                  <div class="collapse navbar-collapse mean-menu">
                      <ul class="navbar-nav">
                          <li class="nav-item"id="homeMenu">
-                             <a href="/" class="nav-link active">Home </a>
+                             <a href="/" class="nav-link ">Home </a>
 
                          </li>
 
