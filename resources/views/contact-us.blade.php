@@ -14,7 +14,25 @@ Solutions, Outbound Calling Services.')
     margin-bottom: 10px; /* Adjust as needed */
 }
 
+#loader {
+    display: none; /* Hide the loader initially */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Ensure the loader appears above other content */
+}
 
+.loader-content {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: Add shadow for better visibility */
+}
+.blur {
+    filter: blur(5px); /* Adjust the blur intensity as needed */
+    pointer-events: none; /* Prevent interactions with blurred elements */
+}
 
     </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -126,7 +144,13 @@ Solutions, Outbound Calling Services.')
                 </div>
 
                 <div class="col-lg-6 col-md-12">
-                   
+                <div id="loader">
+    <div class="loader-content">
+        <!-- Loader image -->
+        <img src="{{asset('signup/img/loader-30px.gif')}}" alt="Loading..." />
+    </div>
+</div>
+
                     <div class="contact-form">
                         <form  role="form">
                             <div class="row">
@@ -339,7 +363,7 @@ Solutions, Outbound Calling Services.')
             const inputText = captchaInput.value.trim().toLowerCase();
             const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
             if (inputText === '') {
-                resultMessage.textContent = 'Please enter the CAPTCHA.';
+                resultMessage.textContent = 'Please enter the valid CAPTCHA.';
                 resultMessage.classList.remove('text-green-500', 'text-red-500');
                 setTimeout(function() {
         resultMessage.textContent = ''; // Clear the message after 3 seconds
@@ -388,12 +412,30 @@ Solutions, Outbound Calling Services.')
     }
 
     $(document).ready(function () {
+    var formSubmitted = false; // Flag to track if the form has been submitted
+    var loader = $('#loader'); // Get the loader element
+    var formElements = $('form input, form textarea, form button'); // Select form elements to blur
+
+    // Hide the loader initially
+    loader.hide();
+
     // Prevent the default form submission
     $('form').submit(function (e) {
         e.preventDefault();
 
+        // Prevent multiple form submissions
+        if (formSubmitted) {
+            return false;
+        }
 
+        // Disable the submit button to prevent multiple submissions
+        $('#submit').prop('disabled', true);
 
+        // Show the loader
+        loader.show();
+
+        // Blur form elements
+        formElements.addClass('blur');
 
         // If all fields are filled and valid, proceed with form submission
         var formData = $(this).serialize(); // Serialize form data
@@ -409,23 +451,42 @@ Solutions, Outbound Calling Services.')
                 'X-CSRF-TOKEN': csrfToken // Include CSRF token in headers
             },
             success: function (response) {
-                // Handle success response
-                $("#msg").html('Thank you for contacting us. We will reach you shortly');
-                console.log(response);
+                // Hide the loader
+                loader.hide();
+                captcha();
+                
                 $('form')[0].reset(); // Reset form after successful submission
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
+                formSubmitted = true; // Set formSubmitted flag to true
+                setTimeout(function () {
+            $('#submit').prop('disabled', false); // Enable the submit button after a delay
+            formSubmitted = false; // Reset formSubmitted flag after delay
+            formElements.removeClass('blur'); // Remove blur from form elements
+            $("#msg").html('Thank you for contacting us. We will reach you shortly');
+            console.log(response);
+            setTimeout(function () {
+                $("#msg").html('');
+            }, 5000);
+        }, 2000); // Adjust the delay as needed
+    },
+            error: function (xhr, status, error) {
+                // Hide the loader
+                loader.hide();
+
                 // Show error message for other types of errors
                 $("#msg").html('An error occurred while submitting the form.');
+                $('#submit').prop('disabled', false); // Enable the submit button on error
+                formSubmitted = false; // Reset formSubmitted flag on error
+                formElements.removeClass('blur'); // Remove blur from form elements
             }
         });
     });
 });
 
+
+
 // Function to validate email format
 function isValidEmail(email) {
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var emailPattern =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailPattern.test(email);
 }
 
