@@ -431,7 +431,7 @@ $(document).ready(function(){
       $(this).prop('disabled', true);
       var email = $("#email").val().trim(); // Trim to remove leading/trailing spaces
 // Regular expression to validate email format
-var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if(email && emailRegex.test(email)) {
         $.ajax({
           url: '/otp/email',
@@ -448,6 +448,9 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
               $(".email_div").show();
               $("#messageEmail").html('Your email has already been verified');
               $("#submitEmail").prop('disabled', false);
+              setTimeout(function () {
+                $("#messageEmail").html('');
+            }, 3000);
 
             } else {
               
@@ -457,6 +460,9 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
               $("#messageEmail").html('Enter the 6-digit OTP Code that was sent to your email');
                // Disable the button if email is not verified
                $("#submitEmail").prop('disabled', true);
+               setTimeout(function () {
+                $("#messageEmail").html('');
+            }, 3000);
             }
 
             $("#messageEmail").fadeIn(1000, function() {
@@ -479,12 +485,17 @@ var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           error: function(xhr, status, error) {
             console.error(xhr.responseText);
             $("#messageEmail").html('An error occured while submitting the form.');
+            setTimeout(function() {
+                $("#messageEmail").fadeOut(1000); // Fade out the message after 5 seconds (1000ms = 1 second)
+            }, 3000);
           }
         });
       } else {
         $("#messageEmail").html('Please enter a valid email.');
         $(this).prop('disabled', false);
-
+        setTimeout(function () {
+                $("#messageEmail").html('');
+            }, 3000);
       }
 
     });
@@ -675,6 +686,9 @@ if (password.trim() === '' || password.trim().length < 6 || !/(?=.*\d)(?=.*[a-z]
                 $("#thankyou_div").show();
 
                 // Optionally, you can redirect the user or perform other actions here
+                setTimeout(function(){
+                    $("#message").html('');
+                }, 3000);
             },
             error: function(xhr, status, error){
                 // Handle error response
@@ -683,6 +697,9 @@ if (password.trim() === '' || password.trim().length < 6 || !/(?=.*\d)(?=.*[a-z]
                 } else {
                     $("#message").html('An error occurred while submitting form.');
                 }
+                setTimeout(function(){
+                    $("#message").html('');
+                }, 3000);
             }
         });
     });
@@ -818,11 +835,17 @@ function captcha() {
           }
           $("#message").show();
         },
-        error: function () {
+        error: function(xhr, status, error){
+                // Handle error response
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    $("#message").html(xhr.responseJSON.message);
+                }
+          else{
           $("#message").show();
-          $("#message").html('Phone number already verified. Please try with a different number.');
+          $("#message").html('An error occured while submitting the form.');
           $('#message').delay(5000).fadeOut('slow');
         }
+      }
       });
     }
   }

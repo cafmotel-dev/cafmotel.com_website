@@ -438,7 +438,7 @@
         e.preventDefault(); // Prevent the default form submission
 
         var emailInput = $('#email').val().trim(); // Get the trimmed value of the email input
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regular expression to validate email format
+        var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; // Regular expression to validate email format
 
         // Check if email input is empty or not in valid email format
         if (emailInput === '') {
