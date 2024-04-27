@@ -728,50 +728,52 @@ function captcha() {
 
   // Event listener for the Verify button
   verifyButton.addEventListener('click', function () {
-    // verifyButton.disabled = true;
     const inputText = captchaInput.value.trim().toLowerCase();
     const captchaText = captchaTable.dataset.captcha.trim().toLowerCase();
     const phoneNumber = phoneNumberInput.value.replace(/[^a-zA-Z0-9]/g, '');
-    
+
     // Check if phone number is empty or less than 10 digits
     if (phoneNumber === '') {
-      resultMessage.textContent = 'Please enter a Phone Number.';
-      resultMessage.classList.remove('text-green-500');
-      resultMessage.classList.add('text-red-500');
-      return; // Stop further execution
+        resultMessage.textContent = 'Please enter a Phone Number.';
+        resultMessage.classList.remove('text-green-500');
+        resultMessage.classList.add('text-red-500');
+        return; // Stop further execution
     } else if (phoneNumber.length < 10) {
-      resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
-      resultMessage.classList.remove('text-green-500');
-      resultMessage.classList.add('text-red-500');
-      return; // Stop further execution
+        resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
+        resultMessage.classList.remove('text-green-500');
+        resultMessage.classList.add('text-red-500');
+        return; // Stop further execution
     }
 
     // Check if Captcha is empty
     if (inputText === '') {
-      resultMessage.textContent = 'Please enter the Captcha.';
-      resultMessage.classList.remove('text-green-500');
-      resultMessage.classList.add('text-red-500');
-      return; // Stop further execution
+        resultMessage.textContent = 'Please enter the Captcha.';
+        resultMessage.classList.remove('text-green-500');
+        resultMessage.classList.add('text-red-500');
+        return; // Stop further execution
     }
 
     // Verify the entered Captcha
     if (inputText === captchaText) {
-      resultMessage.textContent = 'Captcha verified successfully.';
-      resultMessage.classList.remove('text-red-500');
-      resultMessage.classList.add('text-green-500');
-      // Proceed with form submission only if phone number is different
-      if (phoneNumber !== phoneNumberInput.dataset.previous) {
-        phoneNumberInput.dataset.previous = phoneNumber; // Update previous phone number
-        submitForm(); // Call submitForm only once
-      }
+        // Proceed with form submission only if phone number is different
+        if (phoneNumber !== phoneNumberInput.dataset.previous) {
+            phoneNumberInput.dataset.previous = phoneNumber; // Update previous phone number
+            
+            // Disable the verify button to prevent multiple clicks during submission
+            verifyButton.disabled = true;
+
+            // Call submitForm only once
+            submitForm();
+        }
     } else {
-      resultMessage.textContent = 'Incorrect Captcha. Please try again.';
-      resultMessage.classList.remove('text-green-500');
-      resultMessage.classList.add('text-red-500');
-      captchaInput.value = ''; // Clear the input field
-      generateCaptchaTable(); // Regenerate Captcha
+        resultMessage.textContent = 'Incorrect Captcha. Please try again.';
+        resultMessage.classList.remove('text-green-500');
+        resultMessage.classList.add('text-red-500');
+        captchaInput.value = ''; // Clear the input field
+        generateCaptchaTable(); // Regenerate Captcha
     }
-  });
+});
+
 
   // Function to generate a random string for the Captcha
   function generateRandomString(length) {
@@ -809,7 +811,6 @@ function captcha() {
       return false;
     } else {
       // Start timer for 60 seconds
-      startTimer(60, document.getElementById('timer'));
       $.ajax({
         url: 'signup/otp/phone',
         type: 'POST',
@@ -827,13 +828,38 @@ function captcha() {
             $(".phn_div").show();
             $(".email_div").hide();
             $("#message").html('Your number ' + masking_number + ' has already been verified');
+
           } else {
             $(".otp_div").show();
             $(".phn_div").hide();
             $("#phn_no").hide();
             $("#message").html('Enter the 6-digit OTP Code that was sent to your number ' + masking_number + '.');
+                 // Start or restart the timer for 60 seconds
           }
           $("#message").show();
+          
+                    // Start timer for 60 seconds
+          // Enable the verify button again
+          verifyButton.disabled = false;
+       
+              // Start the timer only if the email is not verified
+              if (data.status != 'Verified') 
+              {
+                var countdown = 60; // Seconds for the countdown
+                timerInterval = setInterval(function()
+                {
+                  $('#timer').text(countdown);
+                  countdown--;
+                  if (countdown < 0) 
+                  {
+                    clearInterval(timerInterval); // Stop the timer
+                    $('#timer').text('');
+                    $('#time_left').hide(); // Hide the timer display
+                    $('#resend_otp').removeClass('disabled'); // Enable the resend button
+                  }
+                }, 1000);
+              }
+          
         },
         error: function(xhr, status, error){
                 // Handle error response
@@ -845,32 +871,19 @@ function captcha() {
           $("#message").html('An error occured while submitting the form.');
           $('#message').delay(5000).fadeOut('slow');
         }
+        // Enable the verify button again
+        verifyButton.disabled = false;
       }
       });
     }
+    // Disable the verify button to prevent multiple clicks
+    verifyButton.disabled = true;
   }
   
 };
 
-function startTimer(duration, display) {
-  var timer = duration, minutes, seconds;
-  timerInterval = setInterval(function() {
-    minutes = parseInt(timer / 60, 10);
-    seconds = parseInt(timer % 60, 10);
+  
 
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
-
-    display.textContent = minutes + ':' + seconds;
-
-    if (--timer < 0) {
-      clearInterval(timerInterval);
-      $('#timer').text('');
-      $('#time_left').hide();
-      $('#resend_otp').removeClass('disabled');
-    }
-  }, 1000);
-}
 </script>
 
  <script>
