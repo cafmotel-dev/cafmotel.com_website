@@ -49,7 +49,7 @@ const EXPIRED = 7;
             if ($existingUser) {
                 // Return respective error message if email or phone already exists
                 if ($existingUser->email === $validatedData['email']) {
-                    return response()->json(['message' => 'This email is already registred '], 400);
+                    return response()->json(['message' => 'This email is already registred. '], 400);
                 } elseif ($existingUser->phone === $validatedData['phone']) {
                     return response()->json(['message' => 'This Phone number is already registred'], 400);
                 }
