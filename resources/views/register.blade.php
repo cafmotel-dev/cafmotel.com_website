@@ -745,6 +745,9 @@ function captcha() {
         resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
         resultMessage.classList.remove('text-green-500');
         resultMessage.classList.add('text-red-500');
+        setTimeout(function () {
+        resultMessage.textContent = ''; // Clear the message after timeout
+    }, 3000);
         return; // Stop further execution
     }
 
@@ -753,7 +756,11 @@ function captcha() {
         resultMessage.textContent = 'Please enter the Captcha.';
         resultMessage.classList.remove('text-green-500');
         resultMessage.classList.add('text-red-500');
+        setTimeout(function () {
+        resultMessage.textContent = ''; // Clear the message after timeout
+    }, 3000);
         return; // Stop further execution
+   
     }
 
     // Verify the entered Captcha
