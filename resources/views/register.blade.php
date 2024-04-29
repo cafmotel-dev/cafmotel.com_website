@@ -277,10 +277,10 @@ inputs[0].addEventListener("paste", function (event) {
     if (i < pastedValue.length) {
       inputs[i].value = pastedValue[i];
       inputs[i].removeAttribute("disabled");
-      inputs[i].focus;
+      inputs[i].focus(); // Corrected function call for focus
     } else {
       inputs[i].value = ""; // Clear any remaining inputs
-      inputs[i].focus;
+      inputs[i].focus(); // Corrected function call for focus
     }
   }
 });
@@ -333,6 +333,16 @@ inputs.forEach((input, index1) => {
     <script>
 $(document).ready(function(){
     $(".otp-digit").on('input', function() {
+        updateCombinedOTP();
+    });
+
+    $(".otp-digit").on('paste', function(event) {
+        setTimeout(function() {
+            updateCombinedOTP();
+        }, 10); // Delay execution to ensure pasted content is available
+    });
+
+    function updateCombinedOTP() {
         var combinedOtp = '';
         $(".otp-digit").each(function() {
             combinedOtp += $(this).val();
@@ -340,7 +350,9 @@ $(document).ready(function(){
         $("#combinedOtp").val(combinedOtp);
 
         console.log('Combined OTP:', combinedOtp); // Log combined OTP for debugging
-    });
+    }
+});
+
 
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     $("#verifybtn").click(function() {
@@ -405,20 +417,46 @@ $(document).ready(function(){
         }
     }); 
 });
-});
+
 
     //email verification
 
   
     $(".otp-digit-email").on('input', function() {
+        updateCombinedOTP();
+    });
+
+    $(".otp-digit-email").on('paste', function(event) {
+        setTimeout(function() {
+            updateCombinedOTP();
+        }, 10); // Delay execution to ensure pasted content is available
+    });
+
+    function updateCombinedOTP() {
         var combinedOtp = '';
         $(".otp-digit-email").each(function() {
             combinedOtp += $(this).val();
         });
         $("#combinedOtpEmail").val(combinedOtp);
 
-        console.log('Combined OTP:', combinedOtp); // Log combined OTP for debugging
-    });
+        // Log combined OTP for debugging
+        console.log('Combined OTP:', combinedOtp);
+
+        // Distribute OTP values to individual boxes
+        distributeOTP(combinedOtp);
+    }
+
+    function distributeOTP(combinedOtp) {
+        const otpInputs = $(".otp-digit-email");
+        const otpLength = combinedOtp.length;
+
+        for (let i = 0; i < otpLength; i++) {
+        otpInputs[i].value = combinedOtp[i];
+       
+    }
+
+        
+    }
     $(document).ready(function(){
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
     var timerInterval;
