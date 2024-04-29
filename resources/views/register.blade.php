@@ -737,6 +737,9 @@ function captcha() {
         resultMessage.textContent = 'Please enter a Phone Number.';
         resultMessage.classList.remove('text-green-500');
         resultMessage.classList.add('text-red-500');
+        setTimeout(function () {
+        resultMessage.textContent = ''; // Clear the message after timeout
+    }, 3000);
         return; // Stop further execution
     } else if (phoneNumber.length < 10) {
         resultMessage.textContent = 'Please enter a valid 10-digit Phone Number.';
@@ -771,6 +774,9 @@ function captcha() {
         resultMessage.classList.add('text-red-500');
         captchaInput.value = ''; // Clear the input field
         generateCaptchaTable(); // Regenerate Captcha
+        setTimeout(function () {
+        resultMessage.textContent = ''; // Clear the message after timeout
+    }, 3000);
     }
 });
 
