@@ -1007,6 +1007,8 @@ $(document).on('click', '#resend_otp', function() {
   
     </script>
 
+     <script type="text/javascript" id="zsiqchat">var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {widgetcode: "siq9ee938910a6da4899a04a27b0da9d32f2955514323f2fbf5094a623ccebb770531b8643317be176f304a99511a2d1fea", values:{},ready:function(){}};var d=document;s=d.createElement("script");s.type="text/javascript";s.id="zsiqscript";s.defer=true;s.src="https://salesiq.zohopublic.com/widget";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);</script>
+
 </body>
 
 </html>
