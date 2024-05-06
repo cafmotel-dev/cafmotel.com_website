@@ -101,7 +101,7 @@ class HomeController extends Controller
         
         // Send an email notification
         Mail::send([], [], function ($message) use ($contact) {
-            $message->to('shikhachhabra1234@gmail.com')
+            $message->to('sales@buzzclicker.com')
                     ->subject('New Contact Form Submission')
                     ->setBody("Name: {$contact->name}\nEmail: {$contact->email}\nPhone: {$contact->phone}\nMessage: {$contact->message}");
         });
