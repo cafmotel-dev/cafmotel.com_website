@@ -297,7 +297,9 @@ return response()->json(['message' => 'Phone number already verified. Please try
         $result = json_decode($response);
 
         Log::info('reaached',['result'=>$result]);
-         $cli = $result->data[0]->cli;
+        //$cli = $result->data[0]->cli;
+        $cli = env('SMS_CLI');//$result->data[0]->cli;
+
         $number = $request->country_code.$request->phone_number;
             $telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
             $message = 'Your verification code is:'.$otp_value;
@@ -365,7 +367,9 @@ public function otpPhone(Request $request) {
 
         $result = json_decode($response);
 
-        $cli = $result->data[0]->cli;
+        //$cli = $result->data[0]->cli;
+        $cli = env('SMS_CLI');
+
         $number = $request->country_code.$request->phone_number;
             $telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
             $message = 'Your verification code is:'.$otp_value;
