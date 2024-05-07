@@ -197,11 +197,11 @@
                 <div id="validator-newsletter" class="form-result"></div>
             <form class="newsletter-form" data-bs-toggle="validator" novalidate="true"id="newsletter-form">
                 @csrf
-                <input type="email" class="input-newsletter" placeholder="Enter your email address" name="email"
-                    required="" autocomplete="off"id="email">
-                <button type="submit" class="default-btn-with-radius disabled"
-                    style="pointer-events: all; cursor: pointer;">Submit Now <i
-                        class="flaticon-next-button"></i></button>
+                <!-- <input type="email" class="input-newsletter" placeholder="Enter your email address" name="email"
+                    required="" autocomplete="off"id="email"> -->
+                <a href="/sign-up" type="submit" style="position: sticky;" class="default-btn-with-radius disabled"
+                    style="pointer-events: all; cursor: pointer;">Sign Up <i
+                        class="flaticon-next-button"></i></a>
             </form>
         </div>
     </div>
@@ -388,7 +388,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-6">
                     <p>
-                        © 2021 All rights reserved
+                        © {{date('Y')}} All rights reserved
                         <a href="/" target="_blank">Cafmotel</a>
                     </p>
                 </div>
