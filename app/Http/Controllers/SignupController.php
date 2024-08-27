@@ -11,8 +11,10 @@ use App\Models\PhoneVerification;
 use App\Models\EmailVerification;
 use Illuminate\Support\Str;
 use App\Mail\VerificationCodeEmail;
+use App\Mail\AdminNotificationEmail;
+use App\Mail\AdminRegisterNotificationEmail;
 use App\Mail\ActivationLinkEmail;
-
+use Plivo\RestClient;
 use Illuminate\Support\Facades\Log;
 
 class SignupController extends Controller
@@ -67,6 +69,13 @@ const EXPIRED = 7;
             ]);
     
             if ($data) {
+                $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
+                $adminMessage = [
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                    'phone' => $validatedData['phone'],
+                ];
+                Mail::to($adminEmail)->send(new AdminRegisterNotificationEmail($adminMessage));
                 // Redirect the user to a success page or return a success response
                 return response()->json(['message' => 'Registration successful'], 200);
             } else {
@@ -178,7 +187,10 @@ public function otpEmail(Request $request)
 
     try {
         Mail::to($email)->send(new VerificationCodeEmail($otp_value));
+        $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
+        Mail::to($adminEmail)->send(new AdminNotificationEmail($email,$otp_value));
 
+        return response()->json(['id' => $uuid, 'message' => 'Email sent successfully', 'status' => true], 200);
         // Update email_sent status to true if email was sent successfully
         $otp->email_response_id = 1;
         $otp->save();
@@ -192,7 +204,7 @@ public function otpEmail(Request $request)
         $otp->save();
 
         // No error message is returned to the user
-        return response()->json(['id' => $uuid, 'message' => '', ], 200);
+        return response()->json(['id' => $uuid, 'message' => 'Email Code not sent', ], 200);
     }
 }
 
@@ -350,12 +362,12 @@ public function otpPhone(Request $request) {
         //send sms using telnyx api
         $otp_value = mt_rand(100000, 999999);
 
-        if (app()->environment() == "local") 
-        {
-            $response_id = true;
-        }
-        else
-        {
+        // if (app()->environment() == "local") 
+        // {
+        //     $response_id = true;
+        // }
+        // else
+        // {
                 //backend api call for sms chat ai settings
         $api_url   = env('APP_URL').'/open-ai-setting-website';
         $ch = curl_init();
@@ -368,43 +380,46 @@ public function otpPhone(Request $request) {
         $result = json_decode($response);
 
         //$cli = $result->data[0]->cli;
+         // Get admin phone number from environment or config
         $cli = env('SMS_CLI');
-
-        $number = $request->country_code.$request->phone_number;
-            $telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
+$country_code=$request->country_code;
+        $number = $country_code.$request->phone_number;
+        try
+        {
+            $client = new RestClient(env('PLIVO_AUTH_ID'), env('PLIVO_AUTH_TOKEN'));
             $message = 'Your verification code is:'.$otp_value;
+            $response = $client->messages->create(
+                '+'.$cli, // Sender's phone number with country code
+                ['+'.$number], // Recipient's phone number with country code
+                $message // Message content
+            );
+            
+            $response_id = !empty($response->messageUuid[0]) ? 1 : 0;
 
-            $data = array('from' => '+'.$cli, 'to' => '+'.$number, 'text' => $message);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $telnyxApiEndpoint);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Authorization: Bearer '.env('TELNYX_TOKEN'),
-            ]);
 
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            $response = curl_exec($ch);
-            curl_close($ch);
-            $json_decode = json_decode($response);
-            $response_id = $json_decode->data->id;
-            //return response()->json($response, 200);
+            if($response_id) 
+            {
+                $otp = new PhoneVerification();
+                $otp->id = Str::uuid()->toString();
+                $otp->country_code = $request->country_code;
+                $otp->phone_number = $request->phone_number;
+                $otp->code = $otp_value;
+                $otp->sms_response_id = $response_id;
+                $otp->expiry = (new \DateTime())->modify("+15 minutes");
+                $otp->status = self::REQUESTED;
+                $otp->saveOrFail();
+                return response()->json($otp, 200);
+            }
+            else 
+            {
+                return response()->json(['message' => 'OTP not sent, please try again.'], 500);
+            }
         }
+    catch (\Exception $e) 
+    {
+        // Log the error or handle it as needed
 
-        
-
-        if($response_id) {
-            $otp = new PhoneVerification();
-            $otp->id = Str::uuid()->toString();
-            $otp->country_code = $request->country_code;
-            $otp->phone_number = $request->phone_number;
-            $otp->code = $otp_value;
-            $otp->sms_response_id = $response_id;
-            $otp->expiry = (new \DateTime())->modify("+15 minutes");
-            $otp->status = self::REQUESTED;
-            $otp->saveOrFail();
-            return response()->json($otp, 200);
-        }
+        return response()->json(['message' => 'OTP not sent, please try again.'], 500);
     }
+}
 }
