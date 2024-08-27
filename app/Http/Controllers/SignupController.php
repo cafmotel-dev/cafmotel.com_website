@@ -275,80 +275,7 @@ public function createPassword(Request $request){
     
 }
 
-public function otpPhoneold(Request $request) 
-{
 
-       // Check if the phone number is already verified
-    $verified = PhoneVerification::where('phone_number', $request->phone_number)
-    ->where('status', 4)
-    ->first();
-
-if ($verified) {
-// Phone number already verified, show a message
-return response()->json(['message' => 'Phone number already verified. Please try with a different number.'], 422);
-}
-
-        //send sms using telnyx api
-        $otp_value = mt_rand(100000, 999999);
-
-        if (app()->environment() == "local") 
-        {
-            $response_id = true;
-        }
-        else
-        {
-              //backend api call for sms chat ai settings
-        $api_url   = env('APP_URL').'/open-ai-setting-website';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        $result = json_decode($response);
-
-        Log::info('reaached',['result'=>$result]);
-        //$cli = $result->data[0]->cli;
-        $cli = env('SMS_CLI');//$result->data[0]->cli;
-
-        $number = $request->country_code.$request->phone_number;
-            $telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
-            $message = 'Your verification code is:'.$otp_value;
-
-            $data = array('from' => '+'.$cli, 'to' => '+'.$number, 'text' => $message);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $telnyxApiEndpoint);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Authorization: Bearer '.env('TELNYX_TOKEN'),
-            ]);
-
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            $response = curl_exec($ch);
-            curl_close($ch);
-            $json_decode = json_decode($response);
-            $response_id = $json_decode->data->id;
-            //return response()->json($response, 200);
-        }
-
-        
-
-        if($response_id) {
-            $otp = new PhoneVerification();
-            $otp->id = Str::uuid()->toString();
-            $otp->country_code = $request->country_code;
-            $otp->phone_number = $request->phone_number;
-            $otp->code = $otp_value;
-            $otp->sms_response_id = $response_id;
-            $otp->expiry = (new \DateTime())->modify("+15 minutes");
-            $otp->status = self::REQUESTED;
-            $otp->saveOrFail();
-            return response()->json($otp, 200);
-        }
-}
 public function otpPhone(Request $request) {
     $verified = PhoneVerification::where('phone_number',$request->phone_number)->where('status',4)->get()->first();
 
@@ -423,7 +350,7 @@ public function otpPhone(Request $request) {
             {
                 return response()->json(['message' => 'OTP not sent, please try again.'], 500);
                 \Log::error('Failed to send OTP. Response ID is 0.', [
-                    'phone_number' => $number,
+                    'phone_number' => $request->phone_number,
                     'response' => $response,
                 ]);
             }
@@ -434,7 +361,7 @@ public function otpPhone(Request $request) {
       // Log the exception
       \Log::error('Error sending OTP.', [
         'exception' => $e->getMessage(),
-        'phone_number' => $number,
+        'phone_number' => $request->phone_number,
     ]);
         return response()->json(['message' => 'OTP not sent, please try again.'], 500);
     }
