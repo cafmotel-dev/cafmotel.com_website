@@ -277,93 +277,93 @@ public function createPassword(Request $request){
 
 
 public function otpPhone(Request $request) {
-    $verified = PhoneVerification::where('phone_number',$request->phone_number)->where('status',4)->get()->first();
+    $verified = PhoneVerification::where('phone_number', $request->phone_number)
+                                 ->where('status', 4)
+                                 ->first();
 
-    if($verified)
-        if($verified->status == 4) {
-            return response()->json($verified, 200);
+    if ($verified && $verified->status == 4) {
+        return response()->json($verified, 200);
+    }
+
+    // Generate OTP value
+    $otp_value = mt_rand(100000, 999999);
+
+    // Fetch CLI from your backend API
+    $api_url = env('APP_URL').'/open-ai-setting-website';
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $result = json_decode($response);
+    $to = $request->country_code . $request->phone_number;
+
+    $data_array = [
+        'to' => $to,
+        'text' => "Your Verification OTP is ".$otp_value,
+        'from' => env('SMS_CLI')
+    ];
+
+    $plivo_user = env('PLIVO_AUTH_ID');
+    $plivo_pass = env('PLIVO_AUTH_TOKEN');
+
+    try {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://api.plivo.com/v1/Account/' . $plivo_user . '/Message/');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+            "src" => env('SMS_CLI'),
+            "dst" => $to,
+            "text" => "Your verification code is " . $otp_value,
+        ]));
+
+        curl_setopt($ch, CURLOPT_USERPWD, $plivo_user . ':' . $plivo_pass);
+
+        $headers = ['Content-Type: application/json'];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            throw new \Exception(curl_error($ch));
         }
 
-    
-
-        //send sms using telnyx api
-        $otp_value = mt_rand(100000, 999999);
-
-        // if (app()->environment() == "local") 
-        // {
-        //     $response_id = true;
-        // }
-        // else
-        // {
-                //backend api call for sms chat ai settings
-        $api_url   = env('APP_URL').'/open-ai-setting-website';
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        $response = curl_exec($ch);
         curl_close($ch);
 
-        $result = json_decode($response);
+        $result_array = json_decode($result, true);
+        $response_id = !empty($result_array['message_uuid'][0]) ? 1 : 0;
+        if (!empty($result_array['message_uuid'][0])) {
+            $otp = new PhoneVerification();
+            $otp->id = Str::uuid()->toString();
+            $otp->country_code = $request->country_code;
+            $otp->phone_number = $request->phone_number;
+            $otp->code = $otp_value;
+            $otp->sms_response_id = $response_id;
+            $otp->expiry = (new \DateTime())->modify("+15 minutes");
+            $otp->status = self::REQUESTED;
+            $otp->saveOrFail();
 
-        //$cli = $result->data[0]->cli;
-        $to = $request->country_code.$request->phone_number;
-
-        $data_array = array();
-        $data_array['to'] = $to;
-        $otp_value = mt_rand(100000, 999999);
-        $data_array['text'] = "Your Verification OTP is ".$otp_value;
-        $json_data_to_send = json_encode($data_array);
-        $data_array['from'] = env('SMS_CLI');
-        $plivo_user = env('PLIVO_AUTH_ID');
-        $plivo_pass = env('PLIVO_AUTH_TOKEN');
-
-                     
-      
-        try
-        {
-            $client = new RestClient($plivo_user,$plivo_pass);
-            $result = $client->messages->create([ 
-                "src" => $data_array['from'],
-                "dst" => $data_array['to'],
-                "text"  =>$data_array['text'],
-                "url"=>""
+            return response()->json($otp, 200);
+        } else {
+            \Log::error('Failed to send OTP. Response ID is 0.', [
+                'phone_number' => $request->phone_number,
+                'response' => $result_array,
             ]);
-            Log::info('result reached',['result'=>$result]);
-            $response_id = !empty($result->messageUuid[0]) ? 1 : 0;
 
-
-            if($response_id) 
-            {
-                $otp = new PhoneVerification();
-                $otp->id = Str::uuid()->toString();
-                $otp->country_code = $request->country_code;
-                $otp->phone_number = $request->phone_number;
-                $otp->code = $otp_value;
-                $otp->sms_response_id = $response_id;
-                $otp->expiry = (new \DateTime())->modify("+15 minutes");
-                $otp->status = self::REQUESTED;
-                $otp->saveOrFail();
-                return response()->json($otp, 200);
-            }
-            else 
-            {
-                return response()->json(['message' => 'OTP not sent, please try again.'], 500);
-                \Log::error('Failed to send OTP. Response ID is 0.', [
-                    'phone_number' => $request->phone_number,
-                    'response' => $response,
-                ]);
-            }
+            return response()->json(['message' => 'OTP not sent, please try again.'], 500);
         }
-    catch (\Exception $e) 
-    {
-        // Log the error or handle it as needed
-      // Log the exception
-      \Log::error('Error sending OTP.', [
-        'exception' => $e->getMessage(),
-        'phone_number' => $request->phone_number,
-    ]);
+    } catch (\Exception $e) {
+        \Log::error('Error sending OTP.', [
+            'exception' => $e->getMessage(),
+            'phone_number' => $request->phone_number,
+        ]);
+
         return response()->json(['message' => 'OTP not sent, please try again.'], 500);
     }
 }
+
 }
