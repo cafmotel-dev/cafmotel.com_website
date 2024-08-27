@@ -380,21 +380,30 @@ public function otpPhone(Request $request) {
         $result = json_decode($response);
 
         //$cli = $result->data[0]->cli;
-         // Get admin phone number from environment or config
-        $cli = env('SMS_CLI');
-        $country_code=$request->country_code;
-        $number = $country_code.$request->phone_number;
+        $to = $request->country_code.$request->phone_number;
+
+        $data_array = array();
+        $data_array['to'] = $to;
+        $otp_value = mt_rand(100000, 999999);
+        $data_array['text'] = "Your Verification OTP is ".$otp_value;
+        $json_data_to_send = json_encode($data_array);
+        $data_array['from'] = env('SMS_CLI');
+        $plivo_user = env('PLIVO_AUTH_ID');
+        $plivo_pass = env('PLIVO_AUTH_TOKEN');
+
+                     
+      
         try
         {
-            $client = new RestClient(env('PLIVO_AUTH_ID'), env('PLIVO_AUTH_TOKEN'));
-            $message = 'Your verification code is:'.$otp_value;
-            $response = $client->messages->create(
-                '+'.$cli, // Sender's phone number with country code
-                ['+'.$number], // Recipient's phone number with country code
-                $message // Message content
-            );
-            
-            $response_id = !empty($response->messageUuid[0]) ? 1 : 0;
+            $client = new RestClient($plivo_user,$plivo_pass);
+            $result = $client->messages->create([ 
+                "src" => $data_array['from'],
+                "dst" => $data_array['to'],
+                "text"  =>$data_array['text'],
+                "url"=>""
+            ]);
+            Log::info('result reached',['result'=>$result]);
+            $response_id = !empty($result->messageUuid[0]) ? 1 : 0;
 
 
             if($response_id) 
