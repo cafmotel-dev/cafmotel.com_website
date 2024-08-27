@@ -382,7 +382,7 @@ public function otpPhone(Request $request) {
         //$cli = $result->data[0]->cli;
          // Get admin phone number from environment or config
         $cli = env('SMS_CLI');
-$country_code=$request->country_code;
+        $country_code=$request->country_code;
         $number = $country_code.$request->phone_number;
         try
         {
@@ -413,12 +413,20 @@ $country_code=$request->country_code;
             else 
             {
                 return response()->json(['message' => 'OTP not sent, please try again.'], 500);
+                \Log::error('Failed to send OTP. Response ID is 0.', [
+                    'phone_number' => $number,
+                    'response' => $response,
+                ]);
             }
         }
     catch (\Exception $e) 
     {
         // Log the error or handle it as needed
-
+      // Log the exception
+      \Log::error('Error sending OTP.', [
+        'exception' => $e->getMessage(),
+        'phone_number' => $number,
+    ]);
         return response()->json(['message' => 'OTP not sent, please try again.'], 500);
     }
 }
