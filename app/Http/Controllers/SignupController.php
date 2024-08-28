@@ -312,52 +312,7 @@ public function otpPhone(Request $request) {
     $plivo_pass = env('PLIVO_AUTH_TOKEN');
 
     try {
-        /*$ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://api.plivo.com/v1/Account/' . $plivo_user . '/Message/');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            "src" => env('SMS_CLI'),
-            "dst" => $to,
-            "text" => "Your verification code is " . $otp_value,
-        ]));
-
-        curl_setopt($ch, CURLOPT_USERPWD, $plivo_user . ':' . $plivo_pass);
-
-        $headers = ['Content-Type: application/json'];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-
-        if (curl_errno($ch)) {
-            throw new \Exception(curl_error($ch));
-        }*/
-
-       /* curl_close($ch);
-
-        $result_array = json_decode($result, true);
-        $response_id = !empty($result_array['message_uuid'][0]) ? 1 : 0;
-        if (!empty($result_array['message_uuid'][0])) {
-            $otp = new PhoneVerification();
-            $otp->id = Str::uuid()->toString();
-            $otp->country_code = $request->country_code;
-            $otp->phone_number = $request->phone_number;
-            $otp->code = $otp_value;
-            $otp->sms_response_id = $response_id;
-            $otp->expiry = (new \DateTime())->modify("+15 minutes");
-            $otp->status = self::REQUESTED;
-            $otp->saveOrFail();
-
-            return response()->json($otp, 200);
-        } else {
-            \Log::error('Failed to send OTP. Response ID is 0.', [
-                'phone_number' => $request->phone_number,
-                'response' => $result_array,
-            ]);
-
-            return response()->json(['message' => 'OTP not sent, please try again.'], 500);
-        }*/
+        
     } catch (\Exception $e) {
         \Log::error('Error sending OTP.', [
             'exception' => $e->getMessage(),
