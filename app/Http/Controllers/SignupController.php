@@ -312,6 +312,8 @@ public function otpPhone(Request $request) {
     $plivo_pass = env('PLIVO_AUTH_TOKEN');
 
     try {
+
+        $plivo_user1="anbhishek";
         
     } catch (\Exception $e) {
         \Log::error('Error sending OTP.', [
