@@ -312,7 +312,7 @@ public function otpPhone(Request $request) {
     $plivo_pass = env('PLIVO_AUTH_TOKEN');
 
     try {
-        $ch = curl_init();
+        /*$ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, 'https://api.plivo.com/v1/Account/' . $plivo_user . '/Message/');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -332,7 +332,7 @@ public function otpPhone(Request $request) {
 
         if (curl_errno($ch)) {
             throw new \Exception(curl_error($ch));
-        }
+        }*/
 
         curl_close($ch);
 
