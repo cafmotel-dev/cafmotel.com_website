@@ -334,7 +334,7 @@ public function otpPhone(Request $request) {
             throw new \Exception(curl_error($ch));
         }*/
 
-        curl_close($ch);
+       /* curl_close($ch);
 
         $result_array = json_decode($result, true);
         $response_id = !empty($result_array['message_uuid'][0]) ? 1 : 0;
@@ -357,7 +357,7 @@ public function otpPhone(Request $request) {
             ]);
 
             return response()->json(['message' => 'OTP not sent, please try again.'], 500);
-        }
+        }*/
     } catch (\Exception $e) {
         \Log::error('Error sending OTP.', [
             'exception' => $e->getMessage(),
