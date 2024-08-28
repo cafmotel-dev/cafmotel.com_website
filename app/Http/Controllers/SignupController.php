@@ -17,6 +17,8 @@ use App\Mail\ActivationLinkEmail;
 use Plivo\RestClient;
 use Illuminate\Support\Facades\Log;
 
+
+
 class SignupController extends Controller
 {
     const REQUESTED = 1;
