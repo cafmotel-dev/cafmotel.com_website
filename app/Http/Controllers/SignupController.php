@@ -389,6 +389,7 @@ public function otpPhone(Request $request) {
 
             $plivo_user = env('PLIVO_AUTH_ID');
     $plivo_pass = env('PLIVO_AUTH_TOKEN');
+    
             $client = new RestClient($PLIVO_AUTH_ID, $PLIVO_AUTH_TOKEN);
             $message = 'Your verification code is:'.$otp_value;
             $response = $client->messages->create(
