@@ -580,7 +580,54 @@ form.sign-in-form {
 .otp-field input::-webkit-outer-spin-button {
   display: none;
 }
+.otp-field-phone {
+  flex-direction: row;
+  column-gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.otp-field-phone input {
+  height: 45px;
+  width: 42px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1.125rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.otp-field-phone input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.otp-field-phone input::-webkit-inner-spin-button,
+.otp-field-phone input::-webkit-outer-spin-button {
+  display: none;
+}
+.otp-field-email {
+  flex-direction: row;
+  column-gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.otp-field-email input {
+  height: 45px;
+  width: 42px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 1.125rem;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.otp-field-email input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.otp-field-email input::-webkit-inner-spin-button,
+.otp-field-email input::-webkit-outer-spin-button {
+  display: none;
+}
 .resend {
   font-size: 12px;
 }
