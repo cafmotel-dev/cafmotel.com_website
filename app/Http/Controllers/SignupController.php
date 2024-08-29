@@ -373,7 +373,12 @@ public function otpPhone(Request $request) {
         //send sms using telnyx api
         $otp_value = mt_rand(100000, 999999);
 
-       
+        // if (app()->environment() == "local") 
+        // {
+        //     $response_id = true;
+        // }
+        // else
+        // {
                 //backend api call for sms chat ai settings
         $api_url   = env('APP_URL').'/open-ai-setting-website';
         $ch = curl_init();
@@ -392,11 +397,11 @@ public function otpPhone(Request $request) {
         $number = $country_code.$request->phone_number;
         try
         {
-         
-            $plivo_user = env('PLIVO_AUTH_ID');
-           $plivo_pass = env('PLIVO_AUTH_TOKEN');
+
+            $PLIVO_AUTH_ID = env('PLIVO_AUTH_ID');
+            $PLIVO_AUTH_TOKEN = env('PLIVO_AUTH_Token');
     
-            $client = new RestClient($plivo_user,$plivo_pass);
+            $client = new RestClient($PLIVO_AUTH_ID, $PLIVO_AUTH_TOKEN);
             $message = 'Your verification code is:'.$otp_value;
             $response = $client->messages->create(
                 '+'.$cli, // Sender's phone number with country code
@@ -405,6 +410,8 @@ public function otpPhone(Request $request) {
             );
             
              $response_id = !empty($response->messageUuid[0]) ? 1 : 0;
+
+
             if($response_id) 
             {
                 $otp = new PhoneVerification();
@@ -412,7 +419,7 @@ public function otpPhone(Request $request) {
                 $otp->country_code = $request->country_code;
                 $otp->phone_number = $request->phone_number;
                 $otp->code = $otp_value;
-                $otp->sms_response_id = $response_id;
+                $otp->sms_response_id = $response->messageUuid[0];
                 $otp->expiry = (new \DateTime())->modify("+15 minutes");
                 $otp->status = self::REQUESTED;
                 $otp->saveOrFail();
