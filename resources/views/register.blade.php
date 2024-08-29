@@ -56,7 +56,7 @@
           <div class="card-body p-5 text-center">
 
 
-          <div class="otp-field mb-4">
+          <div class="otp-field-phone mb-4">
           <input type="number" name="digit1" class="otp-digit" id="otp_1"/>
     <input type="number" name="digit2" class="otp-digit" id="otp_2"disabled />
     <input type="number" name="digit3" class="otp-digit"id="otp_3" disabled />
@@ -87,7 +87,7 @@
           <div class="card-body p-5 text-center">
 
 
-          <div class="otp-field mb-4">
+          <div class="otp-field-email mb-4">
           <input type="number" name="digit1" class="otp-digit-email"id="otp_1_email" />
           <input type="number" name="digit2" class="otp-digit-email"id="otp_2_email" disabled />
           <input type="number" name="digit3" class="otp-digit-email" id="otp_3_email"disabled />
@@ -259,156 +259,78 @@ sign_in_btn.addEventListener("click", () => {
 
     <script>
       
-      const inputs = document.querySelectorAll(".otp-digit");
-const button = document.querySelector(".btn");
+      function setupOtpInputs(otpClass) {
+    const inputs = document.querySelectorAll(`.${otpClass} > input`);
+    const button = document.querySelector(".btn");
 
-window.addEventListener("load", () => inputs[0].focus());
-button.setAttribute("disabled", "disabled");
-
-inputs[0].addEventListener("paste", function (event) {
-  event.preventDefault();
-
-  const pastedValue = (event.clipboardData || window.clipboardData).getData(
-    "text"
-  );
-  const otpLength = inputs.length;
-
-  for (let i = 0; i < otpLength; i++) {
-    if (i < pastedValue.length) {
-      inputs[i].value = pastedValue[i];
-      inputs[i].removeAttribute("disabled");
-      inputs[i].focus(); // Corrected function call for focus
-    } else {
-      inputs[i].value = ""; // Clear any remaining inputs
-      inputs[i].focus(); // Corrected function call for focus
-    }
-  }
-});
-
-inputs.forEach((input, index1) => {
-  input.addEventListener("keyup", (e) => {
-    const currentInput = input;
-    const nextInput = input.nextElementSibling;
-    const prevInput = input.previousElementSibling;
-
-    if (currentInput.value.length > 1) {
-      currentInput.value = "";
-      return;
-    }
-
-    if (
-      nextInput &&
-      nextInput.hasAttribute("disabled") &&
-      currentInput.value !== ""
-    ) {
-      nextInput.removeAttribute("disabled");
-      nextInput.focus();
-    }
-
-    if (e.key === "Backspace") {
-      inputs.forEach((input, index2) => {
-        if (index1 <= index2 && prevInput) {
-          input.setAttribute("disabled", true);
-          input.value = "";
-          prevInput.focus();
-        }
-      });
-    }
-
-    button.classList.remove("active");
-    button.setAttribute("disabled", "disabled");
-
-    const inputsNo = inputs.length;
-    if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
-      button.classList.add("active");
-      button.removeAttribute("disabled");
-
-      return;
-    }
-  });
-});
-
-    </script>
-    <script>
-    const inputs = document.querySelectorAll(".otp-digit-email");
-const button = document.querySelector(".btn");
-
-// Focus on the first input on load
-window.addEventListener("load", () => inputs[0].focus());
-button.setAttribute("disabled", "disabled");
-
-// Handle paste event in the first input field
-inputs[0].addEventListener("paste", function (event) {
-  event.preventDefault();
-  const pastedValue = (event.clipboardData || window.clipboardData).getData("text");
-  const otpLength = inputs.length;
-
-  for (let i = 0; i < otpLength; i++) {
-    if (i < pastedValue.length) {
-      inputs[i].value = pastedValue[i];
-      if (inputs[i + 1]) {
-        inputs[i + 1].removeAttribute("disabled");
-      }
-    } else {
-      inputs[i].value = "";
-      if (inputs[i + 1]) {
-        inputs[i + 1].setAttribute("disabled", "disabled");
-      }
-    }
-  }
-  // Focus on the last filled input
-  inputs[pastedValue.length - 1].focus();
-});
-
-inputs.forEach((input, index1) => {
-  input.addEventListener("keyup", (e) => {
-    const currentInput = input;
-    const nextInput = inputs[index1 + 1];
-    const prevInput = inputs[index1 - 1];
-
-    if (currentInput.value.length > 1) {
-      currentInput.value = "";
-      return;
-    }
-
-    if (nextInput && currentInput.value !== "") {
-      nextInput.removeAttribute("disabled");
-      nextInput.focus();
-    }
-
-    if (e.key === "Backspace") {
-      if (prevInput) {
-        inputs.forEach((inp, index2) => {
-          if (index2 >= index1) {
-            inp.setAttribute("disabled", "disabled");
-            inp.value = "";
-          }
-        });
-        prevInput.focus();
-      } else {
-        currentInput.value = "";
-      }
-    }
-
-    // Check if all inputs are filled
-    let allFilled = true;
-    inputs.forEach(input => {
-      if (input.value === "") {
-        allFilled = false;
-      }
+    window.addEventListener("load", () => {
+        inputs[0].focus();
+        button.setAttribute("disabled", "disabled");
     });
 
-    if (allFilled) {
-      button.classList.add("active");
-      button.removeAttribute("disabled");
-    } else {
-      button.classList.remove("active");
-      button.setAttribute("disabled", "disabled");
-    }
-  });
-});
-</script>
- 
+    inputs[0].addEventListener("paste", function (event) {
+        event.preventDefault();
+        const pastedValue = (event.clipboardData || window.clipboardData).getData("text");
+        const otpLength = inputs.length;
+
+        for (let i = 0; i < otpLength; i++) {
+            if (i < pastedValue.length) {
+                inputs[i].value = pastedValue[i];
+                inputs[i].removeAttribute("disabled");
+                inputs[i].focus();
+            } else {
+                inputs[i].value = "";
+                inputs[i].focus();
+            }
+        }
+    });
+
+    inputs.forEach((input, index1) => {
+        input.addEventListener("keyup", (e) => {
+            const currentInput = input;
+            const nextInput = input.nextElementSibling;
+            const prevInput = input.previousElementSibling;
+
+            if (currentInput.value.length > 1) {
+                currentInput.value = "";
+                return;
+            }
+
+            if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+                nextInput.removeAttribute("disabled");
+                nextInput.focus();
+            }
+
+            if (e.key === "Backspace") {
+                inputs.forEach((input, index2) => {
+                    if (index1 <= index2 && prevInput) {
+                        input.setAttribute("disabled", true);
+                        input.value = "";
+                        prevInput.focus();
+                    }
+                });
+            }
+
+            button.classList.remove("active");
+            button.setAttribute("disabled", "disabled");
+
+            const inputsNo = inputs.length;
+            if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                button.classList.add("active");
+                button.removeAttribute("disabled");
+            }
+        });
+    });
+}
+
+// Initialize OTP input handling separately for phone and email
+setupOtpInputs('otp-field-phone');
+setupOtpInputs('otp-field-email');
+
+    </script>
+  
+  
+  
     <script>
 $(document).ready(function(){
     $(".otp-digit").on('input', function() {
