@@ -259,7 +259,7 @@ sign_in_btn.addEventListener("click", () => {
 
     <script>
       
-      const inputs = document.querySelectorAll(".otp-field > input");
+      const inputs = document.querySelectorAll(".otp-digit");
 const button = document.querySelector(".btn");
 
 window.addEventListener("load", () => inputs[0].focus());
@@ -329,6 +329,85 @@ inputs.forEach((input, index1) => {
 });
 
     </script>
+    <script>
+    const inputs = document.querySelectorAll(".otp-digit-email");
+const button = document.querySelector(".btn");
+
+// Focus on the first input on load
+window.addEventListener("load", () => inputs[0].focus());
+button.setAttribute("disabled", "disabled");
+
+// Handle paste event in the first input field
+inputs[0].addEventListener("paste", function (event) {
+  event.preventDefault();
+  const pastedValue = (event.clipboardData || window.clipboardData).getData("text");
+  const otpLength = inputs.length;
+
+  for (let i = 0; i < otpLength; i++) {
+    if (i < pastedValue.length) {
+      inputs[i].value = pastedValue[i];
+      if (inputs[i + 1]) {
+        inputs[i + 1].removeAttribute("disabled");
+      }
+    } else {
+      inputs[i].value = "";
+      if (inputs[i + 1]) {
+        inputs[i + 1].setAttribute("disabled", "disabled");
+      }
+    }
+  }
+  // Focus on the last filled input
+  inputs[pastedValue.length - 1].focus();
+});
+
+inputs.forEach((input, index1) => {
+  input.addEventListener("keyup", (e) => {
+    const currentInput = input;
+    const nextInput = inputs[index1 + 1];
+    const prevInput = inputs[index1 - 1];
+
+    if (currentInput.value.length > 1) {
+      currentInput.value = "";
+      return;
+    }
+
+    if (nextInput && currentInput.value !== "") {
+      nextInput.removeAttribute("disabled");
+      nextInput.focus();
+    }
+
+    if (e.key === "Backspace") {
+      if (prevInput) {
+        inputs.forEach((inp, index2) => {
+          if (index2 >= index1) {
+            inp.setAttribute("disabled", "disabled");
+            inp.value = "";
+          }
+        });
+        prevInput.focus();
+      } else {
+        currentInput.value = "";
+      }
+    }
+
+    // Check if all inputs are filled
+    let allFilled = true;
+    inputs.forEach(input => {
+      if (input.value === "") {
+        allFilled = false;
+      }
+    });
+
+    if (allFilled) {
+      button.classList.add("active");
+      button.removeAttribute("disabled");
+    } else {
+      button.classList.remove("active");
+      button.setAttribute("disabled", "disabled");
+    }
+  });
+});
+</script>
  
     <script>
 $(document).ready(function(){
@@ -480,6 +559,9 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
             console.log(data);
             $("#uuidEmail").val(data.id);
             $("#email").prop("readonly", false);
+   // Always clear any existing timer before setting a new one
+   clearInterval(timerInterval);
+                $('#timer_email').text(''); // Reset timer display
 
             if (data.status == 'Verified') {
               $(".otp_email_div").hide();
@@ -489,8 +571,18 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
               setTimeout(function () {
                 $("#messageEmail").html('');
             }, 3000);
+            }    
+            else if (data.status == 'already_registered') {
+              $(".otp_email_div").hide();
+              $(".email_div").show();
+              $("#messageEmail").html('Your email has already been registred with another user');
+              $("#submitEmail").prop('disabled', false);
+              setTimeout(function () {
+                $("#messageEmail").html('');
+            }, 3000);
 
-            } else {
+            }
+            else {
               
               $(".otp_email_div").show();
               $(".email_div").hide();
@@ -502,11 +594,11 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
                 $("#messageEmail").html('');
             }, 3000);
             }
-
             $("#messageEmail").fadeIn(1000, function() {
               // Start the timer only if the email is not verified
               if (data.status != 'Verified') {
                 var countdown = 60; // Seconds for the countdown
+
                 timerInterval = setInterval(function() {
                   $('#timer_email').text(countdown);
                   countdown--;

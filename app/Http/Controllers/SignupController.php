@@ -69,13 +69,13 @@ const EXPIRED = 7;
             ]);
     
             if ($data) {
-                $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
-                $adminMessage = [
-                    'name' => $validatedData['name'],
-                    'email' => $validatedData['email'],
-                    'phone' => $validatedData['phone'],
-                ];
-                Mail::to($adminEmail)->send(new AdminRegisterNotificationEmail($adminMessage));
+                // $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
+                // $adminMessage = [
+                //     'name' => $validatedData['name'],
+                //     'email' => $validatedData['email'],
+                //     'phone' => $validatedData['phone'],
+                // ];
+                // Mail::to($adminEmail)->send(new AdminRegisterNotificationEmail($adminMessage));
                 // Redirect the user to a success page or return a success response
                 return response()->json(['message' => 'Registration successful'], 200);
             } else {
@@ -93,7 +93,6 @@ public function verifyCode(Request $request)
 {
     $this->validate($request, ["uuid" => "required","otp" => "required|digits:6"]);
     $otp = PhoneVerification::findOrFail($request->uuid);
-
     # Should be within expiry time
     if (time() > strtotime($otp->expiry)) {
         // Mark OTP as expired
@@ -167,8 +166,15 @@ public function otpEmailold(Request $request)
 }
 public function otpEmail(Request $request)
 {
+    // Check if the email already exists in the users table
+    $userExists = User::where('email', $request->email)->exists();
+    Log::info('reached',['data'=>$userExists]);
+    if ($userExists) {
+        return response()->json(['message' => 'Email already registered with another user', 'status' => 'already_registered'], 200);
+    }
     // Check if the email is already verified
     $verified = EmailVerification::where('email', $request->email)->where('status', 4)->first();
+
 
     if ($verified && $verified->status == 4) {
         return response()->json($verified, 200);
@@ -187,8 +193,8 @@ public function otpEmail(Request $request)
 
     try {
         Mail::to($email)->send(new VerificationCodeEmail($otp_value));
-        $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
-        Mail::to($adminEmail)->send(new AdminNotificationEmail($email,$otp_value));
+        // $adminEmail = 'mailme@rohitwanchoo.com'; // Replace with actual admin email
+        // Mail::to($adminEmail)->send(new AdminNotificationEmail($email,$otp_value));
 
         return response()->json(['id' => $uuid, 'message' => 'Email sent successfully', 'status' => true], 200);
         // Update email_sent status to true if email was sent successfully
@@ -350,6 +356,11 @@ return response()->json(['message' => 'Phone number already verified. Please try
         }
 }
 public function otpPhone(Request $request) {
+     // Check if the phone number is already in the users table
+     $userExists = User::where('phone', $request->phone_number)->exists();
+     if ($userExists) {
+         return response()->json(['message' => 'Phone number is already registered with another user', 'status' => 'already_registered'], 422);
+     }
     $verified = PhoneVerification::where('phone_number',$request->phone_number)->where('status',4)->get()->first();
 
     if($verified)
@@ -362,12 +373,7 @@ public function otpPhone(Request $request) {
         //send sms using telnyx api
         $otp_value = mt_rand(100000, 999999);
 
-        // if (app()->environment() == "local") 
-        // {
-        //     $response_id = true;
-        // }
-        // else
-        // {
+       
                 //backend api call for sms chat ai settings
         $api_url   = env('APP_URL').'/open-ai-setting-website';
         $ch = curl_init();
@@ -386,11 +392,11 @@ public function otpPhone(Request $request) {
         $number = $country_code.$request->phone_number;
         try
         {
-
+         
             $plivo_user = env('PLIVO_AUTH_ID');
-    $plivo_pass = env('PLIVO_AUTH_TOKEN');
+           $plivo_pass = env('PLIVO_AUTH_TOKEN');
     
-            $client = new RestClient($PLIVO_AUTH_ID, $PLIVO_AUTH_TOKEN);
+            $client = new RestClient($plivo_user,$plivo_pass);
             $message = 'Your verification code is:'.$otp_value;
             $response = $client->messages->create(
                 '+'.$cli, // Sender's phone number with country code
@@ -399,8 +405,6 @@ public function otpPhone(Request $request) {
             );
             
              $response_id = !empty($response->messageUuid[0]) ? 1 : 0;
-
-
             if($response_id) 
             {
                 $otp = new PhoneVerification();
@@ -408,7 +412,7 @@ public function otpPhone(Request $request) {
                 $otp->country_code = $request->country_code;
                 $otp->phone_number = $request->phone_number;
                 $otp->code = $otp_value;
-                $otp->sms_response_id = $response->messageUuid[0];
+                $otp->sms_response_id = $response_id;
                 $otp->expiry = (new \DateTime())->modify("+15 minutes");
                 $otp->status = self::REQUESTED;
                 $otp->saveOrFail();
