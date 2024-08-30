@@ -130,7 +130,9 @@
 					</div>
           <div class="input-field phn_div">
             <i class="fas fa-phone"></i>
-            <input type="text" id="phone" autocomplete="nope" autocomplete="off" placeholder="Phone Number"/>
+            <!-- <input type="text" id="phone" inputmode="numeric"autocomplete="nope" autocomplete="off" placeholder="Phone Number"/> -->
+            <input type="tel" id="phone" inputmode="numeric"autocomplete="nope" autocomplete="off" placeholder="Phone Number"/>
+
           </div>
           <a id="captchaTable"
       class="flex justify-center social-icon phn_div" style="
@@ -204,10 +206,10 @@
 			</div>
 		</div>
     <div class="thankyoucontent"id="thankyou_div" style="background: #F86F03;display:none;  max-width: 500px;
-    margin-right:100px;" >
+    margin-right:100px; margin-top:200px;margin-bottom:100px;" >
     <div class="wrapper-1">
     <div class="wrapper-2">
-       <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
+       <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0"class="responsive-img">
      <h1>Thank you!</h1>
       <p> You have been  registered Successfully</p> 
 
