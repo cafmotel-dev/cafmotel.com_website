@@ -76,7 +76,7 @@ class SmsAiController extends Controller {
 
                 $ch = curl_init();
                 $message = 'Your verification code is:'.$otp_value;
-                $from = '+18705444440';
+                $from = env('TWILIO_NUMBER');
                 $to = '+'.$number;
 
 
