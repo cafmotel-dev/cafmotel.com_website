@@ -50,7 +50,7 @@ class SmsAiController extends Controller {
             }
             else
             {
-                $telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
+                /*$telnyxApiEndpoint = 'https://api.telnyx.com/v2/messages';
                 $message = 'Your verification code is:'.$otp_value;
 
                 $data = array('from' => '+'.$cli, 'to' => '+'.$number, 'text' => $message);
@@ -68,7 +68,38 @@ class SmsAiController extends Controller {
                 curl_close($ch);
                 $json_decode = json_decode($response);
                 $response_id = $json_decode->data->id;
-                //return response()->json($response, 200);
+                //return response()->json($response, 200);*/
+
+
+                $sid = env('SID');
+                $token = env('TOKEN');
+
+                $ch = curl_init();
+                $message = 'Your verification code is:'.$otp_value;
+                $from = '+18705444440';
+                $to = '+'.$number;
+
+
+
+                curl_setopt($ch, CURLOPT_URL, 'https://api.twilio.com/2010-04-01/Accounts/'.$sid.'/Messages');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "Body=".$message."&From=".$from."&To=".$to."");
+                curl_setopt($ch, CURLOPT_USERPWD, $sid . ':' . $token);
+
+                $headers = array();
+                $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+                $result = curl_exec($ch);
+                //echo "<pre>";print_r($result);die;
+                if (curl_errno($ch)) {
+                    echo 'Error:' . curl_error($ch);
+                }
+                curl_close($ch);
+
+
+
             }
 
             
@@ -79,7 +110,7 @@ class SmsAiController extends Controller {
                 $otp->country_code = $request->country_code;
                 $otp->phone_number = $request->phone_number;
                 $otp->code = $otp_value;
-                $otp->sms_response_id = $response_id;
+                $otp->sms_response_id = "12345";//$response_id;
                 $otp->name = $request->name;
                 $otp->expiry = (new \DateTime())->modify("+15 minutes");
                 $otp->status = self::REQUESTED;
