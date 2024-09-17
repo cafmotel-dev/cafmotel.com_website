@@ -5,7 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-	<script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   <link rel="stylesheet" href="{{ asset('/web/css/sms_chat_demo.css')}}" />
 
 	<title>Sign in & Sign up Form</title>
@@ -56,7 +56,7 @@
           <div class="card-body p-5 text-center">
 
 
-          <div class="otp-field mb-4">
+          <div class="otp-field-phone mb-4">
           <input type="number" name="digit1" class="otp-digit" id="otp_1"/>
     <input type="number" name="digit2" class="otp-digit" id="otp_2"disabled />
     <input type="number" name="digit3" class="otp-digit"id="otp_3" disabled />
@@ -87,7 +87,7 @@
           <div class="card-body p-5 text-center">
 
 
-          <div class="otp-field mb-4">
+          <div class="otp-field-email mb-4">
           <input type="number" name="digit1" class="otp-digit-email"id="otp_1_email" />
           <input type="number" name="digit2" class="otp-digit-email"id="otp_2_email" disabled />
           <input type="number" name="digit3" class="otp-digit-email" id="otp_3_email"disabled />
@@ -130,7 +130,9 @@
 					</div>
           <div class="input-field phn_div">
             <i class="fas fa-phone"></i>
-            <input type="text" id="phone" autocomplete="nope" autocomplete="off" placeholder="Phone Number"/>
+            <!-- <input type="text" id="phone" inputmode="numeric"autocomplete="nope" autocomplete="off" placeholder="Phone Number"/> -->
+            <input type="tel" id="phone" inputmode="numeric"autocomplete="nope" autocomplete="off" placeholder="Phone Number"/>
+
           </div>
           <a id="captchaTable"
       class="flex justify-center social-icon phn_div" style="
@@ -204,10 +206,10 @@
 			</div>
 		</div>
     <div class="thankyoucontent"id="thankyou_div" style="background: #F86F03;display:none;  max-width: 500px;
-    margin-right:100px;" >
+    margin-right:100px; margin-top:200px;margin-bottom:100px;" >
     <div class="wrapper-1">
     <div class="wrapper-2">
-       <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0">
+       <img src="https://i.ibb.co/Lkn7rkG/thank-you-envelope.png" alt="thank-you-envelope" border="0"class="responsive-img">
      <h1>Thank you!</h1>
       <p> You have been  registered Successfully</p> 
 
@@ -259,77 +261,78 @@ sign_in_btn.addEventListener("click", () => {
 
     <script>
       
-      const inputs = document.querySelectorAll(".otp-field > input");
-const button = document.querySelector(".btn");
+      function setupOtpInputs(otpClass) {
+    const inputs = document.querySelectorAll(`.${otpClass} > input`);
+    const button = document.querySelector(".btn");
 
-window.addEventListener("load", () => inputs[0].focus());
-button.setAttribute("disabled", "disabled");
+    window.addEventListener("load", () => {
+        inputs[0].focus();
+        button.setAttribute("disabled", "disabled");
+    });
 
-inputs[0].addEventListener("paste", function (event) {
-  event.preventDefault();
+    inputs[0].addEventListener("paste", function (event) {
+        event.preventDefault();
+        const pastedValue = (event.clipboardData || window.clipboardData).getData("text");
+        const otpLength = inputs.length;
 
-  const pastedValue = (event.clipboardData || window.clipboardData).getData(
-    "text"
-  );
-  const otpLength = inputs.length;
-
-  for (let i = 0; i < otpLength; i++) {
-    if (i < pastedValue.length) {
-      inputs[i].value = pastedValue[i];
-      inputs[i].removeAttribute("disabled");
-      inputs[i].focus(); // Corrected function call for focus
-    } else {
-      inputs[i].value = ""; // Clear any remaining inputs
-      inputs[i].focus(); // Corrected function call for focus
-    }
-  }
-});
-
-inputs.forEach((input, index1) => {
-  input.addEventListener("keyup", (e) => {
-    const currentInput = input;
-    const nextInput = input.nextElementSibling;
-    const prevInput = input.previousElementSibling;
-
-    if (currentInput.value.length > 1) {
-      currentInput.value = "";
-      return;
-    }
-
-    if (
-      nextInput &&
-      nextInput.hasAttribute("disabled") &&
-      currentInput.value !== ""
-    ) {
-      nextInput.removeAttribute("disabled");
-      nextInput.focus();
-    }
-
-    if (e.key === "Backspace") {
-      inputs.forEach((input, index2) => {
-        if (index1 <= index2 && prevInput) {
-          input.setAttribute("disabled", true);
-          input.value = "";
-          prevInput.focus();
+        for (let i = 0; i < otpLength; i++) {
+            if (i < pastedValue.length) {
+                inputs[i].value = pastedValue[i];
+                inputs[i].removeAttribute("disabled");
+                inputs[i].focus();
+            } else {
+                inputs[i].value = "";
+                inputs[i].focus();
+            }
         }
-      });
-    }
+    });
 
-    button.classList.remove("active");
-    button.setAttribute("disabled", "disabled");
+    inputs.forEach((input, index1) => {
+        input.addEventListener("keyup", (e) => {
+            const currentInput = input;
+            const nextInput = input.nextElementSibling;
+            const prevInput = input.previousElementSibling;
 
-    const inputsNo = inputs.length;
-    if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
-      button.classList.add("active");
-      button.removeAttribute("disabled");
+            if (currentInput.value.length > 1) {
+                currentInput.value = "";
+                return;
+            }
 
-      return;
-    }
-  });
-});
+            if (nextInput && nextInput.hasAttribute("disabled") && currentInput.value !== "") {
+                nextInput.removeAttribute("disabled");
+                nextInput.focus();
+            }
+
+            if (e.key === "Backspace") {
+                inputs.forEach((input, index2) => {
+                    if (index1 <= index2 && prevInput) {
+                        input.setAttribute("disabled", true);
+                        input.value = "";
+                        prevInput.focus();
+                    }
+                });
+            }
+
+            button.classList.remove("active");
+            button.setAttribute("disabled", "disabled");
+
+            const inputsNo = inputs.length;
+            if (!inputs[inputsNo - 1].disabled && inputs[inputsNo - 1].value !== "") {
+                button.classList.add("active");
+                button.removeAttribute("disabled");
+            }
+        });
+    });
+}
+
+// Initialize OTP input handling separately for phone and email
+setupOtpInputs('otp-field-phone');
+setupOtpInputs('otp-field-email');
 
     </script>
- 
+  
+  
+  
     <script>
 $(document).ready(function(){
     $(".otp-digit").on('input', function() {
@@ -480,6 +483,9 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
             console.log(data);
             $("#uuidEmail").val(data.id);
             $("#email").prop("readonly", false);
+   // Always clear any existing timer before setting a new one
+   clearInterval(timerInterval);
+                $('#timer_email').text(''); // Reset timer display
 
             if (data.status == 'Verified') {
               $(".otp_email_div").hide();
@@ -489,8 +495,18 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
               setTimeout(function () {
                 $("#messageEmail").html('');
             }, 3000);
+            }    
+            else if (data.status == 'already_registered') {
+              $(".otp_email_div").hide();
+              $(".email_div").show();
+              $("#messageEmail").html('Your email has already been registred with another user');
+              $("#submitEmail").prop('disabled', false);
+              setTimeout(function () {
+                $("#messageEmail").html('');
+            }, 3000);
 
-            } else {
+            }
+            else {
               
               $(".otp_email_div").show();
               $(".email_div").hide();
@@ -502,11 +518,11 @@ var emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\")
                 $("#messageEmail").html('');
             }, 3000);
             }
-
             $("#messageEmail").fadeIn(1000, function() {
               // Start the timer only if the email is not verified
               if (data.status != 'Verified') {
                 var countdown = 60; // Seconds for the countdown
+
                 timerInterval = setInterval(function() {
                   $('#timer_email').text(countdown);
                   countdown--;
