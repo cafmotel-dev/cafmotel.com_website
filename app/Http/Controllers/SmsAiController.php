@@ -38,7 +38,7 @@ class SmsAiController extends Controller {
 
             $result = json_decode($response);
 
-            $cli = $result->data[0]->cli;
+            $cli = env('TWILIO_NUMBER');
             $number = $request->country_code.$request->phone_number;
 
             //send sms using telnyx api
@@ -151,7 +151,7 @@ class SmsAiController extends Controller {
 
                 $result = json_decode($response);
 
-                $cli = $result->data[0]->cli;
+                $cli = env('TWILIO_NUMBER');
                 $number = $otp->country_code.$otp->phone_number;
                 $introduction = $result->data[0]->introduction;
                 $description = $result->data[0]->description;
@@ -248,7 +248,7 @@ class SmsAiController extends Controller {
 
             $result = json_decode($response);
 
-            $cli = $result->data[0]->cli;
+            $cli = env('TWILIO_NUMBER');
             $number = $request->country_code.$request->phone_number;
 
             //send sms using telnyx api
